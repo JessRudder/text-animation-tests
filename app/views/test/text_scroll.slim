@@ -1,0 +1,15 @@
+= content_for(:application_styles)
+  = stylesheet_link_tag 'application', media: 'all'
+
+= content_for(:application_scripts)
+
+
+= content_for(:application_body)
+  body
+    h1.visible Hello! This is a bunch of text
+
+    h1.hidden This is more text
+
+= render template: 'layouts/application'
+
+

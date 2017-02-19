@@ -1,26 +1,49 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'json'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(*Rails.groups)
+Bundler.require(:default, Rails.env)
+
+## turn on GC::Profiler
+#GC::Profiler.enable
 
 module TextAnimationTests
   class Application < Rails::Application
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    config.time_zone = 'Eastern Time (US & Canada)'
 
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'images')
+    config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+    config.assets.precompile += %w(*.svg *.eot *.woff *.woff2 *.ttf)
 
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    css = [
+      'text.css',
+      'pin.css',
+      'text-fade.css'
+    ]
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
+    js = [
+      'application.js',
+      'pin.js',
+      'text-fade.js'
+    ]
+
+    config.assets.precompile += css
+    config.assets.precompile += js
+
+    config.autoload_paths += Dir[Rails.root.join('lib', '**/') ]
+    config.autoload_paths += Dir[Rails.root.join('app', 'services', 'concerns')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', '**/')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'serializers', '**/')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'services', '**/')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'queries', '**/')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'filters', '**/')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'templates', '**/')]
+    config.middleware.use Rack::Deflater
+    config.action_dispatch.perform_deep_munge = false
     config.active_record.raise_in_transactional_callbacks = true
   end
 end

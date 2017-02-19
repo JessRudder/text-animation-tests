@@ -1,0 +1,27 @@
+= content_for(:title, 'Jessica Rudder - Full Stack Developer')
+
+= content_for(:application_scripts)
+  = javascript_include_tag "text-fade"
+
+= content_for(:application_body)
+  main.full-screen(role="main")
+    section.full-screen.real-blue#pinned-trigger1
+      div#pinned-element1
+        h1.large-title
+          span.name.visible Michaelangelo 
+          | was constantly trying to be better at sculpting. He was tortured by not having enough time to do things right. 
+          |
+          span.name.visible Michaelangelo 
+          | knew there was a better way to sculpt.
+    section.full-screen.orange
+      div
+        h1.large-title Jessica is happy here.
+    / section.full-screen.orange#pinned-trigger1
+    /   div#pinned-element1
+    /     p This element will be pinned once it's trigger hits the top of the viewport and will have a duration of window height minus 100
+    / section.full-screen.red#pinned-trigger2
+    /   div
+    /     p This element will be pinned for a duration of 150px
+    / section.full-screen.blue
+    /   div
+    /     p Section Four!

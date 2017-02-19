@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    = javascript_include_tag 'application'
+    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js'
+    = javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js'
+    = stylesheet_link_tag 'application', media: 'all'
+
+    meta charset='utf-8'
+    meta name='viewport' content='width=device-width, initial-scale=1.0'
+    title = yield(:title) || 'Jess Rudder'
+    = render partial: 'shared/favicons'
+    = csrf_meta_tags
+    = yield(:application_head)
+    = yield(:application_styles)
+
+
+
+  body
+    = yield(:application_body)
+    = yield(:application_scripts)
