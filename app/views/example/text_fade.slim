@@ -5,14 +5,19 @@
 
 = content_for(:application_body)
   main.full-screen(role="main")
-    section.full-screen.real-blue#pinned-trigger1
-      div#pinned-element1
+    section.full-screen.real-blue
+      div.vertical-center
+        h1.large-title Jessica Rudder is not a rockstar, ninja or wizard. There is one style she aspires to though...
+    section.full-screen-double.real-blue#pinned-trigger1
+      div.vertical-center#pinned-element1
         h1.large-title
-          span.name.visible Michaelangelo 
+          span.name.visible.text-fade-animation Michaelangelo 
           | was constantly trying to be better at sculpting. He was tortured by not having enough time to do things right. 
           |
-          span.name.visible Michaelangelo 
+          span.name.visible.text-fade-animation Michaelangelo 
           | knew there was a better way to sculpt.
+      div#anim-trigger1
+        p I should trigger animation
     section.full-screen.orange
       div
         h1.large-title Jessica is happy here.
