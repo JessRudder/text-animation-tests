@@ -22,8 +22,8 @@ section {
   height: 100%; /* makes panels the entire window height */
 }
 
-.full-screen-double {
-  height: 200%;
+.full-screen-extra {
+  height: 140%;
 }
 
 .real-blue {
@@ -49,7 +49,7 @@ section {
 }*/
 
 .text-fade-animation {
-  transition: opacity 4s
+  transition: opacity 1.5s
 }
 
 #anim-trigger1 {
