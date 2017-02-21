@@ -1,0 +1,77 @@
+/*
+ * Responsive Grid
+ */
+
+.col {
+
+  @extend .clearfix;
+
+  // These column classes apply at all sizes.
+  &[class*="col--size"] { float: left; }
+
+}
+
+.col--size-1of5 { width: 20%; }
+.col--size-1of4 { width: 25%; }
+.col--size-1of3 { width: 33.33%; }
+.col--size-2of5 { width: 40%; }
+.col--size-1of2 { width: 50%; }
+.col--size-3of5 { width: 60%; }
+.col--size-2of3 { width: 66.66%; }
+.col--size-3of4 { width: 75%; }
+.col--size-4of5 { width: 80%; }
+
+@media screen and (min-width: $breakpoint-small) {
+
+  // These column classes apply at small sizes.
+  .col[class*="col--s-size"] { float: left; }
+
+  .col--s-size-1of5 { width: 20%; }
+  .col--s-size-1of4 { width: 25%; }
+  .col--s-size-1of3 { width: 33.33%; }
+  .col--s-size-2of5 { width: 40%; }
+  .col--s-size-1of2 { width: 50%; }
+  .col--s-size-3of5 { width: 60%; }
+  .col--s-size-2of3 { width: 66.66%; }
+  .col--s-size-3of4 { width: 75%; }
+  .col--s-size-4of5 { width: 80%; }
+}
+
+// Medium rules not yet needed – expose them if needed
+
+
+ /*@media screen and (min-width: $breakpoint-medium) {*/
+
+   /*// These column classes apply at small sizes.*/
+   /*.col[class*="col--m-size"] { float: left; }*/
+
+   /*.col--m-size-1of5 { width: 20%; }*/
+   /*.col--m-size-1of4 { width: 25%; }*/
+   /*.col--m-size-1of3 { width: 33.33%; }*/
+   /*.col--m-size-2of5 { width: 40%; }*/
+   /*.col--m-size-1of2 { width: 50%; }*/
+   /*.col--m-size-3of5 { width: 60%; }*/
+   /*.col--m-size-2of3 { width: 66.66%; }*/
+   /*.col--m-size-3of4 { width: 75%; }*/
+   /*.col--m-size-4of5 { width: 80%; }*/
+ /*}*/
+
+@media screen and (min-width: $breakpoint-large) {
+
+  // These column classes apply at large sizes.
+  .col[class*="col--l-size"] { float: left; }
+
+  .col--l-size-1of5 { width: 20%; }
+  .col--l-size-1of4 { width: 25%; }
+  .col--l-size-1of3 { width: 33.33%; }
+  .col--l-size-2of5 { width: 40%; }
+  .col--l-size-1of2 { width: 50%; }
+  .col--l-size-3of5 { width: 60%; }
+  .col--l-size-2of3 { width: 66.66%; }
+  .col--l-size-3of4 { width: 75%; }
+  .col--l-size-4of5 { width: 80%; }
+}
+
+.row {
+  @extend .clearfix;
+}

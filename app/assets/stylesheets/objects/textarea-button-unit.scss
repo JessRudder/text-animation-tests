@@ -1,0 +1,25 @@
+/*
+ * Object: Textarea & Button Unit
+ * Combines a textarea with associated buttons
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+.textarea-button-unit {
+  position: relative;
+}
+.textarea-button-unit__textarea {
+  @extend .input;
+  position: relative;
+  bottom: 0;
+  padding-right: 90px;
+}
+.textarea-button-unit__aux {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 6px 8px 10px 0;
+}

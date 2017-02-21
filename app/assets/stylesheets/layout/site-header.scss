@@ -1,0 +1,400 @@
+/*
+ * Site Header
+ */
+
+header.site-header {
+  @extend .unselectable;
+  background: white;
+  height: $site-header-height;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  @extend .util--z-index-3;
+  box-shadow: 0 0 ($content-spacing * 1.5) rgba(0,0,0,.15);
+}
+
+
+// Logo
+
+.site-header__home {
+  display: block;
+  width: $site-header-height;
+  height: 100%;
+  float: left;
+  border-right: 1px solid $grey-faint;
+  text-align: center;
+  position: relative;
+}
+
+.site-header__home:hover {
+  .site-header__home__logo__shape { stroke: $grey; }
+}
+
+.site-header__home__logo {
+  @extend .util--abs-center-both;
+  width: 60%;
+  height: 60%;
+  @include transition(all .12s);
+}
+
+.site-header__home__logo[data-animate='true'] {
+  // TODO: smooth out drawing animation on slow loading pages
+  // .site-header__home__logo__shape {
+  //   stroke-dashoffset: 164;
+  //   animation: draw 2200ms linear 1 forwards;
+  // }
+
+  .site-header__home__logo__gradient--start {
+    animation: cycle-gradient-start 2200ms linear 1 forwards;
+  }
+
+  .site-header__home__logo__gradient--stop {
+    animation: cycle-gradient-stop 2200ms linear 1 forwards, cycle-offset 2200ms linear 1 forwards;
+  }
+}
+
+// Admin Menu (present when admin user logged in)
+
+.site-header__admin-menu { // Ugly class – unfortunately the objects come later in the cascade, so we have to increase the specificity of this selector.
+  margin-left: $content-spacing / 2;
+  &:before {
+    margin-left: -3px; // Centered w/r/t the logo
+  }
+}
+
+
+// Menu
+
+$site-header-handle-height: 20px;
+$site-header-handle-height--mobile: 40px;
+
+.site-header__menu {
+  float: left;
+}
+
+.site-header__menu__label {
+  display: block;
+  position: relative;
+  @extend .heading;
+  @extend .heading--level-1;
+  line-height: $site-header-height;
+  text-decoration: none;
+  padding: 0 ($content-spacing * 4) 0 ($content-spacing * 2);
+  color: $grey-darker;
+
+  // On small screens, hide the text. The handle also has some changes to look better in this context.
+  @media only screen and (max-width: $breakpoint-small - 1) {
+    text-indent: -9999px;
+    width: $site-header-handle-height--mobile;
+    padding: 0 $content-spacing * 1.5;
+  }
+
+  // On medium screens, truncate the title to prevent overlap search elements
+  @media only screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-medium - 1px) {
+    max-width: $site-sidebar-width;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: $content-spacing * 3;
+  }
+}
+
+.site-header__menu__label__handle {
+  position: absolute;
+  top: 50%;
+  right: ($content-spacing * 2);
+  margin-top: -1 * $site-header-handle-height / 2;
+  height: $site-header-handle-height;
+  width: $site-header-handle-height;
+  background: $grey-faint;
+  border-radius: 4px;
+  @include transition(transform .15s);
+
+  .site-header__menu__label__handle__caret { // Crazy – when you apply a style to "svg" alone, it seems to extend into the svg’s constituents in FF. This needs a specific class in order to look good in FF.
+    color: $grey-light;
+    width: 66.66%;
+    height: 66.66%;
+    @extend .util--abs-center-both;
+  }
+
+  // Small screen mode
+  @media only screen and (max-width: $breakpoint-small - 1) {
+    right: auto;
+    margin-top: -1 * $site-header-handle-height--mobile / 2;
+    left: ($content-spacing * 1.5);
+    width: $site-header-handle-height--mobile;
+    height: $site-header-handle-height--mobile;
+  }
+}
+
+.site-header__menu__label[data-state="open"] {
+  .site-header__menu__label__handle {
+    @include rotate(-180);
+  }
+}
+
+.site-header__menu__label:hover {
+  color: $grey-darker;
+
+  .site-header__menu__label__handle {
+    background: $grey-lighter;
+
+    svg {
+      color: $grey-faint;
+    }
+  }
+}
+
+
+// User Block in top right – this contains a media block that does the actual content display. This element positions a container for that block.
+
+.site-header__user {
+  position: absolute;
+  padding: $content-spacing;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+img.site-header__user__thumbnail {
+  height: ($content-spacing * 1.8);
+  width: auto;
+}
+
+// User menu. Global menu class provides basic styles and hide/show functionality, then we extend here with specific styles
+
+.site-header__user__menu {
+  border-radius: 0;
+  border: none;
+  @include box-shadow(0 2px 16px rgba(0,0,0,.25));
+  margin-right: -($content-spacing * 3 - 2);
+  width: $site-sidebar-width - $content-spacing;
+
+  &:before {
+    right: ($content-spacing * 3.5); // Directly below the avatar photo
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='12'><polyline points='0.4,12.8 10.4,0.8 20.4,12.8 ' fill='" + #fff + "' /></svg>") center top no-repeat;
+  }
+
+  .menu__list__item {
+    border-top-color: $grey-faintest;
+  }
+
+  .menu__list__item a {
+    display: block;
+    position: relative;
+    background: white;
+    padding: 16px 40px;
+    border-left: 4px solid transparent;
+    font-weight: normal;
+    color: $grey-light;
+    @extend .util--font-style-5;
+
+    &:hover {
+      background: $grey-faintest;
+      border-left-color: $blue;
+    }
+  }
+}
+
+// Search Element
+
+$search-trigger-width: $content-spacing * 4;
+$search-trigger-margin-top: $content-spacing * .75;
+$search-field-width: $content-spacing * 10;
+$search-trigger-icon-width: $content-spacing * 5 /4;
+
+.site-header__search {
+  position: absolute;
+  top: $search-trigger-margin-top;
+  right: $site-sidebar-width;
+  height: $site-header-height - $search-trigger-margin-top * 2;
+  background: white;
+
+  @media only screen and (max-width: $breakpoint-medium) {
+    display: none;
+  }
+}
+
+// Note on the !important flags used below: these rules are applied when necessary
+// to override inline styling generated by typeahead.js, which we're currently
+// using to generate a dropdown menu with search suggestions. If we deprecate
+// typeahead.js, then these rules will need to be revisited.
+
+.site-header__search__field {
+  position: absolute !important;
+  top: 0;
+  right: 100% !important;
+  height: 100%;
+  width: $search-field-width;
+  background: $grey-faintest;
+  border-radius: 9999px;
+  border: none;
+  color: $grey;
+  @extend .util--font-style-5;
+  @extend .border-box;
+  @extend .util--z-index-1;
+  font-family: "Nimbus Sans"; // Need to re-declare the font family because browsers try to use their own font for inputs. Generalize this in the future? Depends how many inputs exist
+  line-height: 100%;
+  padding-left: 24px;
+  padding-top: 2px; // Push text down a bit
+  outline: none;
+
+  &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: $grey-light;
+  }
+  &::-moz-placeholder { /* Firefox 19+ */
+    color: $grey-light;
+  }
+  &:-ms-input-placeholder { /* IE 10+ */
+    color: $grey-light;
+  }
+  &:-moz-placeholder { /* Firefox 18- */
+    color: $grey-light;
+  }
+
+  &:focus {
+    background: $grey-faint;
+  }
+}
+
+.site-header__search__trigger {
+  display: block;
+  width: $search-trigger-width;
+  height: 100%;
+  color: $grey-light;
+  background-color: $grey-lightest;
+  @extend .util--z-index-1;
+}
+
+.site-header__search__trigger__icon {
+  height: $search-trigger-icon-width;
+  width: $search-trigger-icon-width;
+  @extend .util--abs-center-both;
+  @extend .util--z-index-2;
+  color: $grey;
+  padding-right: $content-spacing * 3;
+}
+
+.site-header__search__field--mask {
+  left: auto !important;
+}
+
+.site-header__search__field__menu {
+  box-shadow: 1px 2px 16px rgba(0,0,0,0.10);
+  z-index: 0 !important;
+  left: auto !important;
+  right: 100%;
+  width: $search-field-width * 2;
+  margin-right: -2px;
+  border-left: solid 1px $grey-faintest;
+  border-right: solid 1px $grey-faintest;
+  border-bottom: solid 1px $grey-faintest;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+
+  .menu__list__item {
+    border-top-color: $grey-faintest;
+    border-radius: inherit;
+  }
+
+  .menu__list__item a {
+    display: block;
+    position: relative;
+    background: white;
+    border-left: 4px solid transparent;
+    padding: $content-spacing ($content-spacing * 3) $content-spacing $content-spacing;
+    color: $grey-light;
+    @extend .util--font-style-5;
+  }
+
+  .menu__list__item__icon {
+    right: ($content-spacing * 0.75);
+    width: 16px;
+    height: 16px;
+  }
+
+  .menu__list--active a,
+  .menu__list__item a:hover,
+  .menu__list__item a:active {
+    background: $grey-faintest;
+    border-left-color: $blue;
+  }
+}
+
+
+/*
+ * Extensions
+ */
+
+.site-header--public__wrapper {
+  @extend .level;
+}
+
+.site-header--public__wrapper__inner {
+  @extend .level__inner;
+  @extend .border-box;
+  position: relative;
+  padding-left: $content-spacing / 2;
+  padding-right: $content-spacing / 2;
+}
+
+.site-header--public__logo {
+  float: left;
+  width: $content-spacing * 6 + 4;
+  height: $site-header-height - 2;
+
+  // At larger sizes, remove float and position absolutely
+  @media only screen and (min-width: $breakpoint-small) {
+    float: none;
+    position: absolute;
+  }
+}
+
+.site-header--public__main {
+  float: left;
+  padding-left: ($content-spacing * 6) + 12; //public logo width with extra padding
+  padding-top: ($content-spacing / 2);
+  line-height: ($site-header-height - ($content-spacing / 2));
+
+  // Preserve spacing between text and logo
+  @media only screen and (max-width: $breakpoint-small - 1) {
+    padding-left: $content-spacing + 2;
+  }
+
+  // In mobile, hide the title.
+  @media only screen and (max-width: $breakpoint-small) {
+    text-indent: -9999px;
+  }
+}
+
+.site-header--public__aux {
+  float: right;
+  line-height: $site-header-height;
+}
+
+// Right-side Auxillary Elements
+// Includes user avatar and Flatiron School logo
+// For use in header_alt
+.site-header__aux {
+  width: auto;
+  height: 100%;
+  float: right;
+}
+
+.site-header__aux__user,
+.site-header__aux__logo {
+  height: 100%;
+  right: 100%;
+  display: inline-block;
+}
+
+.site-header__aux__brand__logo,
+.site-header__aux__user__thumbnail {
+  height: 100%;
+}
+
+.site-header__aux__logo {
+  padding: 0 $content-spacing;
+  border-left: 1px solid $grey-faint;
+}

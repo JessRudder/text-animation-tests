@@ -1,0 +1,134 @@
+/*
+ * Object: Button & Badge Unit
+ * Combines a button with an associated badge, animating both in tandem.
+ * Color and/or badge content respond to status changes
+ *
+ * Example markup:
+ *
+ * .button-badge-unit data-status='active'
+ *   .button-badge-unit__button
+ *     svg.button-badge-unit__badge
+ *       use xlink:href='path/to/asset'
+ *     span.button-badge-unit__label Ask a Question
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+
+.button-badge-unit {
+  // Nothing yet
+}
+
+.button-badge-unit__button {
+  @extend .button;
+
+  // Text style is different from normal buttons.
+  // Mirrors heading--level-4, but we cannot extend heading--level-4 here due to parse order.
+  text-transform: none;
+  letter-spacing: 0;
+
+  // Border radius and display are different than default.
+  // Mirrors .button--corners-tight + .button--layout-block, but cannot extend due to cascade order.
+  border-radius: ($content-spacing / 4);
+  display: block;
+
+  // Override default padding
+  padding: $content-spacing ($content-spacing + 2) ($content-spacing - 2) ($content-spacing + 2);
+}
+
+.button-badge-unit__badge,
+.button-badge-unit__badge--count:before {
+  @extend .border-box;
+  background: $white;
+  color: $grey-lighter;
+  border-radius: 999px;
+  height: ($content-spacing * 1.5) + 2;
+  width: ($content-spacing * 1.5) + 2;
+  text-align: center;
+  vertical-align: middle;
+  margin-right: $content-spacing + 2;
+  padding: 5px;
+}
+
+/* Local Extension */
+
+// Badge Count
+// Badge that displays numerical count, based on data-count attribute
+//
+// Example markup:
+// .button-badge-unit data-status='active'
+//   .button-badge-unit__button
+//     span.button-badge-unit__badge--count data-count='1'
+//     span.button-badge-unit__label Ask a Question
+
+.button-badge-unit__badge--count:before {
+  content: attr(data-count);
+  display: inline-block;
+}
+
+
+/*
+ * Contextual Styles
+ */
+
+// Active Status
+// Background and icon color update to provide visual indication button is "active"
+.button-badge-unit[data-status='active'] {
+  .button-badge-unit__button {
+    @extend .button--color-purple;
+  }
+  .button-badge-unit__badge,
+  .button-badge-unit__badge--count:before {
+    color: $purple;
+  }
+}
+
+// Disabled Status
+// Background and icon color update to provide visual indication button is disabled
+.button-badge-unit.disabled {
+  pointer-events: none;
+
+  .button-badge-unit__button { background-color: $grey-lighter; }
+
+  .button-badge-unit__badge,
+  .button-badge-unit__badge--count:before {
+    color: $grey-lighter;
+  }
+}
+
+body.body--has-sidebar--collapsable {
+
+  // When there is a collapsable sidebar present, fit to collapsed sidebar
+  @media screen and (min-width: $breakpoint-mobile) and (max-width: $breakpoint-medium) {
+    .button-badge-unit { margin: (-0.5 * $content-spacing) (-1 * $content-spacing); }
+    .button-badge-unit__label { display: none; }
+
+    .button-badge-unit__button {
+      padding: ($content-spacing - 5);
+      border-radius: 0;
+    }
+    .button-badge-unit__badge,
+    .button-badge-unit__badge--count:before {
+      margin-right: 0;
+    }
+  }
+
+  // At the non-standard breakpoint below, when fully open, the fixed position FIChat panels
+  // are completely cut off on the left side, and users are unable to close chat w/o reloading the page.
+  // Temporary solution: chat buttons are visible but disabled in right rail below this breakpoint.
+  @media screen and (max-width: 500px) {
+    .button-badge-unit { pointer-events: none; }
+
+    .button-badge-unit[data-status='active'] {
+      .button-badge-unit__button { background-color: $grey-lighter; }
+
+      .button-badge-unit__badge,
+      .button-badge-unit__badge--count:before {
+        color: $grey-lighter;
+      }
+    }
+  }
+}

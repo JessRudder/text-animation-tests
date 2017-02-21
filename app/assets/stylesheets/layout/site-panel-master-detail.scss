@@ -1,0 +1,232 @@
+/*
+ * DO NOT REUSE OR ADD TO STYLES BELOW
+ * TODO: refactor styles below to bring them in line with our OOCSS system
+ * Site Panel Overlay, full of one-offs to accomodate the old chat design
+ */
+
+
+ /*
+  * Local variables
+  */
+
+$xxl-width:860px;
+$icon-expand:url(../assets/flatchat/fichat-icon-expand.svg);
+$icon-compress:url(../assets/flatchat/fichat-icon-compress.svg);
+
+
+/*
+ * Overall Rules
+ */
+
+section.panel-master-detail {
+  @extend .border-box;
+  @extend .util--z-index-1;
+  @include slide-bounce(all);
+  position: fixed;
+  top: $site-header-height;
+  right: 0;
+  bottom: 0;
+  width: $chat-lobby-width;
+  height: 92.5vh;
+  background: $grey-faint;
+  border-left: 1px solid $grey-lightest;
+  margin-right: (-1 * $chat-lobby-width);
+
+  .site-panel-master{
+    display: inline-block;
+    vertical-align: top;
+    width:38%;
+    height: 100%;
+    overflow-y: scroll;
+
+    .special--question-list-foot{
+      padding-bottom: 40vh;
+    }
+  }
+
+  .site-panel-master-accessory{
+    display: block;
+    position: fixed;
+    bottom:-1px;
+    right:0;
+    vertical-align: top;
+    width: $site-sidebar-width;
+    max-height: 40vh;//For rare case when you have a ton of chats open.
+    color:#fff;
+    margin-left:-1px;
+    background-color: black;
+    overflow-y:scroll;
+    overflow: auto;
+    transition: all 0.25s ease-in-out;
+  }
+
+  .site-panel-master::-webkit-scrollbar {
+    width: 0 !important; // TODO: get rid of !important
+  }
+
+  .site-panel-detail{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding:25px 0;
+    height: 100%;
+    width: 62%;
+    background-color: $grey-faintest;
+    border-left: 1px solid $grey-lightest;
+    box-sizing: border-box;
+  }
+}
+
+section.panel-master-detail .special--room {
+  pre {
+    padding: $content-spacing / 2;
+    margin-left: $content-spacing / 2;
+    background-color: $white;
+    border: 1px solid $grey-faint;
+    border-radius:2px;
+    white-space: pre-wrap;
+    text-align: left;
+    overflow: auto;
+    overflow-y:hidden;
+    max-width: 280px; // TODO: where is this "magic" number coming from?
+    @extend .util--z-index-1;
+    pointer-events:none;
+
+    code{
+      background-color: transparent;
+    }
+    &:before{
+      content:'';
+      background: $grey-dark $icon-expand no-repeat center center;
+      background-size: ($content-spacing / 2) ($content-spacing / 2);
+      border-radius: ($content-spacing / 4) 0 0 ($content-spacing / 4);
+      width: $content-spacing - 1;
+      height: $content-spacing;
+      position: absolute;
+      cursor: pointer;
+      pointer-events:all;
+      &:hover{
+        background-color: $grey-faintest;
+      }
+    }
+  }
+
+  .chat-node--right pre:before {
+    left: 25px;
+  }
+
+  .chat-node--left pre:before {
+    left: 76px;
+  }
+}
+
+//Temp
+.site-panel-accessory{
+  position: fixed;
+  top:0;
+  right:0;
+  width: 30vw;
+  margin-left:-30vw;
+  background-color: black;
+  color:white;
+  opacity: 0;
+  display: none;
+  z-index: 0;
+  padding:16px;
+  transition: all 0.5s ease-in-out;
+
+  &.displayed{
+    transition: all 0.5s ease-in-out;
+    margin-left:0;
+    opacity: 0.9;
+    z-index: 5; // TODO: this z-index seems unnecessarily high. decrease if possible
+    display: block;
+  }
+}
+
+
+/*
+ * Contextual Styles
+ */
+
+section.panel-master-detail[data-state='open'] {
+  margin-right:-438px; // TODO: where is this "magic" number coming from?
+
+  .site-panel-master-accessory{
+    width:264px; // TODO: where is this "magic" number coming from?
+  }
+}
+
+section.panel-master-detail[data-state='xxl'],
+section.panel-master-detail[data-state='extended'] {
+  margin-right:0px;
+
+  .special--question-cap {
+    .module__foot,
+    .module__body {
+      display: none;
+    }
+  }
+
+  .special--question-list{
+    padding-top: 50px;
+  }
+
+  .special--question-list-foot{
+    padding-bottom: 70vh;
+  }
+}
+
+section.panel-master-detail[data-state='extended'] {
+
+  .special--question-cap{
+    width: $chat-lobby-width;
+  }
+
+  .site-panel-master-accessory{
+    right:435px; // TODO: where is this "magic" number coming from?
+    width:268px; // TODO: where is this "magic" number coming from?
+  }
+}
+
+section.panel-master-detail[data-state='xxl'] {
+  width: $xxl-width;
+
+  .special--question-cap{
+    width: $xxl-width;
+  }
+
+  .special--room{
+    width:$xxl-width - 300px; // TODO: where is this "magic" number coming from?
+  }
+
+  .special--room .chat-node{
+    width: 495px; // TODO: where is this "magic" number coming from?
+  }
+
+  .special--msg-input-area{
+    width: $xxl-width - 324px; // TODO: where is this "magic" number coming from?
+  }
+
+  .site-panel-master-accessory{
+    right: 534px; // TODO: where is this "magic" number coming from?
+    width: 326px; // TODO: where is this "magic" number coming from?
+  }
+}
+
+section.panel-master-detail[data-state='xxl'] .special--room pre {
+  max-width: 380px; // TODO: where is this "magic" number coming from?
+  .chat-node .chat-node-content {
+    width:409px; // TODO: where is this "magic" number coming from?
+  }
+
+  &:before{
+    background-image: $icon-compress;
+  }
+}
+
+section.panel-master-detail[data-state='xxl'] .special--room .chat-node {
+  .chat-node-content {
+    width:409px; // TODO: where is this "magic" number coming from?
+  }
+}

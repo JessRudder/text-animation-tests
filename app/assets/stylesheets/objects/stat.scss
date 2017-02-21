@@ -1,0 +1,194 @@
+/*
+ * Object: Stat
+ * Box that contains a visual data representation, like a progress bar, chart, or graph.
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+.stat {
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+/*
+ * Local Descendants
+ */
+
+.stat__main {
+  @extend .clearfix;
+}
+
+.stat__main__inner {
+  width: 100%;
+}
+
+.stat__label {
+  padding-top: ($content-spacing * 2);
+
+  a, a:hover { color: inherit; } // If label has a link, link color should match default label text styling
+}
+
+.stat__label__title {
+  // nothing yet
+}
+
+.stat__label__value {
+  @extend .util--padding-ts;
+}
+
+
+/*
+ * Extensions
+ */
+
+
+// Progress bar
+// Horizontal bar with adjustable "fill" set inline with linear-gradient background
+
+.stat--progress-bar {
+  // nothing yet
+}
+
+.stat--progress-bar__main__value {
+  @extend .heading--level-1;
+  @extend .util--font-style-13;
+
+  @media screen and (min-width: $breakpoint-large) {
+    font-size: 72px; // custom font-size, not included in typography.scss
+  }
+}
+
+.stat--progress-bar__main__bar {
+  border-radius: $content-spacing;
+  height: $content-spacing;
+  // set linear gradient background inline in markup:
+  // .stat--progress-bar__main__bar style="background:linear-gradient(to right, #75B74E #{@percent_complete}%, #efefef 0%);"
+}
+
+
+// Block chart
+// Chart with blocks arranged in columns and rows, similar to a calendar. By default,
+// blocks have $grey-faint background. Use data-state attribute to style blocks as
+// "active" ($blue-light background) or "current" ($blue background). You can also set
+// a data-date attribute which will be displayed as text centered inside the block.
+
+.stat--block-chart {
+  // nothing yet
+}
+
+.stat--block-chart__main__inner__chart {
+  margin-left: ($content-spacing / 4 * -1);
+}
+
+.stat--block-chart__main__inner__chart__block {
+  @extend .border-box;
+  width: 14.25%;
+  padding-top: ($content-spacing / 4);
+  padding-left: ($content-spacing / 4);
+  float: left;
+}
+
+.stat--block-chart__main__inner__chart__block__inner {
+  background: $grey-faint;
+  padding-top: 100%;
+  border-radius: 3px;
+  position: relative;
+}
+
+.stat--block-chart__main__inner__chart__block__inner[data-state="active"] {
+  background: $blue-light;
+  color: $blue;
+}
+
+.stat--block-chart__main__inner__chart__block__inner[data-state="current"] {
+  background: $blue;
+  color: $white;
+}
+
+.stat--block-chart__main__inner__chart__block__inner:after {
+  @extend .util--font-style-1;
+  @extend .util--abs-center-both;
+  content: attr(data-date);
+}
+
+
+// Bubble
+// Large bubble with label. Includes local options for background color.
+
+.stat--bubble {
+  .stat__main {
+    @media screen and (min-width: $breakpoint-small) { // Responsive sizing above small breakpoint
+      padding-top: 66.66%;
+      position: relative;
+    }
+  }
+
+  .stat__main__inner {
+    @media screen and (min-width: $breakpoint-small) { // Responsive sizing above small breakpoint
+      height: 100%;
+      position: absolute;
+      top: 50%;
+      @include translate(0,-50%);
+    }
+  }
+}
+
+.stat--bubble__bubble {
+  @extend .util--pull-center;
+  position: relative;
+  border-radius: 9999px;
+  height: ($content-spacing * 5);
+  width: ($content-spacing * 5);
+
+  @media screen and (min-width: $breakpoint-small) {
+    width: 66.66%;
+    height: 100%;
+  }
+}
+
+.stat--bubble__bubble__label {
+  @extend .util--abs-center-both;
+  @extend .util--font-style-7;
+
+  @media screen and (max-width: $breakpoint-small) {
+    font-size: 17px; // util--font-style-5
+  }
+  @media screen and (min-width: $breakpoint-large) {
+    font-size: 30px; // util--font-style-9
+  }
+}
+
+/* Local option: Background color */
+
+.stat--bubble--background-color-green {
+  .stat--bubble__bubble {
+    background-color: $green;
+  }
+}
+
+/*
+ * Options
+ */
+
+// Fixed Height
+// When displaying multiple stats next to one another in a row, use this extension
+// to fix all stats at the same height
+
+.stat--fixed-height {
+  @media screen and (min-width: $breakpoint-small) {
+    .stat__main {
+      height: $content-spacing * 9;
+      position: relative;
+    }
+
+    .stat__main__inner {
+      position: absolute;
+      top: 50%;
+      @include translate(0,-50%);
+    }
+  }
+}

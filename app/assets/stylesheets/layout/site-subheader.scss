@@ -1,0 +1,104 @@
+/*
+ * Site Subheader
+ */
+
+.site-subheader {
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: $site-header-height;
+  height: $site-header-height;
+  background-color: white;
+  border-bottom: 1px solid $grey-faint;
+  overflow: hidden;
+  @extend .util--z-index-1;
+  @include slide-bounce(right);
+}
+
+// Subheaders have a wrapper element that behaves like a level, but is named specifically for legibility
+.site-subheader__wrapper {
+  @extend .level;
+}
+
+.site-subheader__wrapper--flush {
+  @extend .level--flush;
+}
+
+.site-subheader__wrapper__inner {
+  @extend .level__inner;
+}
+
+// Main container on the left
+.site-subheader__main {
+  padding: ($content-spacing / 2) 0 0 ($content-spacing / 2);
+  line-height: $site-header-height - $content-spacing / 2;
+  overflow: hidden;
+}
+
+// Aux container on the right
+.site-subheader__aux {
+  float: right;
+  margin: ($content-spacing * 1.25) ($content-spacing / 2) 0 0;
+
+  @media only screen and (max-width: $breakpoint-small) {
+    display: none;
+  }
+}
+
+
+/*
+ * Contextual Styles
+ */
+
+body.body--has-sidebar {
+  .site-subheader {
+    // When there is a sidebar present push over subheader
+    @media screen and (min-width: $breakpoint-medium) {
+      right: $site-sidebar-width;
+    }
+  }
+
+  // When chat is open, push right
+  .site-subheader[data-state='compressed'] {
+    right: $chat-lobby-width;
+  }
+}
+
+body.body--has-sidebar--side-alt {
+  .site-subheader {
+    // When there is a sidebar present push over subheader
+    @media screen and (min-width: $breakpoint-medium) {
+      left: $site-sidebar-width;
+    }
+  }
+}
+
+// TODO: deprecate; can be replaced by body--has-sidebar--side-alt
+body.body--has-sidebar--always {
+  .site-subheader {
+    left: $site-sidebar-width;
+  }
+}
+
+body.body--has-sidebar--collapsable {
+  // When there is a collapsable sidebar present, don't overlap sidebar
+  .site-subheader {
+    @media screen and (min-width: $breakpoint-mobile) and (max-width: $breakpoint-medium) {
+      right: $site-sidebar-collapsable-width;
+    }
+  }
+}
+
+body.body--has-full-width-subheader {
+  .site-subheader {
+    right: 0;
+  }
+}
+
+// Use default line height on public subheader, since it has
+// multiple rows of text.
+body.body--public {
+  .site-subheader__main {
+    line-height: 1.25;
+  }
+}

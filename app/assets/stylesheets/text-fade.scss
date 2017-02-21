@@ -15,7 +15,6 @@ p {
 
 section {
   text-align: center;
-  color: #EFEFEF;
 }
 
 .full-screen {
@@ -23,7 +22,7 @@ section {
 }
 
 .full-screen-extra {
-  height: 140%;
+  height: 150%;
 }
 
 .real-blue {
@@ -35,6 +34,11 @@ section {
 .orange {
   background-color: #ea6300;
 }
+
+/*.manuscript {
+  background-color: $manuscript;
+}*/
+
 .large-title {
   font-size: 60px;
 }
@@ -63,3 +67,13 @@ section {
   transition: background-color 1s;
 }
 */
+
+.vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 200px rgba(0,0,0,0.9) inset;
+  pointer-events: none;
+}

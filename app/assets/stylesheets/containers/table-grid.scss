@@ -1,0 +1,244 @@
+/*
+ * Container: Table Grid
+ * Takes up 100% of available width and positions child containers evenly within the space, at desktop sizes. For mobile, cells stack.
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+.table-grid {
+  @media (max-width: 680px) { // Custom breakpoint, not included in global vars.scss
+    .table-grid__cell {
+      text-align: center;
+    }
+  }
+}
+
+
+/*
+ * Local Descendants
+ */
+
+.table-grid__cell {
+  & + .table-grid__cell {
+    margin-top: $content-spacing/2;
+  }
+}
+
+
+/*
+ * Extensions
+ */
+
+// Default
+// TODO: rename to something more descriptive
+
+.table-grid--default {
+  @extend .table-grid--row-separators-grey-lightest;
+
+  .table-grid__cell {
+    padding: ($content-spacing * 1.5) $content-spacing;
+  }
+
+  .table-grid__cell--top-align {
+    vertical-align: top;
+  }
+
+  .table-grid__row--header {
+    @extend .heading;
+    @extend .heading--color-grey-light;
+    @extend .util--font-style-2;
+
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: normal;
+  }
+
+  .table-grid__cell--header {
+    padding: $content-spacing;
+  }
+}
+
+
+/*
+ * Contextual Rules
+ */
+
+@media (min-width: 680px) { // Custom breakpoint, not included in global vars.scss
+
+  .table-grid {
+    display: table;
+    width: 100%;
+  }
+
+  .table-grid__cell {
+    display: table-cell;
+    vertical-align: middle;
+
+    & + .table-grid__cell {
+      margin-top: auto;
+    }
+  }
+
+  .table-grid__row {
+    display: table-row;
+  }
+
+
+  /*
+   * Contextual Extensions
+   */
+
+   // Spread content
+   // Left-most and right-most cells aligned to the outside, all other cell content centered
+
+  .table-grid--spread-content {
+
+    .table-grid__cell {
+      text-align: center;
+    }
+    .table-grid__cell:first-child {
+      text-align: left;
+    }
+    .table-grid__cell:last-child {
+      text-align: right;
+    }
+  }
+
+
+  /*
+   * Contextual Options
+   */
+
+  // Table borders
+  // All
+  .table-grid {
+    &.table-grid--border-grey-lightest {
+      border: 1px solid $grey-lightest;
+    }
+  }
+
+  // Left Only
+  .table-grid {
+    &.table-grid--left-border-grey-lightest {
+      border-left: 1px solid $grey-lightest;
+    }
+  }
+
+  // Top Only
+  .table-grid {
+    &.table-grid--top-border-grey-lightest {
+      border-top: 1px solid $grey-lightest;
+    }
+  }
+
+  // Cell Separators
+  // Adds vertical separator bars to inner cells only
+
+  .table-grid--separators-grey-faintest {
+    & > .table-grid__cell + .table-grid__cell {
+      border-left: 1px solid $grey-faintest;
+    }
+  }
+
+  .table-grid--separators-grey-lighter {
+    & > .table-grid__cell + .table-grid__cell {
+      border-left: 1px solid $grey-lighter;
+    }
+  }
+
+  .table-grid--separators-grey {
+    & > .table-grid__cell + .table-grid__cell {
+      border-left: 1px solid $grey;
+    }
+  }
+
+  .table-grid--separators-blue-light {
+    & > .table-grid__cell + .table-grid__cell {
+      border-left: 1px solid $blue-light;
+    }
+  }
+
+  .table-grid--separators-purple-lighter {
+    & > .table-grid__cell + .table-grid__cell {
+      border-left: 1px solid $purple-lighter;
+    }
+  }
+
+  // Row Separators
+  // Adds horizontal separators to inner cells
+
+  .table-grid--row-separators-grey-lightest {
+    .table-grid__row + .table-grid__row {
+      .table-grid__cell {
+        border-top: 1px solid $grey-lightest;
+      }
+    }
+  }
+
+  // Fixed Layout
+  // Table and column widths are set by the width of the first row of cells.
+  // Cells in subsequent rows do not affect column widths. Overflow content will be clipped.
+
+  .table-grid--layout-fixed {
+    table-layout: fixed;
+  }
+
+  // Vertical Align Top
+  // For table grids with adjacent cells of variable content length
+
+  .table-grid--vertical-align-top {
+    .table-grid__cell {
+      vertical-align: top;
+    }
+  }
+
+  /* Contextual Options: Local Descendants */
+
+  // Nowrap
+  // Prevents text-wrapping.
+
+  .table-grid__cell--nowrap {
+    white-space: nowrap;
+  }
+
+  // Fill
+  // Set cell to full width.
+
+  .table-grid__cell--fill {
+    width: 100%;
+  }
+
+  // Padding
+  // Set inside padding on cells
+  .table-grid__cell--padding-s {
+    padding: ($content-spacing / 2) 0;
+  }
+
+  .table-grid__cell--padding-m {
+    padding: $content-spacing 0;
+  }
+
+  .table-grid__cell--padding-l {
+    padding: ($content-spacing * 1.5) 0;
+  }
+
+  // Background coloring
+  .table-grid__cell--bg-grey-faintest {
+    background-color: $grey-faintest;
+  }
+
+  .table-grid__cell--bg-blue-light {
+    background-color: $blue-light;
+  }
+
+  .table-grid__cell--bg-blue-lighter {
+    background-color: $blue-lighter;
+  }
+
+  .table-grid__cell--bg-red-lighter {
+    background-color: $red-lighter;
+  }
+}

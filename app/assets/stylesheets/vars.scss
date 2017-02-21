@@ -1,0 +1,80 @@
+/*
+ * Key sizes
+ */
+
+$content-spacing: 16px;
+$site-header-height: 69px;
+$site-subheader-height: $site-header-height;
+$site-banner-height: $site-header-height * 0.75;
+$site-footer-height: 40px;
+$max-content-width: 1080px;
+$site-sidebar-width: 263px;
+$site-sidebar-collapsable-width: ($site-sidebar-width / 5.5);
+$chat-lobby-width: 703px;
+$ad-height: 62px;
+
+
+/*
+ * Responsive Breakpoints
+ * SCSS is not great at allowing string variables in media queries (they have to be interpolated), so we are sticking with a simple px variable for each breakpoint. Please apply breakpoints with the following format:
+ * @media only screen and (min-width: $breakpoint-x) { ... }
+ */
+
+$breakpoint-mobile: 320px;
+$breakpoint-small: 640px;
+$breakpoint-medium: 800px;
+$breakpoint-large: 1080px;
+
+
+/*
+ * Colors
+ */
+
+$black: #000;
+$white: #ffffff;
+
+$grey-faintest: #f8f8f8;
+$grey-faint: #efefef;
+$grey-lightest: #e0e0e0;
+$grey-lighter: #c4c4c4;
+$grey-light: #a9a9a9;
+$grey: #7d7d7d;
+$grey-dark: #5c5c5c;
+$grey-darker: #3a3a3a;
+$grey-darkest: #111;
+
+$yellow: #f9c51a;
+$yellow-dark: darken($yellow, 5%);         // #f3bc06
+
+$red: #FF5B5B;
+$red-lighter: lighten($red, 20%);          // #ffc1c1
+$red-dark: darken($red, 10%);              // #ff2828
+$red-darker: darken($red, 20%);            // #f40000
+
+$blue-lighter: #E8F8FB;
+$blue-light: #B0F3FF;
+$blue: #00BCE1;
+$blue-dark: darken($blue, 5%);             // #00a7c8
+$blue-darker: darken($blue, 10%);          // #0091ae
+
+$purple: #7A7DB7;
+$purple-lighter: lighten($purple, 20%);    // #bcbedb
+$purple-light: lighten($purple, 10%);      // #9b9dc9
+$purple-dark: darken($purple, 10%);        // #595da5
+
+$green: #75B74F;
+$green-lighter: #e1f0d9;
+$green-light: lighten($green, 10%);        // #91c673
+$green-dark: darken($green, 6%);           // #67a443
+
+$aqua-green: #00c8aD;
+$aqua-green-dark: darken($aqua-green, 6%); // #00a993
+$aqua-green-light: #e8f9f6;
+
+$gold: #F9C304;
+$gold-light: lighten($gold, 10%);          // #fcd034
+$gold-dark: darken($gold, 10%);            // #c79c03
+
+$manuscript: #F8ECC2;
+$sepia: #704214;
+$ink: lighten($sepia, 10%);

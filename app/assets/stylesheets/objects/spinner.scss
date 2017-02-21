@@ -1,0 +1,84 @@
+/*
+ * Objects: Spinner
+ * Spinner objects are used to indicate a loading state.
+ * Many types of spinners can be defined here using the extensions.
+ * Style borrowed from: https://kyleamathews.github.io/react-spinkit/
+ */
+
+.spinner-container {
+  position: relative
+}
+
+.spinner {
+  @extend .util--abs-center-both;
+}
+
+.spinner--logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  @include translate(-50%, -50%);
+  @include transition(all .12s);
+
+  .spinner--logo__shape {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 10;
+    stroke-dasharray: 164; // total length of drawing path
+    stroke-dashoffset: 164; // total length of drawing path
+    animation: draw 2200ms linear infinite forwards;
+  }
+
+  .spinner--logo__gradient--start {
+    animation: cycle-gradient-start 2200ms linear infinite forwards;
+  }
+
+  .spinner--logo__gradient--stop {
+    animation: cycle-gradient-stop 2200ms linear infinite forwards, cycle-offset 2200ms linear infinite forwards;
+  }
+}
+
+.spinner--three-bounce {
+  > div {
+    width: 18px;
+    height: 18px;
+    background-color: #333;
+
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+    animation: bouncedelay 1.4s infinite ease-in-out;
+    /* Prevent first frame from flickering when animation starts */
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+
+  .spinner__bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+  }
+
+  .spinner__bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+  }
+}
+
+
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+

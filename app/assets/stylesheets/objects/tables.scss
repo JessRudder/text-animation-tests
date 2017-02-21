@@ -1,0 +1,38 @@
+/*
+ * Object: Table
+ * Should be applied to table elements.
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+.table {
+  outline: none;
+  width: 100%;
+
+  th, td {
+    text-align: left;
+    vertical-align: middle;
+    padding: $content-spacing ($content-spacing * 2) $content-spacing ($content-spacing * 2);
+    border-bottom: 1px solid $grey-lightest;
+  }
+
+  caption {
+    text-align: left;
+    padding: $content-spacing 0;
+    border-bottom: 1px solid $grey-lightest;
+    color: $black;
+  }
+}
+
+.table--compact {
+  th, td {
+    padding: ($content-spacing / 4) $content-spacing ($content-spacing / 4) $content-spacing;
+  }
+}
+
+.table-field {
+  font-weight: 800;
+}

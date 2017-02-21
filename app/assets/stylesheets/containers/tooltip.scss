@@ -1,0 +1,76 @@
+/*
+ * Tooltips
+ * Tooltips are similar to menu items, but the expectation is that they contain
+ * one inner item rather than a list. It also works with the .js--trigger-tooltip
+ * class and Marionette BaseTooltipView to render the tooltip on the DOM.
+ *
+ * tooltips should be set up to have .tooltip as the parent container with .tooltip__trigger
+ * and .tooltip__content as the children.
+ */
+
+/*
+ * Local variables
+ */
+
+$tooltip-border-radius: ($content-spacing / 2 - 2);
+$tooltip-default-border: $grey-lightest;
+$tooltip-default-background: $white;
+$tooltip-triangle-height: ($content-spacing / 2);
+$tooltip-inner-padding: ($content-spacing * 1.5);
+
+/*
+ * Overall Rules
+ */
+
+.tooltip {
+  position: relative;
+}
+
+/*
+ * Local Descendants
+ */
+
+.tooltip__trigger {
+  cursor: pointer;
+}
+
+.tooltip__content {
+  position: absolute;
+  display: none;
+  background: $tooltip-default-background;
+  color: $grey-darker;
+
+  border: solid 1px $tooltip-default-border;
+  border-radius: $tooltip-border-radius;
+  @extend .util--z-index-2;
+  box-shadow: 0px 0px 67px -13px rgba(0,0,0,0.7);
+
+  &:before {
+    content: '';
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='12'><polyline points='0.4,12.8 10.4,0.8 20.4,12.8 ' fill='" + $tooltip-default-background + "' stroke-width='1' stroke='" + $tooltip-default-border + "' /></svg>") center top no-repeat; // FF does not support these hex colors. That’s okay.
+    display: block;
+    position: absolute;
+    top: -1 * $tooltip-triangle-height;
+    left: $tooltip-inner-padding; // Align left edge of carat with left edge of content.
+    height: $content-spacing / 2;
+    width: $content-spacing;
+  }
+}
+
+/*
+ * Options
+ */
+
+// Content Sizes
+
+.tooltip--small {
+  .tooltip__content {
+    width: 125px;
+  }
+}
+
+.tooltip--medium {
+  .tooltip__content {
+    width: 200px;
+  }
+}

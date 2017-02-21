@@ -1,0 +1,386 @@
+/*
+ * Container: List
+ * Vertically-stacked list with optional borders between. This is used as a base class for extension by a lot of other containers or objects, and used heavily throughout the application.
+ */
+
+ol.list, ul.list { }
+
+
+/*
+ * Local Descendants
+ */
+
+ol.list > li + li, ul.list > li + li { // Descendant selector method makes the markup easy and clean. Replace with a list__item class if a specific reason presents itself
+  margin-top: $content-spacing / 2;
+}
+
+
+/*
+ * Extensions
+ */
+
+// Numbered list
+
+ol.list--numbered, ul.list--numbered {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+
+// Bubble Count list
+// Numbered list with number inside solid color circle
+
+ol.list--bubble-count, ul.list--bubble-count {
+  margin-left: ($content-spacing * 2 + 4);
+
+  &:first-child { counter-reset: custom; }
+  & > li + li   { margin-top: $content-spacing; }
+
+  li {
+    position: relative;
+    line-height: ($content-spacing * 2 - 4);
+    counter-increment: custom;
+  }
+
+  li:before {
+    @extend .heading--level-5;
+    content: counter(custom);
+    position: absolute;
+    left: -($content-spacing * 2 + 4);
+    width: ($content-spacing * 2 - 4);
+    height: ($content-spacing * 2 - 4);
+    line-height: ($content-spacing * 2 - 4);
+    text-align: center;
+    border-radius: 9999px;
+    background-color: $grey-faint;
+    color: $grey-lighter;
+  }
+
+  // Define local extensions for bubble colors here
+
+  &.list--bubble-count-blue, ul.list--bubble-count-blue {
+    li:before {
+      color: $white;
+      background-color: $blue;
+    }
+  }
+  &.list--bubble-count-grey-darker, ul.list--bubble-count-grey-darker {
+    li:before {
+      color: $white;
+      background-color: $grey-darker;
+    }
+  }
+  &.list--bubble-count-grey-faint, ul.list--bubble-count-grey-faint {
+    li:before {
+      color: $grey;
+      background-color: $grey-faint;
+    }
+  }
+}
+
+// Bulleted List
+
+ol.list--bullet, ul.list--bullet {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+// Accordion
+// Collapsable list
+// Use in conjunction with JS to change data-state
+//
+// Sample markup:
+// ul.list.list--accordion
+//   li.list--accordion__toggle
+//   li.list--accordion__panel data-state='closed'
+
+ol.list--accordion, ul.list--accordion {
+  .list--accordion__toggle:hover {
+    cursor: pointer;
+  }
+
+  .list--accordion__panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.75s ease;
+  }
+
+  .list--accordion__panel[data-state='open'] {
+    max-height: 500vh;
+  }
+
+  &.list--accordion--show-overflow {
+    .list--accordion__panel[data-state='open'] {
+      overflow: initial;
+    }
+  }
+
+  // When used with separators, nudge up to preserve 1px border when closed
+  &.list[class*=list--separators] {
+    .list--accordion__toggle { margin-top: -1px; }
+  }
+}
+
+// Highlightable
+// List with items that can toggle highlight on/off
+
+ol.list--highlightable, ul.list--highlightable {
+  background-color: $grey-faintest;
+
+  // TODO: replace classname with either a) data attribute or b) more abstract classname
+  li.active {
+    background-color: yellow;
+  }
+
+  // Define local extensions for color/state here
+}
+
+
+/*
+ * Options
+ */
+
+// Highlight on Hover
+
+ol.list--highlight-on-hover, ul.list--highlight-on-hover {
+  li:hover {
+    background-color: $white;
+  }
+  &[data-color='blue-light'], &.active {
+    li:hover, li.active {
+      background-color: $blue-light;
+    }
+  }
+}
+
+// Spacing
+
+ol.list--spacing-none, ul.list--spacing-none {
+  & > li + li {
+    margin-top: 0;
+  }
+}
+
+ol.list--spacing-small, ul.list--spacing-small {
+  & > li + li {
+    margin-top: $content-spacing / 4;
+  }
+
+  &.list--first-child-padding > li:first-child {
+    padding-top: ($content-spacing / 4);
+  }
+
+  &.list--last-child-padding > li:last-child {
+    padding-bottom: ($content-spacing / 4);
+  }
+}
+
+ol.list--spacing-medium, ul.list--spacing-medium {
+  & > li + li {
+    margin-top: $content-spacing / 2;
+  }
+
+  &.list--first-child-padding > li:first-child {
+    padding-top: ($content-spacing / 2);
+  }
+
+  &.list--last-child-padding > li:last-child {
+    padding-bottom: ($content-spacing / 2);
+  }
+}
+
+ol.list--spacing-large, ul.list--spacing-large {
+  & > li + li {
+    margin-top: $content-spacing;
+  }
+
+  &.list--first-child-padding > li:first-child {
+    padding-top: $content-spacing;
+  }
+
+  &.list--last-child-padding > li:last-child {
+    padding-bottom: $content-spacing;
+  }
+}
+
+ol.list--spacing-xlarge, ul.list--spacing-xlarge {
+  & > li + li {
+    margin-top: ($content-spacing * 2);
+  }
+
+  &.list--first-child-padding > li:first-child {
+    padding-top: ($content-spacing * 2);
+  }
+
+  &.list--last-child-padding > li:last-child {
+    padding-bottom: ($content-spacing * 2);
+  }
+}
+
+// Indentation
+// Creates padding around element so borders can extend to full element wdith but content remains indented
+
+ul.list--indented {
+  li {
+    padding-left: ($content-spacing * 2);
+    padding-right: ($content-spacing * 2);
+  }
+}
+
+ul.list--indented-small {
+  li {
+    padding-left: ($content-spacing * 1);
+    padding-right: ($content-spacing * 1);
+  }
+}
+
+ol.list--indented-large, ul.list--indented-large {
+  li {
+    padding-left: ($content-spacing * 3);
+    padding-right: ($content-spacing * 3);
+  }
+}
+
+ul.list--outdented {
+  li {
+    margin-left: -1 * ($content-spacing * 2);
+    margin-right: -1 * ($content-spacing * 2);
+  }
+}
+
+// Not in use. Uncomment when needed.
+//
+// ul.list--outdented-small {
+//   li {
+//     margin-left: -1 * ($content-spacing * 1);
+//     margin-right: -1 * ($content-spacing * 1);
+//   }
+// }
+
+// ol.list--outdented-large, ul.list--outdented-large {
+//   li {
+//     margin-left: -1 * ($content-spacing * 3);
+//     margin-right: -1 * ($content-spacing * 3);
+//   }
+// }
+
+
+// Separators
+
+ol.list[class*=list--separators], ul.list[class*=list--separators] { // Lists with a class that includes list--separators
+
+  & > li + li {
+    padding-top: $content-spacing / 2; // Mirror default margin above with padding between the li and the border
+  }
+
+  // For spacing extensions used in conjunction with separator extensions, adjust that padding-top to mirror the margin that the spacing extension provides.
+  &.list--spacing-small {
+    & > li + li {
+      padding-top: $content-spacing / 4;
+    }
+  }
+
+  &.list--spacing-large {
+    & > li + li {
+      padding-top: $content-spacing;
+    }
+  }
+
+  &.list--spacing-xlarge {
+    & > li + li {
+      padding-top: ($content-spacing * 2);
+    }
+  }
+
+  &.list--spacing-none {
+     & > li + li {
+      padding-top: 0;
+    }
+  }
+}
+
+ol.list--separators-grey-faintest, ul.list--separators-grey-faintest {
+  & > li + li {
+    border-top: 1px solid $grey-faintest;
+  }
+
+  &.list--last-child-border > li:last-child {
+    border-bottom: 1px solid $grey-faintest;
+  }
+}
+
+ol.list--separators-grey-faint, ul.list--separators-grey-faint {
+  & > li + li {
+    border-top: 1px solid $grey-faint;
+  }
+
+  &.list--last-child-border > li:last-child {
+    border-bottom: 1px solid $grey-faint;
+  }
+}
+
+ol.list--separators-grey-lightest, ul.list--separators-grey-lightest {
+  & > li + li {
+    border-top: 1px solid $grey-lightest;
+  }
+
+  &.list--last-child-border > li:last-child {
+    border-bottom: 1px solid $grey-lightest;
+  }
+}
+
+ol.list--separators-grey-lighter, ul.list--separators-grey-lighter {
+  & > li + li {
+    border-top: 1px solid $grey-lighter;
+  }
+
+  &.list--last-child-border > li:last-child {
+    border-bottom: 1px solid $grey-lighter;
+  }
+}
+
+ol.list--separators-grey, ul.list--separators-grey {
+  & > li + li {
+    border-top: 1px solid $grey;
+  }
+
+  &.list--last-child-border > li:last-child {
+    border-bottom: 1px solid $grey;
+  }
+}
+
+ol.list--separators-grey-darker, ul.list--separators-grey-darker {
+  & > li + li {
+    border-top: 1px solid $grey-darker;
+  }
+
+  &.list--last-child-border > li:last-child {
+    border-bottom: 1px solid $grey-darker;
+  }
+}
+
+// Dotted separator - use in conjunction with one of the color extensions above
+
+ol.list--separators-dashed, ul.list--separators-dashed {
+  & > li + li {
+    border-top-style: dashed;
+  }
+
+  &.list--last-child-border > li:last-child {
+    border-top-style: dashed;
+  }
+}
+
+// Color options
+
+// TODO: refactor to be more reusable (highly specific + high specificity)
+ol.list--first-child-color-yellow-left-border,
+ul.list--first-child-color-yellow-left-border {
+  & > li:first-child {
+    border-left: 4px solid $yellow;
+  }
+}
+
+ol.list--background-white,
+ul.list--background-white {
+  background-color: $white;
+}

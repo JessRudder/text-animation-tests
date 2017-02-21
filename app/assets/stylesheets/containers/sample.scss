@@ -1,0 +1,69 @@
+/*
+ * Containers are larger, more structural components like lists, media blocks, image containers, and so on.
+ * They often create empty boxes for objects to be put inside.
+ * Containers are built to flex to 100% of the width of their parent element. They should be portable from parent to parent without issue.
+ * Containers can hold other containers.
+ * Containers should be named especially generically. Bad: "homepage-banner-unit" / "student-grade-container" / "ruby-track-list". Good: "full-width-banner" / "highlighting-container" / "spaced-list"
+ * Containers tend to be placed as the direct children of a grid. Objects tend to be inside them.
+ */
+
+
+/*
+ * Local variables
+ * Since these are not scoped, make sure to prefix them with the name of the object in question.
+ */
+
+$sample-object-height: 123px;
+
+
+/*
+ * Overall Rules
+ * Place standard overall rules at the beginning of the container.
+ */
+
+.sample-container {
+
+  rule: value;
+  rule: value;
+
+  /*
+   * Responsive Overrides
+   * These should be pretty rare for containers and should generally involve font and other aesthetic tweaks. Primarily, containers should flex to their containers and look good at any width.
+   */
+
+  @media @breakpoint {
+    rule: value;
+  }
+}
+
+
+/*
+ * Local Descendants
+ * Keep in mind that all descendent classes targeted by these rules should be specific classes to this container. Do not write descendent rules for classes that belong to other containers. Bad: ".sample-container .other-container__header". Instead, to target that header within this container, add a new class to it in the markup which is prefixed with the name of this container.
+ */
+
+.sample-container__child {
+  rule: value;
+  rule: value;
+}
+
+
+/*
+ * Options
+ * Options tweak the container but do not change its basic nature. Options use a -- followed generally by a key-value pair. Generally we want to create a full set of options for each key, of which one at a time is used. Good examples are color overrides, padding and margin tweaks, and font size tweaks.
+ */
+
+.sample-container--color-red { // Overwrite the typical color
+  color: red;
+}
+
+
+/*
+ * Extensions
+ * Extensions change the basic nature of the container and acheive effects not efficiently acheivable with Options. It the modification you’re doing doesn’t fit neatly as an Option, it’s probably an Extension. One good example is the horizontal list. It shares many visual and conceptual properties with a vertical list, but little code, so an extension makes the most sense.
+ */
+
+.sample-container--alternate {
+  rule: value;
+  rule: value;
+}

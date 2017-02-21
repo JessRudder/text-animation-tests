@@ -1,0 +1,283 @@
+/*
+ * Site Nav
+ * Primary navigation that drops down from the header
+ */
+
+
+// .site-nav object uses a special wrapper class that falls outside of BEM ordering for cleanliness’ sake.
+
+.site-nav-wrapper {
+  display: none;
+  position: fixed;
+  top: $site-header-height; // Consider border of site header
+  bottom: 0;
+  left: 0;
+  width: 480px;
+  @extend .util--z-index-2;
+  border-right: 1px solid $grey-faint;
+  overflow-y: scroll;
+
+  @media only screen and (max-width: $breakpoint-small) {
+    width: 100%;
+  }
+}
+
+
+// Primary site nav class
+
+nav.site-nav {
+  background: rgba(255,255,255,1);
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+
+li.site-nav__item {
+  transform-origin: 0 0;
+
+  // Anchor is the toggle within the nav item LI
+  & > a {
+    display: block;
+    @extend .heading;
+    @extend .heading--level-4;
+    @extend .heading--weight-lighter;
+  }
+
+}
+
+
+// Implement shared styles for levels 1 and 2, which share many styles
+
+.site-nav__item--level-1, .site-nav__item--level-2 {
+
+  // Toggles in Levels 1 and 2
+  & > a {
+    position: relative;
+    height: ($site-header-height * .75);
+    line-height: ($site-header-height * .75) - 4px !important; // Adjustment for baseline alignment. Needs important becuase extended heading line-height tries to overwrite this.
+    padding-top: 4px;
+    padding-right: ($content-spacing * 6);
+    padding-left: ($content-spacing * 8);
+    text-decoration: none;
+    @include transition(background .1s);
+
+
+    .site-nav__item__arrow {
+      position: absolute;
+      top: 50%;
+      right: ($content-spacing * 4);
+      width: $content-spacing;
+      height: $content-spacing;
+      margin-top: -1 * ($content-spacing / 2);
+      margin-left: -1 * ($content-spacing / 2);
+      color: $grey-lighter;
+      border-radius: 4px;
+      transform-origin: 50% 50%;
+      @include translate(0,-50%);
+      @include transition(all .2s);
+    }
+
+    // Status icon
+    &:before {
+      content: "";
+      border: 2px solid $grey-lighter;
+      border-radius: 999px;
+      height: $content-spacing / 2;
+      width: $content-spacing / 2;
+      position: absolute;
+      left: ($content-spacing * 8) - $content-spacing * 1.5;
+      top: 50%;
+      margin-top: -1px; // These end up slightly off alignment, push them up a bit
+      @include translate(0,-50%);
+    }
+
+    // Ruler
+    &:after {
+      content: "";
+      position: absolute;
+      height: 1px;
+      background-color: $grey-faint;
+      left: ($content-spacing * 8);
+      right: ($content-spacing * 4);
+      top: 100%;
+    }
+
+    @media only screen and (max-width: $breakpoint-small) {
+      padding-left: $content-spacing * 4;
+      &:before { left: $content-spacing * 4 - $content-spacing * 1.5; } // Move the status marker
+      &:after { left: $content-spacing * 4; } // Move the line
+    }
+  }
+
+  // By default, collapse submenus
+  & > ul {
+    height: 0;
+    overflow: hidden;
+  }
+
+  // Override styles based on the current state of the nav item
+
+  // Only title for current topic and unit should be bold
+  &[data-active="true"] {
+    & > a {
+      font-weight: bold;
+    }
+  }
+
+  &[data-complete="true"] {
+    & > a {
+      &:before {
+        border-color: $green;
+        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16.9'><path fill='white' d='M8.8,16.9c-0.6,0-1.1-0.2-1.5-0.6L0.6,9.6c-0.8-0.8-0.8-2.2,0-3.1s2.2-0.8,3.1,0l5.1,5.1L19.8,0.6 c0.8-0.8,2.2-0.8,3.1,0c0.8,0.8,0.8,2.2,0,3.1L10.3,16.3C9.8,16.7,9.4,16.9,8.8,16.9L8.8,16.9z'/></svg>") center center no-repeat;
+        background-color: $green;
+      }
+    }
+  }
+
+  &[data-complete="partially"] {
+    & > a {
+      &:before {
+        border-color: $green;
+        background-color: transparent;
+      }
+    }
+  }
+
+  &[data-complete="none"] {
+    & > a {
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  // Put active last so that it overwrites either of the above
+  &[data-active="true"] {
+    & > a {
+      &:before {
+        border-color: $gold;
+        background-color: transparent;
+      }
+    }
+  }
+
+  // Hide the ruler for last children and open items
+  &:last-child, &[data-state="open"] {
+    & > a:after {
+      display: none;
+    }
+  }
+}
+
+// Styles specific to Level 1
+.site-nav__item--level-1 {
+
+  // Our triggers, on hover, should get dark. Their borders should be the color of the level 2 BG.
+  & > a {
+    color: $grey-darker;
+    &:hover {
+      color: $grey-dark;
+    }
+  }
+
+  // Wrapper for level 2 elements should get level 2 BG
+  & > ul {
+    background: $grey-faintest;
+  }
+}
+
+// Styles specific to Level 2
+.site-nav__item--level-2 {
+
+  & > a {
+    color: $grey-dark;
+    padding-left: ($content-spacing * 9.5);
+
+    &:before {
+      left: ($content-spacing * 9.5) - $content-spacing * 1.5;
+    }
+
+    &:after {
+      left: ($content-spacing * 9.5);
+    }
+
+    &:hover {
+      color: $grey;
+    }
+
+    @media only screen and (max-width: $breakpoint-small) {
+      padding-left: $content-spacing * 5.5;
+      &:before { left: $content-spacing * 5.5 - $content-spacing * 1.5; } // Move the status marker
+      &:after { left: $content-spacing * 5.5; } // Move the line
+    }
+  }
+
+  // Wrapper for level 3 elements should get level 3 BG, special spacing. Don’t let the LIs of this UL go to 100% width, that's not the behavior we want.
+  & > ul {
+    background: $grey-faint;
+    padding-left: ($content-spacing * 9.5) + ($content-spacing * 1.75);
+    padding-right: ($content-spacing * 4);
+    @media only screen and (max-width: $breakpoint-small) {
+      padding-left: $content-spacing * 5.5 + ($content-spacing * 1.75);
+    }
+  }
+}
+
+// Styles specific to level 3
+.site-nav__item--level-3 {
+  border-bottom: 1px solid $grey-lightest;
+
+  & > a {
+    @extend .heading--weight-lighter;
+    padding: ($content-spacing * .75) 0;
+    color: $grey-light;
+    text-decoration: none;
+    position: relative;
+    @include transition(all .12s);
+
+    &:before {
+      content: "";
+      height: 8px;
+      width: 8px;
+      border-radius: 999px;
+      background: $grey-lightest;
+      position: fixed;
+      top: 50%;
+      @include translate(0,-50%);
+      left: ( -1 * ($content-spacing * 1.75) ) + 2px; // 2px indent for visual effect
+    }
+
+    &:hover {
+      color: $grey-lighter;
+    }
+  }
+
+  &[data-complete="true"] {
+    & > a {
+      color: lighten($grey, 5%);
+      &:before {
+        background: $green;
+      }
+      &:hover {
+        color: $grey-light;
+      }
+    }
+  }
+
+  &[data-active="true"] {
+    & > a {
+      color: $gold;
+      &:before {
+        background: $gold;
+      }
+      &:hover {
+        color: $gold-dark;
+      }
+    }
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

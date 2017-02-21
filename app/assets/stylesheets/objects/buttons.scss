@@ -1,0 +1,407 @@
+/*
+ * Object: Button
+ * Can be applied either to anchor elements, input elements, or button elements.
+ * Includes a series of Options which combine to create all the buttons you could possibly want.
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+.button {
+  border-radius: 9999px;
+  padding: ($content-spacing * .75) ($content-spacing * 1.25 + 2) ($content-spacing / 2 + 2); // Cheat a bit shorter on the bottom to put baseline on bottom of inner box
+  @extend .heading;
+  @extend .heading--level-3; // Use heading--level-3 text styles within buttons
+  background-color: $grey-lighter;
+  color: $white;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+  @include transition(all .12s);
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+
+  &:hover {
+    color: $white;
+    background-color: $grey-light;
+  }
+}
+
+.button:disabled {
+  @extend .unselectable;
+  opacity: 0.5;
+  // override hover default styling
+  &:hover { background-color: $grey-lighter; color: $white; }
+}
+
+// Inputs and buttons have special styles we want to override but wouldn't want in the base style declaration
+input.button, button.button {
+  border: 0;
+  outline: none;
+  line-height: 1.5;
+  padding-top: ($content-spacing / 2) + 2;
+  padding-bottom: ($content-spacing / 2);
+}
+
+input.button {
+  vertical-align: baseline;
+}
+
+
+/*
+ * Options
+ */
+
+// Color
+
+.button--color-transparent {
+  color: $grey;
+  background-color: transparent;
+  &:hover {
+    color: $grey-darkest;
+    background-color: transparent;
+  }
+}
+.button--color-white {
+  background-color: $white;
+  color: $grey-darker;
+  &:hover {
+    color: $grey-darkest;
+    background-color: $grey-faintest;
+  }
+}
+.button--color-yellow {
+  background-color: $yellow;
+  &:hover {
+    background-color: $yellow-dark;
+  }
+}
+.button--color-green {
+  background: $green;
+  &:hover {
+    background-color: $green-dark;
+  }
+}
+.button--color-green-lighter {
+  background: $green-lighter;
+  &:hover {
+    background-color: $grey-faintest;
+  }
+}
+.button--color-blue {
+  background: $blue;
+  &:hover {
+    background-color: $blue-dark;
+  }
+}
+.button--color-blue-light {
+  background: $blue-light;
+  &:hover {
+    background-color: $blue;
+  }
+}
+.button--color-blue-dark {
+  background: $blue-dark;
+  &:hover {
+    background-color: $blue-darker;
+  }
+}
+.button--color-purple-lighter {
+  background: $purple-lighter;
+  &:hover {
+    background-color: $purple-light;
+  }
+}
+.button--color-purple {
+  background: $purple;
+  &:hover {
+    background-color: $purple-dark;
+  }
+}
+.button--color-grey-faintest {
+  background: $grey-faintest;
+  color: $grey-darkest;
+  &:hover {
+    background-color: $grey-faint;
+    color: $grey-darkest;
+  }
+}
+.button--color-grey-faint {
+  background: $grey-faint;
+  &:hover {
+    background-color: $grey-lightest;
+  }
+}
+.button--color-grey-lightest {
+  background: $grey-lightest;
+  &:hover {
+    background-color: $grey-lighter;
+  }
+}
+.button--color-grey-light {
+  background-color: $grey-light;
+  &:hover {
+    background-color: $grey;
+  }
+}
+.button--color-grey {
+  background: $grey;
+}
+.button--color-grey-darker {
+  background: $grey-darker;
+  &:hover {
+    background-color: $grey-darker;
+  }
+}
+.button--color-black {
+  background: $black;
+  &:hover {
+    background-color: $grey;
+  }
+}
+.button--color-green-inverted {
+  background: $white;
+  color: $green;
+  &:hover {
+    background-color: $grey-faint;
+    color: $green;
+  }
+}
+.button--color-red {
+  background: $red;
+  &:hover {
+    background-color: $red-dark;
+  }
+}
+.button--color-blue-purple-gradient {
+  background: $blue;
+  background: -moz-linear-gradient(-45deg, $blue 0%, $purple 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, $blue), color-stop(100%, $purple));
+  background: -webkit-linear-gradient(-45deg, $blue 0%, $purple 100%);
+  background: -o-linear-gradient(-45deg, $blue 0%, $purple 100%);
+  background: -ms-linear-gradient(-45deg, $blue 0%, $purple 100%);
+  background: linear-gradient(135deg, $blue 0%, $purple 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$blue, endColorstr=$purple, GradientType=1 );
+
+  &:hover {
+    background: $blue-dark;
+    background: -moz-linear-gradient(-45deg, $blue-dark 0%, $purple-dark 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, $blue-dark), color-stop(100%, $purple-dark));
+    background: -webkit-linear-gradient(-45deg, $blue-dark 0%, $purple-dark 100%);
+    background: -o-linear-gradient(-45deg, $blue-dark 0%, $purple-dark 100%);
+    background: -ms-linear-gradient(-45deg, $blue-dark 0%, $purple-dark 100%);
+    background: linear-gradient(135deg, $blue-dark 0%, $purple-dark 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$blue-dark, endColorstr=$purple-dark, GradientType=1 );
+  }
+}
+
+// Button with Border
+// Button with white background and color border
+
+button.button--with-border-blue,
+input.button--with-border-blue,
+.button--with-border-blue {
+  border: 1px solid $blue;
+  background: $white;
+  color: $blue;
+
+  &:hover { background-color: rgba(0, 188, 225, 0.1); color: $blue; }
+}
+
+// Button with transparent background and color border
+// TODO We should update this to separate the
+// responsibility of background and border
+.button--with-border-grey {
+  border: 1px solid $grey-lightest;
+  background: transparent;
+  color: $grey-lightest;
+
+  &:hover { background-color: rgba(239, 239, 239, 0.4); color: $grey-faint; }
+}
+
+.button--border-grey-lightest {
+  border: 1px solid $grey-lightest;
+}
+
+// Button Has Icon
+// Button with icon to left of label
+
+.button--has-icon {
+  padding-left: 40px; // Make extra room for the icon to sit in
+
+  svg.button__icon {
+    max-width: $content-spacing;
+    max-height: 40%;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: ($content-spacing + 2);
+    @include translate(0,-50%);
+  }
+
+  &.button--height-small {
+    padding-left: ($content-spacing * 2);
+
+    svg.button__icon {
+      left: ($content-spacing - 2);
+    }
+  }
+
+  &.button--height-large {
+    padding-left: (($content-spacing * 3) - 2);
+
+    svg.button__icon {
+      max-width: ($content-spacing * 2);
+      max-height: 60%;
+      left: ($content-spacing - 4);
+    }
+  }
+}
+
+// Button Icon Only
+// Circular buttons when there is only an icon w/ no text
+
+.button--icon-only {
+  padding: $content-spacing;
+}
+.button--icon-only--smaller {
+  padding: ($content-spacing - 3);
+}
+.button--icon-only--small {
+  padding: ($content-spacing - 2);
+}
+.button--icon-only--larger {
+  padding: ($content-spacing * 1.25);
+}
+.button--icon-only--largest {
+  padding: ($content-spacing * 1.5);
+}
+
+.button--icon-only {
+  width: 0;
+  position: relative;
+
+  /* Button with grey background, icon with dark grey fill by default */
+  .button__icon {
+    @extend .util--abs-center-both;
+    fill: rgba(0,0,0,.3);
+  }
+  &:hover {
+    .button__icon {
+      fill: rgba(0,0,0,.4);
+    }
+  }
+
+  /* Button with grey background, icon with dark purple fill by default */
+  .button__icon--color-purple {
+    @extend .util--abs-center-both;
+    fill: $purple;
+  }
+  &:hover {
+    .button__icon--color-purple {
+      fill: $purple;
+    }
+  }
+
+  /* Button with grey background, icon with white fill by default */
+  .button__icon--color-white {
+    @extend .util--abs-center-both;
+    fill: $white;
+  }
+  &:hover {
+    .button__icon--color-white {
+      fill: $white;
+    }
+  }
+}
+
+// Layout
+
+.button--flush,
+.button--layout-block {
+  display: block;
+  text-align: center;
+}
+
+.button--flush {
+  border-radius: inherit;
+}
+
+input.button--layout-block,
+button.button--layout-block {
+  width: 100%;
+}
+
+// Text
+
+.button--text-wrap-normal { white-space: normal; }
+.button--text-transform-none { text-transform: none; }
+
+// Height
+
+.button--height-large {
+  padding-top: ($content-spacing * 1.25);
+  padding-bottom: ($content-spacing + 2);
+}
+input.button--height-large,
+button.button--height-large {
+  padding-top: ($content-spacing + 2);
+  padding-bottom: ($content-spacing - 2);
+}
+
+.button--height-small {
+  padding-top: ($content-spacing / 2 + 1);
+  padding-bottom: ($content-spacing / 2 - 1);
+  font-size: 12px;
+}
+// TODO: add padding overrides for <button> and <input> elements
+
+.button--height-xsmall {
+  padding-top: ($content-spacing / 4 + 2);
+  padding-bottom: ($content-spacing / 4);
+  font-size: 9px;
+}
+input.button--height-xsmall,
+button.button--height-xsmall {
+  padding-top: ($content-spacing / 2);
+  padding-bottom: ($content-spacing / 4 + 2);
+}
+
+.button--height-xxsmall {
+  padding-top: 3px;
+  padding-bottom: 2px;
+  font-size: 8px;
+  vertical-align: top;
+}
+// TODO: add padding overrides for <button> and <input> elements
+
+// Width
+
+.button--width-xxsmall      { padding-right: ($content-spacing * .50); padding-left: ($content-spacing * .50); }
+.button--width-xsmall       { padding-right: ($content-spacing * .75); padding-left: ($content-spacing * .75); }
+.button--width-small        { padding-right: ($content-spacing * 1.25 - 1); padding-left: ($content-spacing * 1.25 - 1); }
+.button--fixed-width-medium { width: ($content-spacing * 6); box-sizing: content-box; }
+.button--fixed-width-large  { width: ($content-spacing * 9); box-sizing: content-box; } /* Fixed width button to standardize the button sizes on track#show */
+
+// Shape
+
+.button--corners-square { border-radius: 0; }
+.button--corners-tight { border-radius: 4px; }
+.button--circle { padding: 4px 9px; @extend .util--font-style-4; } /* defaults to 26 x 26px round button */
+// .button--circle--xsmall { padding: 1px 4px; font-size: 9px; } /* not currently in use anywhere; uncomment if needed */
+// .button--circle--small { padding: 2px 6px; font-size: .util--font-style-1; } /* not currently in use anywhere; uncomment if needed */
+
+// Behavior
+
+.unselectable {
+  // Define behavior on individual basis for options/extensions
+  &.button {
+    pointer-events: none;
+  }
+}

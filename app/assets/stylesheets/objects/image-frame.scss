@@ -1,0 +1,257 @@
+/*
+ * Object: Image Frame
+ * Box which contains an image. Can apply various styles and modifications to that image.
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+.image-frame {
+  display: block;
+
+  opacity: 1;
+  transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -webkit-transition: opacity .25s ease-in-out;
+}
+
+
+/*
+ * Local Descendants
+ */
+
+.image-frame__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: inherit;
+}
+
+
+/*
+ * Extensions
+ */
+
+// Has Badge
+// Image with smaller icon in lower right sector, slightly overlapping image
+
+.image-frame--has-badge {
+  position: relative;
+
+  .image-frame__badge, svg.image-frame__badge {
+    border-radius: 100%;
+    position: absolute;
+    bottom: -5%;
+    right: -5%;
+  }
+
+  /* define additional non-svg badge sizes as needed */
+
+  .image-frame__badge:not(svg) {
+    height: ($content-spacing * 0.75);
+    width: ($content-spacing * 0.75);
+    font-size: ($content-spacing * 0.75);
+    text-align: center;
+  }
+
+  /* Local extension: count */ 
+  .image-frame__badge--count:before {
+    content: attr(data-count);
+    display: inline-block;
+    font-size: 8px;
+    vertical-align: middle;
+  }
+
+  /* Local option: location */
+
+  svg.image-frame__badge--side-alt, .image-frame__badge--side-alt {
+    left: -5%;
+
+    &.image-frame__badge--offset-medium {
+      left: -10%;
+    }
+
+    &.image-frame__badge--offset-large {
+      left: -20%;
+    }
+  }
+
+  svg.image-frame__badge--top, .image-frame__badge--top {
+    bottom: 70%;
+    right: -15%;
+  }
+
+  svg.image-frame__badge--offset-medium, .image-frame__badge--offset-medium {
+    bottom: -10%;
+    right: -10%;
+  }
+
+  svg.image-frame__badge--offset-large, .image-frame__badge--offset-large {
+    bottom: -20%;
+    right: -20%;
+  }
+
+  /* Local option: Color */
+
+  svg.image-frame__badge--color-red, .image-frame__badge--color-red {
+    fill: $white;
+    color: $white;
+    background: $red;
+    border: solid $red;
+  }
+  svg.image-frame__badge--color-blue, .image-frame__badge--color-blue {
+    fill: $white;
+    color: $white;
+    background: $blue;
+    border: solid $blue;
+  }
+  svg.image-frame__badge--color-gold, .image-frame__badge--color-gold {
+    fill: $white;
+    color: $white;
+    background: $gold;
+    border: solid $gold;
+  }
+
+  svg.image-frame__badge--color-green, .image-frame__badge--color-green {
+    fill: $white;
+    color: $white;
+    background: $green;
+    border: solid $green;
+  }
+
+  svg.image-frame__badge--color-grey-light, .image-frame__badge--color-grey-light {
+    fill: $white;
+    color: $white;
+    background: $grey-light;
+    border: solid $grey-light;
+  }
+
+  /* Local option: Color with border */
+
+  svg.image-frame__badge-with-border--color-blue, .image-frame__badge-with-border--color-blue {
+    fill: $white;
+    color: $white;
+    background: $blue;
+    border: 2px solid $white;
+  }
+
+  svg.image-frame__badge-with-border--color-grey-light, .image-frame__badge-with-border--color-grey-light {
+    fill: $white;
+    color: $white;
+    background: $grey-light;
+    border: 2px solid $blue-light;
+  }
+
+  svg.image-frame__badge-with-border--color-green, .image-frame__badge-with-border--color-green {
+    fill: $white;
+    color: $white;
+    background: $green;
+    border: 2px solid $blue-light;
+  }
+
+  /* Local option: Visibility */
+
+  svg.image-frame__badge--revealable, .image-frame__badge--revealable { visibility: hidden; }
+
+  &:hover {
+    .image-frame__badge--revealable { visibility: visible; }
+  }
+}
+
+
+/*
+ * Options
+ */
+
+
+ // Hover effects
+
+.image-frame[class*="image-frame--highlight"] { // All image frames with this Option set need this rule, regardless of the exact setting
+  border: 1px solid transparent;
+  &:hover { opacity: 0.8; }
+}
+.image-frame--highlight-border-blue:hover { border-color: $blue; }
+.image-frame--highlight-border-white:hover { border-color: $white; }
+
+.image-frame--disabled {
+  background: $black;
+  opacity: 0.3;
+}
+
+// Border Radius
+// Rules for adjusting image border radius
+
+.image-frame[class*="image-frame--border-radius"] { // All image frames with this Option set need this rule, regardless of the exact setting
+  overflow: hidden;
+}
+.image-frame--has-badge[class*="image-frame--border-radius"] { // Allow badge to be visible outside frame
+  overflow: visible;
+}
+.image-frame--border-radius-small { border-radius: 3px; }
+.image-frame--border-radius-full { border-radius: 9999px; }
+
+
+// Outline
+// Images with solid outer border, color options available
+
+.image-frame[class*="image-frame--outline"] { // All image frames with this Option set need this rule, regardless of the exact setting
+  border: (($content-spacing / 4)) solid;
+}
+
+// .image-frame--outline-thick { // Uncomment and adjust thickness if/when necessary
+//   border-width: ($content-spacing / 2);
+// }
+
+.image-frame--outline-color-white {
+  border-color: $white;
+}
+
+
+// Border Position
+// Rules for adjusting border placement on image
+
+.image-frame--border-vertical {
+  border-right: 1px solid $white;
+  border-left: 1px solid $white;
+}
+
+
+// Size
+// Available standardized image sizes
+
+.image-frame--fixed-size-xsmall {
+  width: ($content-spacing * 1);
+  height: ($content-spacing * 1);
+}
+
+.image-frame--fixed-size-small {
+  width: ($content-spacing * 1.5);
+  height: ($content-spacing * 1.5);
+}
+
+.image-frame--fixed-size-medium {
+  width: ($content-spacing * 2);
+  height: ($content-spacing * 2);
+}
+
+.image-frame--fixed-size-large {
+  width: ($content-spacing * 3);
+  height: ($content-spacing * 3);
+}
+
+.image-frame--fixed-size-xlarge {
+  width: ($content-spacing * 4);
+  height: ($content-spacing * 4);
+}
+
+.image-frame--fixed-size-xxlarge {
+  width: ($content-spacing * 5);
+  height: ($content-spacing * 5);
+}
+
+.image-frame--fixed-size-xxxlarge {
+  width: ($content-spacing * 6);
+  height: ($content-spacing * 6);
+}

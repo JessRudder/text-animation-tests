@@ -1,0 +1,50 @@
+/*
+ * Site Widget
+ *
+ * Widget fixed on to the site.
+ *
+ */
+
+// default to bottom right position. Add extention of location as needed.
+section.site-widget {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+
+  // if banner is present, bump up position equal to banner
+  // height
+  &.site-widget--has-bottom-banner {
+    @media screen and (min-width: $breakpoint-medium) {
+      bottom: $ad-height;
+    }
+  }
+}
+
+
+
+/*
+ * Contextual Styles
+ */
+
+body.body--has-sidebar {
+  .site-widget {
+    // When at non-mobile sizes if there is a sidebar
+    // push in from the right
+    @media screen and (min-width: $breakpoint-medium) {
+      right: $site-sidebar-width;
+    }
+  }
+
+  // When chat is open, push right
+  .site-widget[data-state='compressed'] {
+    right: $chat-lobby-width;
+  }
+}
+
+body.body--has-sidebar--collapsable {
+  section.site-widget {
+    @media screen and (min-width: $breakpoint-mobile) and (max-width: $breakpoint-medium) {
+      right: $site-sidebar-collapsable-width;
+    }
+  }
+}

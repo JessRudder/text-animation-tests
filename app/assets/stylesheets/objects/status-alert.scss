@@ -1,0 +1,468 @@
+/*
+ * Object: Status Alert
+ * Used to show user’s success or failure. This object is layout-less. Place its inner classes inside a layout that makes sense for your instance of the object. For instance, you may want to put the bubble and title in a media block, but could also stack them or whatever you need to do.
+ */
+
+
+/*
+ * Local Variables
+ */
+
+$status-alert-bubble-width: ($content-spacing * 2);
+
+/*
+ * Overall Rules
+ */
+
+.status-alert {
+  // Nothing yet
+}
+
+
+/*
+ * Local Descendants
+ */
+
+// TODO: refactor to bring in line with OO system
+// - too much responsibility for one class
+// - too specific to be re-used
+// - name not abstract
+.status-alert__unread {
+  width: 16px;
+  height: 16px;
+  background-color: $blue;
+  border-radius: 9999px;
+  color: $white;
+  text-align: center;
+  font-size: 10px;
+  line-height: 16px;
+  border: 2px solid $white;
+}
+
+// TODO: refactor to bring in line with OO system
+// - too specific to be re-used
+// - name not abstract
+.status-alert__unread--top-right {
+  position: absolute;
+  top: -6px;
+  right: -9px;
+}
+
+// TODO: refactor to bring in line with OO system
+// - too much responsibility for one class
+// - too specific to be re-used
+// - name not abstract
+.status-alert__unread--dm-inbox {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  margin-top: -8px;
+}
+
+// TODO: refactor to bring in line with OO system
+// - name not abstract
+// - color changes should be controlled in context specific styles below
+.status-alert__unread--dm-list-item {
+  background-color: $blue-light;
+}
+
+// TODO: refactor to bring in line with OO system a la status-alert__unread
+// DO NOT REUSE
+.status-alert__unread--next {
+  background: none;
+  border: 1px solid $grey-lightest;
+  color: $grey-light;
+}
+
+// Bubble
+// Solid color ring with empty center
+
+.status-alert__bubble, .status-alert__bubble--with-icon {
+  @extend .border-box;
+  border-radius: 9999px;
+  height: $status-alert-bubble-width;
+  width: $status-alert-bubble-width;
+}
+
+.status-alert__bubble, // grey bubble by default; responds to status changes w/ green, yellow, red
+.status-alert__bubble--main { // grey bubble by default; responds to status changes w/ blue only
+  border: 8px solid $grey-lightest;
+}
+
+.status-alert__bubble--size-smaller {
+  height: $status-alert-bubble-width * 0.50;
+  width: $status-alert-bubble-width * 0.50;
+  border-width: 3px;
+}
+
+.status-alert__bubble--size-small {
+  height: $status-alert-bubble-width * 0.75;
+  width: $status-alert-bubble-width * 0.75;
+  border-width: 6px;
+}
+
+.status-alert__bubble--size-large {
+  height: $status-alert-bubble-width * 1.25;
+  width: $status-alert-bubble-width * 1.25;
+}
+// .status-alert__bubble--size-larger { /* uncomment when needed */
+//   height: $status-alert-bubble-width * 2.5;
+//   width: $status-alert-bubble-width * 2.5;
+// }
+// .status-alert__bubble--size-largest { /* uncomment when needed */
+//   height: $status-alert-bubble-width * 3;
+//   width: $status-alert-bubble-width * 3;
+// }
+
+.status-alert__bubble--with-icon {
+  position: relative;
+  border: 1px solid $grey-lighter;
+  color: $grey-lighter;
+}
+
+.status-alert__bubble--with-icon--color-inverted { // light icon with color background
+  background-color: $grey-lighter;
+  color: $grey-faintest;
+}
+
+.status-alert__bubble__icon {
+  @extend .util--abs-center-both;
+  position: absolute;
+}
+
+
+// Box
+// Solid color rectangle with rounded corners
+// Fills width and height of its container
+
+.status-alert__box {
+  border-radius: ($content-spacing / 2);
+  padding: $content-spacing;
+  border: 4px solid $grey-faint;
+  color: $grey;
+}
+
+
+// Title
+// Apply these classes to any text element
+
+.status-alert__title, .status-alert__subtitle {
+  color: $grey-light;
+}
+
+.status-alert__title--has-link { // use instead of .status-alert__title if you want title to appear clickable
+  color: $blue;
+  &:hover { color: $blue-dark; }
+}
+
+
+// Button
+// Apply to .button, button, or input elements
+
+.status-alert__button { // appears active by default; responds to status changes
+  @extend .button--color-blue;
+  // TODO: define hover states
+
+  &.unselectable {
+    background-color: $grey-lighter;
+    pointer-events: none;
+  }
+}
+
+.status-alert__button--main { // appears inactive by default, but still clickable; responds to status changes
+  @extend .button;
+}
+
+.status-alert__button--more {
+  border-radius: 9999px;
+  margin-left: ($content-spacing / 2);
+  padding: ($content-spacing / 8) ($content-spacing / 4);
+  width: ($content-spacing * .75);
+  height: $content-spacing;
+}
+
+
+// Highlight
+// Apply to any object with background color
+// Will not change background color by default; respond to status changes
+
+.status-alert__highlight { }
+
+// Dot
+// Small, solid circle
+
+.status-alert__dot{
+  height:($content-spacing / 4) + 2;
+  width: ($content-spacing / 4) + 2;
+  border-radius:999999px;
+  background-color: $grey-lighter;
+}
+
+.status-alert__dot--large {
+  height: ($content-spacing / 2) + 2;
+  width: ($content-spacing / 2) + 2;
+}
+
+// Icon
+// Creates small solid color circle with optional background image
+
+.status-alert__icon,
+.status-alert__icon--avatar {
+  background-color: $white;
+  &:hover { cursor: pointer; opacity: 0.7; }
+}
+
+.status-alert__icon,
+.status-alert__icon--checkbox,
+.status-alert__icon--avatar {
+  margin-left: ($content-spacing / 2 - 2);
+  border-radius: 9999px;
+}
+
+.status-alert__icon,
+.status-alert__icon--checkbox {
+  padding: ($content-spacing / 8) ($content-spacing / 4);
+  width: ($content-spacing * .75);
+  height: $content-spacing;
+}
+
+.status-alert__icon--avatar {
+  width: ($content-spacing * 1.25);
+  height: ($content-spacing * 1.25);
+  border: 1px solid transparent;
+  // TODO: add background url to user github_gravatar
+  // background: attr(data-image); // not supported
+  // background-repeat: no-repeat;
+  // background-position: center center;
+}
+
+.status-alert__icon--checkbox {
+  // white circle with grey checkmark
+  background: $white url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16.9' width='12' height='16'><path fill='" + $grey-faint + "' d='M8.5,16.9c-0.4,0-0.7-0.1-1-0.4L0.4,9.4c-0.5-0.5-0.5-1.4,0-2s1.4-0.5,2,0l6.1,6.1L21.6,0.4c0.5-0.5,1.4-0.5,2,0 c0.5,0.5,0.5,1.4,0,2L9.5,16.5C9.2,16.8,8.9,16.9,8.5,16.9C8.5,16.9,8.5,16.9,8.5,16.9z'/></svg>") center center no-repeat;
+  &:hover { cursor: pointer; }
+  &.unselectable:hover { cursor: default; }
+}
+
+.status-alert__icon--size-large {
+  padding: ($content-spacing / 4) ($content-spacing / 2);
+  width: ($content-spacing * 1.5);
+  height: ($content-spacing * 2);
+}
+
+
+// Input
+// Input element with optional button
+
+.status-alert__input {
+  @extend .input;
+  @extend .util--truncate-ellipsis;
+  border: 1px solid transparent;
+
+  &.status-alert__input--border {
+    border: 1px solid $grey-lightest;
+  }
+}
+
+.status-alert__input[type='text']::placeholder {
+  color: $grey-lighter;
+}
+
+.status-alert__input--size-smaller {
+  line-height: $status-alert-bubble-width;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  &[type='text'] { @extend .util--font-style-2; }
+}
+
+.status-alert__input__button {
+  border: 1px solid transparent;
+}
+
+// for inputs with buttons, button appears "active" when input is active
+.status-alert__input:focus {
+  + .status-alert__input__button { background-color: $blue; }
+}
+
+
+// Tag
+// Text tag with solid color background
+
+.status-alert__tag { // responds to status changes w/ blue, grey, red
+  color: $white;
+  background-color: $grey-lighter;
+  padding: ($content-spacing / 8) ($content-spacing / 2 - 2);
+  border-radius: ($content-spacing / 8);
+  @extend .heading--level-5;
+  @extend .heading--text-uppercase;
+}
+
+
+/*
+ * Extensions
+ */
+
+// Show/Hide When Status
+// Utility-esque classes that allow you to hide/show elements based on current data-status
+
+.status-alert__show-when-status,
+.status-alert__show-when-status--display-block, // TODO: This class is an outlier that should be refactored.
+.status-alert__show-when-status-good,
+.status-alert__show-when-status-pending,
+.status-alert__show-when-status-bad  {
+  display: none;
+}
+
+// These classes are available, but don't override any default settings
+// They will respond to status changes (see options below)
+.status-alert__hide-when-status,
+.status-alert__hide-when-status-good,
+.status-alert__hide-when-status-pending,
+.status-alert__hide-when-status-bad { }
+
+
+/*
+ * Options
+ */
+
+// Hover
+
+.status-alert--no-hover {
+  // This option works with any local descendant that has a hover state.
+  // Each of those descendants needs to define its rules here.
+  .status-alert__icon,
+  .status-alert__icon--avatar {
+    &:hover { cursor: auto; opacity: 1; }
+  }
+}
+
+
+/*
+ * Contextual Styles
+ * Determined by data-status attribute
+ */
+
+.status-alert[data-status='good'],
+.status-alert[data-status='complete'],
+.status-alert[data-status='online'] { // TODO: refactor this data status to fit into good/pending/bad/unstarted schema
+  .status-alert__title { color: $green; }
+  .status-alert__bubble { border-color: $green; }
+  .status-alert__bubble--with-icon { border-color: $white; background-color: $white; color: $green; }
+  .status-alert__bubble--with-icon--color-inverted { border-color: $green; background-color: $green; color: $grey-faintest; }
+  .status-alert__bubble--main { background-color: $blue; border-color: $blue; }
+  .status-alert__button--main { @extend .button--color-blue; } // TODO: define hover states
+  .status-alert__button { @extend .button--color-green; }
+  .status-alert__icon--avatar { border-color: $green; }
+  .status-alert__box { background-color: $blue; border-color: $blue; color: $white; }
+  .status-alert__highlight { background-color: $blue; }
+  .status-alert__tag { background-color: $blue; }
+  .status-alert__dot {background-color: $green;  }
+
+  .status-alert__show-when-status,
+  .status-alert__show-when-status-good {
+    display: initial;
+  }
+  .status-alert__show-when-status--display-block {
+    display: block;
+  }
+  .status-alert__hide-when-status,
+  .status-alert__hide-when-status-good {
+    display: none;
+  }
+
+  .status-alert__icon,
+  .status-alert__icon--checkbox {
+    // green circle with white checkmark icon
+    background: $green url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16.9' width='12' height='16'><path fill='" + $white + "' d='M8.5,16.9c-0.4,0-0.7-0.1-1-0.4L0.4,9.4c-0.5-0.5-0.5-1.4,0-2s1.4-0.5,2,0l6.1,6.1L21.6,0.4c0.5-0.5,1.4-0.5,2,0 c0.5,0.5,0.5,1.4,0,2L9.5,16.5C9.2,16.8,8.9,16.9,8.5,16.9C8.5,16.9,8.5,16.9,8.5,16.9z'/></svg>") center center no-repeat;
+  }
+
+  .status-alert__icon--main {
+    background-color: $blue;
+  }
+}
+
+.status-alert[data-status='pending'] {
+  .status-alert__title { color: $yellow; }
+  .status-alert__bubble { border-color: $yellow; }
+  .status-alert__bubble--with-icon { border-color: $white; background-color: $white; color: $yellow; }
+  .status-alert__bubble--with-icon--color-inverted { border-color: $yellow; background-color: $yellow; color: $grey-faintest; }
+  .status-alert__button--main { @extend .button--color-blue; } // TODO: define hover states
+  .status-alert__button { @extend .button--color-yellow; }
+  .status-alert__icon--avatar { border-color: $yellow; }
+  .status-alert__box { background-color: $grey; border-color: $grey; color: $white; }
+  .status-alert__highlight { background-color: $grey; }
+  .status-alert__tag { background-color: $grey; }
+  .status-alert__dot {background-color: $yellow;  }
+
+  .status-alert__show-when-status,
+  .status-alert__show-when-status-pending {
+    display: initial;
+  }
+  .status-alert__show-when-status--display-block {
+    display: block;
+  }
+  .status-alert__hide-when-status,
+  .status-alert__hide-when-status-pending {
+    display: none;
+  }
+  .status-alert__icon {
+    // yellow circle with white minus icon
+    background: $yellow url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 16' width='12' height='16'><path fill='" + $white + "' d='M0 7v2h8V7H0z' /></svg>") center center no-repeat;
+  }
+
+  .radio-group input[type='radio'].radio-group__input:checked + .radio-group__label:before {
+    background-color: $yellow;
+  }
+}
+
+.status-alert[data-status='bad'],
+.status-alert[data-status='failing'] {
+  .status-alert__title { color: $red; }
+  .status-alert__bubble { border-color: $red; }
+  .status-alert__bubble--with-icon { border-color: $white; background-color: $white; color: $red; }
+  .status-alert__bubble--with-icon--color-inverted { border-color: $red; background-color: $red; color: $grey-faintest; }
+  .status-alert__icon--avatar { border-color: $red; }
+  .status-alert__box { background-color: $red; border-color: $red; color: $white; }
+  .status-alert__button { @extend .button--color-red; }
+  .status-alert__highlight { background-color: $red; }
+  .status-alert__tag { background-color: $red; }
+  .status-alert__dot {background-color: $red;  }
+
+  .status-alert__input { border-color: $red; }
+  .status-alert__input__button { border-left-color: $red; }
+  select.status-alert__input:focus { border-color: $red; }
+  .status-alert__input:focus {  // rm "bad" border when input is active
+    border-color: transparent;
+    + .status-alert__input__button { border-color: transparent; }
+  }
+
+  .status-alert__show-when-status,
+  .status-alert__show-when-status-bad {
+    display: initial;
+  }
+  .status-alert__show-when-status--display-block {
+    display: block;
+  }
+  .status-alert__hide-when-status,
+  .status-alert__hide-when-status-bad {
+    display: none;
+  }
+  .status-alert__icon {
+    // red circle with white x icon
+    background: $red url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16' width='12' height='16'><path fill='" + $white + "' d='M7.48 8l3.75 3.75-1.48 1.48-3.75-3.75-3.75 3.75-1.48-1.48 3.75-3.75L0.77 4.25l1.48-1.48 3.75 3.75 3.75-3.75 1.48 1.48-3.75 3.75z' /></svg>") center center no-repeat;
+  }
+
+  .radio-group input[type='radio'].radio-group__input:checked + .radio-group__label:before {
+    background-color: $red;
+  }
+}
+
+// TODO: refactor to fit into good/pending/bad/unstarted schema
+.status-alert[data-status='offline'], .status-alert[data-status='disabled'] {
+  .status-alert__dot {background-color: $grey-light;  }
+}
+
+// TODO: refactor to fit into good/pending/bad/unstarted schema
+.status-alert[data-status='neutral'] {
+  .status-alert__button { @extend .button--color-grey-faint; }
+}

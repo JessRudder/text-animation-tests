@@ -1,0 +1,957 @@
+/*
+ * Container: Module
+ * Modules are the prototypical container. They are in charge of spacing, background, and borders for boxes on the site. They rarely should affect any styles of their children. Modules do nothing on their own and are purely containers for other objects or containers.
+ * Modules contain three kinds of child element: mod__head, mod__body, and mod__foot. Some module types allow multiple of any one child container, to achieve certain effects.
+ */
+
+
+/*
+ * Local variables
+ */
+
+$module-border-radius: 6px; // Store this as a variable so the same radius can be applied in multiple places
+
+
+/*
+ * Overall Rules
+ */
+
+.module {
+  // Modules are meant to sit within the grid around other mods. Therefore, when
+  // two are adjacent, they will create a space of exactly $content-spacing between them.
+  margin: ($content-spacing / 2);
+}
+
+
+/*
+ * Local Descendants
+ */
+
+.module__head, .module__body, .module__foot {
+  @extend .clearfix;
+}
+
+.module__head:last-child, .module__body:last-child, .module__foot:last-child {
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+
+.module__head {
+  margin-bottom: $content-spacing;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+.module__foot {
+  margin-top: $content-spacing;
+}
+
+
+/*
+ * Extensions
+ */
+
+
+// Island Modules
+// Separate their content from its background
+
+.module--island {
+
+  border: 1px solid $grey-faint;
+  border-radius: $module-border-radius;
+  background: $white;
+
+  // These are nested here because they modify the natural module__[whatever] children,
+  // not child elements that are specific to island.
+  > .module__head {
+    margin-bottom: 0; // Override default module margin
+    border-bottom: 1px solid $grey-faint;
+    padding: ($content-spacing * 1.5) ($content-spacing * 3) ( ($content-spacing * 1.5) - 2px ); // Cut a few pixels off the bottom to account for extra line space below baseline in headers
+  }
+
+  > .module__body {
+    padding: ($content-spacing * 3) ($content-spacing * 3) ( ($content-spacing * 3) - 2px );
+  }
+
+  > .module__foot {
+    margin-top: 0; // Override default module margin
+    border-top: 1px solid $grey-faint;
+    padding: ($content-spacing * 1.5) ($content-spacing * 3);
+  }
+
+  // At small sizes, all .module--island should behave like module--island--padding-tight.
+  // Unfortunately due to an SCSS restriction we have to duplicate the rules here,
+  // but also may want to include some others, so that’s okay.
+  @media only screen and (max-width: $breakpoint-small) {
+    > .module__head, .module__body, .module__foot {
+      padding-left: ($content-spacing * 1.5);
+      padding-right: ($content-spacing * 1.5);
+    }
+  }
+}
+
+// Module Island Cap
+// Normal module--island but with a dark header instead of light
+
+.module--island--cap {
+
+  > .module__head {
+    background: $grey-darker;
+    color: $white;
+    border-top-right-radius: ($module-border-radius - 1); // Cut a pixel from these corners so they line up well with the border
+    border-top-left-radius: ($module-border-radius - 1);
+
+    // Links and buttons inside the dark header are styled with light colors.
+    // Firefox needs a little help making sure these turn out correctly.
+    a             { color: $white; text-decoration: none; }
+    a:hover       { color: $grey-lighter; }
+    .button:hover { color: $white; }
+
+  }
+}
+
+.module--island--horseshoe-frame { // Border on wings and top
+  border-bottom: 0;
+}
+
+.module--island--horseshoe-frame-up { // Border on wings and bottom
+  border-top: 0;
+}
+
+.module--island--horseshoe-body { // Border radius 0 on bottom corners
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.module--island--horseshoe-body-up { // Border radius 0 on top corners
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+// Module Island Colors
+.module--island--background-color-grey-faintest { background-color: $grey-faintest; }
+
+
+// Overflow Module
+// Allows the user to scroll the body while the head remains fixed to the top
+
+.module--overflow {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,1) );
+    height: ($content-spacing * 1.5);
+    width: 100%;
+  }
+
+  .module__body {
+    max-height: ($content-spacing * 12);
+    overflow-y: auto;
+  }
+
+  &.module--island {
+    &:before {
+      border-bottom-left-radius: ($module-border-radius - 1);
+      border-bottom-right-radius: ($module-border-radius - 1);
+    }
+  }
+}
+
+// Lilypad module
+// Serves similar purpose as module islands – separating content from the background.
+// However, it doesn't share many styles with module island, so it's not an extension of it.
+
+.module--lilypad {
+  background: $white;
+  border-radius: ($module-border-radius - 2);
+
+  .module__head, .module__body, .module__foot {
+    margin-top: 0; // Override default module margin
+    margin-bottom: 0; // Override default module margin
+    padding: ($content-spacing * .75) $content-spacing;
+  }
+
+  .module__head {
+    border-top-left-radius: ($module-border-radius - 2);
+    border-top-right-radius: ($module-border-radius - 2);
+  }
+
+  .module__foot {
+    border-bottom-left-radius: ($module-border-radius - 2);
+    border-bottom-right-radius: ($module-border-radius - 2);
+  }
+
+  &.module--lilypad--border-radius-none { border-radius: 0; }
+}
+
+.module--lilypad--background-color-grey-faintest { background-color: $grey-faintest; }
+.module--lilypad--background-color-grey-faint    { background-color: $grey-faint; }
+.module--lilypad--background-color-grey-darker   { background-color: $grey-darker }
+.module--lilypad--background-color-purple        { background-color: $purple; }
+.module--lilypad--background-color-blue          { background-color: $blue; }
+.module--lilypad--background-color-blue-light    { background-color: $blue-light; }
+
+.module--lilypad--border-vertical-color-grey-faint {
+  border-bottom: 1px solid $grey-faint;
+  border-top: 1px solid $grey-faint;
+}
+
+.module--lilypad--cap-foot { // Normal module--lilypad but with a dark foot instead of light
+  .module__foot {
+    background: $grey-faint;
+  }
+}
+
+.module--lilypad--stripe { // Normal module--lilypad but with a dark body instead of light
+  .module__body {
+    background: $grey-faint;
+  }
+}
+
+.module--lilypad--horseshoe-frame { // Thick white frame on top and wings only
+  border: ($content-spacing - 6) $white solid;
+  border-bottom: 0;
+}
+
+
+// Cloud modules
+// Built to float above background with a uniform grey-faintest background and large padding top and bottom.
+// Allows for optional icon in upper right corner
+
+.module--cloud {
+  background: $grey-faintest;
+  border-radius: ($module-border-radius - 2);
+
+  .module__head, .module__body, .module__foot {
+    padding: ($content-spacing * 2) ($content-spacing * 4);
+  }
+
+  .module__head {
+    margin-bottom: 0;
+    position: relative;
+    border-top-left-radius: ($module-border-radius - 2);
+    border-top-right-radius: ($module-border-radius - 2);
+
+    &.module__head--padding-flush-bottom { padding-bottom: 0; }
+  }
+
+  .module__body {
+    &.module__body--padding-tight {
+      padding: $content-spacing * 1.5;
+    }
+  }
+
+  .module__foot {
+    margin-top: 0;
+
+    &.module__foot--padding-flush-top {
+      padding-top: 0;
+    }
+  }
+
+  svg.module__head__icon {
+    cursor: pointer;
+    position: absolute;
+    top: $content-spacing;
+    right: $content-spacing;
+  }
+
+  .module--cloud__button--main { // main CTA button
+    @extend .button--corners-tight;
+    @extend .button--height-large;
+    @extend .button--color-green;
+    @extend .button--layout-block;
+  }
+
+  @media only screen and (max-width: $breakpoint-small) {
+    .module__head, .module__body {
+      padding-left: ($content-spacing * 1.5);
+      padding-right: ($content-spacing * 1.5);
+    }
+  }
+}
+
+.module--cloud--background-color-blue { background-color: $blue; }
+
+.module--cloud--background-color-manuscript { background-color: $manuscript; }
+
+
+// Highlight modules
+// Provide a bright BG and extra padding to show touts or other callout information
+
+.module--highlight {
+  background: $green-lighter;
+  border-radius: $module-border-radius;
+  box-shadow: 0 0 8px rgba(0,0,0,.04);
+
+  .module__head, .module__body {
+    margin-bottom: 0; // Override default module margin
+    padding: ($content-spacing * 1.5) ($content-spacing * 1.5) ( ($content-spacing * 1.5) - 2px ); // Cut a few pixels off the bottom to account for extra line space below baseline in headers
+  }
+
+  .module__foot {
+    margin-top: 0; // Override default module margin
+    padding: ($content-spacing * 1.5) ($content-spacing * 1.5);
+  }
+
+  @media only screen and (min-width: $breakpoint-medium) { // Only add additional left or right spacing at larger sizes.
+    .module__head, .module__body, .module__foot {
+      padding-left: ($content-spacing * 3);
+      padding-right: ($content-spacing * 3);
+    }
+  }
+}
+
+// Module Fence Sitting
+// Contains items that rest between the head and body border. The top half of the very
+// first module__body will have the same background color as the module__head. The bottom
+// half will have a different background color, as defined by the different color schemes below.
+
+.module--fence-sitting {
+  .module__head {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  // Define the color schemes here for different cap modifiers
+
+  &.module--cap-green {
+    div:not(.module__body) + .module__body {
+      padding-top: 0;
+      padding-bottom: 0;
+      @include two-color-background($green, $ink);
+    }
+  }
+
+  &.module--cap-yellow {
+    div:not(.module__body) + .module__body {
+      padding-top: 0;
+      padding-bottom: 0;
+      @include two-color-background($yellow, $white);
+    }
+  }
+
+  &.module--cap-grey-darker {
+    div:not(.module__body) + .module__body {
+      padding-top: 0;
+      padding-bottom: 0;
+      @include two-color-background($grey-darker, $grey-faintest);
+    }
+  }
+
+  &.module--cap-blue {
+    div:not(.module__body) + .module__body {
+      padding-top: 0;
+      padding-bottom: 0;
+      @include two-color-background($blue, $white);
+    }
+  }
+}
+
+// Module Smokescreen
+// Positions semi-opaque module body centered on top of module background.
+// Background will be slightly visible behind module body.
+
+.module--smokescreen {
+  position: relative;
+
+  & > .module__background {
+    position: relative;
+
+    &:after {
+      clear: both;
+      content: '';
+      display: block;
+    }
+  }
+
+  & > .module__body {
+    @extend .util--abs-center-both;
+    background: $white;
+    opacity: 0.9;
+    width: 75%;
+    border-radius: $module-border-radius;
+  }
+}
+
+// Module Scarf Progress Bar
+// Module with solic color 'scarf' band directly under module__head that is a progress bar
+// To use, build a module with module__head, module__progress-bar, module__body, module__foot
+.module--scarf-progress-bar {
+  border: 1px solid $grey-faint;
+  border-radius: $module-border-radius;
+  background: $white;
+
+  .module__progress-bar {
+    background: $blue-light;
+    min-height: $content-spacing / 4;
+    width: 100%;
+    border-radius: $module-border-radius $module-border-radius 0 0;
+    overflow: hidden;
+  }
+
+  .module__progress-bar__bar {
+    background: $blue;
+    min-height: $content-spacing / 4;
+    max-width: 100%;
+    width: 0%;
+
+    -webkit-transition: 0.4s width;
+    transition: 0.4s width;
+  }
+
+  > .module__head + .module__progress-bar {
+    border-radius: 0;
+  }
+
+  .module__body {
+    padding: $content-spacing 0;
+  }
+}
+
+// Module Scarf
+// Module with solid color "scarf" band directly underneath module__head.
+// To use, build a module with two sibling module__head elements. The second acts as the "scarf".
+
+.module[class*=module--scarf] {  // Module with a class that includes module--scarf
+  > .module__head + .module__head {
+    border-radius: 0;
+  }
+}
+
+.module--scarf-green {
+  > .module__head + .module__head {
+    background-color: $green;
+    color: $white;
+  }
+}
+
+.module--scarf-grey-faintest {
+  > .module__head + .module__head {
+    background-color: $grey-faintest;
+    color: $grey-dark;
+  }
+}
+
+.module--scarf-blue-dark {
+  > .module__head + .module__head {
+    background-color: $blue-dark;
+    color: $white;
+  }
+}
+
+.module--scarf-blue-light {
+  > .module__head + .module__head {
+    background-color: $blue-light;
+    color: $white;
+  }
+}
+
+.module--scarf-purple-lighter {
+  > .module__head + .module__head {
+    background-color: $purple-lighter;
+    color: $white;
+  }
+}
+
+
+// Module Receipt
+// Module that looks like a torn receipt, with jagged top and bottom edges
+
+.module--receipt {
+  background: $white;
+  @include box-shadow(0 2px 8px rgba(0,0,0,.5));
+  @include border-top-serrated(20px, $white);
+  @include border-bottom-serrated(20px, $white);
+
+  .module__head {
+    margin-bottom: 0;
+    padding: ($content-spacing * 3) ($content-spacing * 3) ($content-spacing * 1.5);
+  }
+
+  .module__body {
+    padding: ($content-spacing * 1.5) ($content-spacing * 3);
+  }
+
+  .module__foot {
+    margin-top: 0;
+    padding: ($content-spacing * 1.5) ($content-spacing * 3) ($content-spacing * 3);
+  }
+
+  &:after {
+    -webkit-filter: drop-shadow(rgba(0,0,0,0.25) 0px 3px 2px);
+    filter: drop-shadow(rgba(0,0,0,0.25) 0px 3px 2px);
+  }
+}
+
+// Module Billboard
+// Module that has a large background image
+// TODO: currently requires adding background image via inline style attribute. Refactor to not use inline styles.
+
+.module--billboard {
+  border-radius: $module-border-radius;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  .module__head {
+    padding: ($content-spacing * 3) ($content-spacing * 3) ($content-spacing * 1.5);
+  }
+
+  .module__foot {
+    padding: ($content-spacing * 3) ($content-spacing * 3) ($content-spacing * 1.5);
+  }
+}
+
+// Module Tabular
+// Module where a tabular functionality is available for content in the module__head.
+// The active tab label on module__head should have an `active` class
+
+// TODO: ADD TO STYLEGUIDE
+
+.module--tabular {
+  border: 1px solid $grey-faint;
+  border-radius: $module-border-radius;
+  background: $white;
+
+  > .module__head {
+    margin-bottom: 0; // Override default module margin
+    padding: 0;
+
+    .module__head__tab {
+      color: $grey;
+      padding: ($content-spacing * 1.5);
+      display: inline-block;
+
+      a { color: $grey; }
+      .button {
+        @extend .button--color-grey;
+        @extend .heading--color-grey-darker;
+      }
+
+      &.active {
+        border-bottom: ($content-spacing - 10) solid $blue;
+        color: $white;
+
+        a { color: $white; }
+        .button {
+          @extend .button--color-blue;
+          @extend .heading--color-white;
+        }
+      }
+    }
+  }
+
+  > .module__body {
+    padding: ($content-spacing * 3) ($content-spacing * 3) ( ($content-spacing * 3) - 2px );
+  }
+
+  > .module__foot {
+    margin-top: 0; // Override default module margin
+    border-top: 1px solid $grey-faint;
+    padding: ($content-spacing * 1.5) ($content-spacing * 3);
+  }
+}
+
+// Module Quote
+// Module that provides a quotation mark as a background image
+// TODO: Add to style-guide
+.module--quote {
+  overflow: hidden;
+
+  .module__body {
+    position: relative;
+    padding-top: ($content-spacing * 1.5);
+    padding-bottom: ($content-spacing * 1.5);
+
+    &:after {
+      content: "";
+      background: url("data:image/svg+xml,<svg viewBox='0 0 43 40' xmlns='http://www.w3.org/2000/svg'><g fill='#7d7d7d' fill-rule='evenodd' opacity='0.15'><path d='M17.7055399,40 L17.7055399,20.8099688 L9.48124087,20.8099688 C9.48124087,17.7362255 10.0627511,15.1401975 11.2257892,13.0218069 C12.3888272,10.9034162 14.5487225,9.30426293 17.7055399,8.22429907 L17.7055399,0 C15.1302415,0.332296573 12.7418957,1.10072087 10.5404309,2.30529595 C8.3389661,3.50987103 6.44905769,5.0259514 4.87064897,6.85358255 C3.29224025,8.68121371 2.06691501,10.7995726 1.19463651,13.2087227 C0.322358003,15.6178729 -0.072238259,18.1931327 0.0108358843,20.9345794 L0.0108358843,40 L17.7055399,40 Z M42.247596,40 L42.247596,20.8099688 L34.0232969,20.8099688 C34.0232969,17.7362255 34.6048072,15.1401975 35.7678452,13.0218069 C36.9308832,10.9034162 39.0907786,9.30426293 42.247596,8.22429907 L42.247596,0 C39.6722976,0.332296573 37.2839518,1.10072087 35.082487,2.30529595 C32.8810222,3.50987103 30.9911138,5.0259514 29.412705,6.85358255 C27.8342963,8.68121371 26.6089711,10.7995726 25.7366926,13.2087227 C24.8644141,15.6178729 24.4698178,18.1931327 24.552892,20.9345794 L24.552892,40 L42.247596,40 Z'/></g></svg>");
+      display: block;
+      width: $content-spacing * 3;
+      height: $content-spacing * 3;
+      position: absolute;
+      left: 50%;
+      top: 0;
+    }
+  }
+}
+
+/*
+ * Options
+ * In the case of modules, we want options after extensions since they are so often
+ * used to overwrite rules that the extension dictates.
+ */
+
+// Color
+
+// Module with grey darker cap
+.module--cap-grey-darker {
+  > .module__head {
+    color: $white;
+    background: $grey-darker;
+    border-color: $grey-darker; // handles descendant module__head with border
+  }
+}
+
+// Module with grey faintest cap
+.module--cap-grey-faintest {
+  > .module__head {
+    color: $white;
+    background: $grey-faintest;
+    border-color: $grey-faintest; // handles descendant module__head with border
+  }
+}
+
+// Module with grey lighter cap
+.module--cap-grey-lightest {
+  > .module__head {
+    color: $white;
+    background: $grey-lightest;
+    border-color: $grey-lightest; // handles descendant module__head with border
+  }
+}
+
+// Module with green cap
+.module--cap-green {
+  > .module__head {
+    color: $white;
+    background: $green;
+    border-color: $green; // handles descendant module__head with border
+  }
+}
+
+// Module with ink cap
+.module--cap-ink {
+  > .module__head {
+    color: $white;
+    background: $ink;
+    border-color: $ink; // handles descendant module__head with border
+  }
+}
+
+// Module with yellow cap
+.module--cap-yellow {
+  > .module__head {
+    background: $yellow;
+    color: $white;
+    border-color: $yellow; // handles descendant module__head with border
+  }
+}
+
+// Module with blue-light cap
+.module--cap-blue-light {
+  > .module__head {
+    background: $blue-light;
+    border-color: $blue-light; // handles descendant module__head with border
+  }
+}
+
+// Module with blue cap
+.module--cap-blue {
+  > .module__head {
+    color: $white;
+    background: $blue;
+    border-color: $blue; // handles descendant module__head with border
+  }
+}
+
+// Module with purple cap
+.module--cap-purple {
+  > .module__head {
+    color: $white;
+    background: $purple;
+    border-color: $purple; // handles descendant module__head with border
+  }
+}
+
+
+// Module with grey-faintest foot
+.module--cap-foot-grey-faintest {
+  .module__foot {
+    color: $black;
+    background: $grey-faintest;
+    border-color: $grey-faintest; // handles descendant module__foot with border
+  }
+}
+
+// Module with grey-darker foot
+.module--cap-foot-grey-darker {
+  .module__foot {
+    color: $white;
+    background: $grey-darker;
+    border-color: $grey-darker; // handles descendant module__foot with border
+  }
+}
+
+// Module with blue-light foot
+.module--cap-foot-blue-light {
+  .module__foot {
+    color: $white;
+    background: $blue-light;
+    border-color: $blue-light; // handles descendant module__foot with border
+  }
+}
+
+// Module with green foot
+.module--cap-foot-green {
+  .module__foot {
+    color: $white;
+    background: $green;
+    border-color: $green; // handles descendant module__foot with border
+  }
+}
+
+
+// Borders
+
+.module--border-thick { border-width: 3px; }
+.module--border-bottom-grey-lightest { border-bottom: 1px solid $grey-lightest; }
+
+.module--border-top-grey-lightest { border-top: ($content-spacing / 2) solid $grey-lightest; }
+.module--border-top-yellow { border-top: ($content-spacing / 2) solid $yellow; }
+.module--border-top-green { border-top: ($content-spacing / 2) solid $green; }
+.module--border-top-blue { border-top: ($content-spacing / 2) solid $blue; }
+.module--border-top-red { border-top: ($content-spacing / 2) solid $red; }
+
+.module--border-top-learn-gradient {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: ($content-spacing / 2);
+    left: 0;
+    opacity: 0.6;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    background: -moz-linear-gradient(left, #50D9ED 0%, #3023AE 48%, #F853FE 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, #50D9ED), color-stop(48%, #3023AE), color-stop(100%, #F853FE));
+    background: -webkit-linear-gradient(left, #50D9ED 0%, #3023AE 48%, #F853FE 100%);
+    background: -o-linear-gradient(left, #50D9ED 0%, #3023AE 48%, #F853FE 100%);
+    background: -ms-linear-gradient(left, #50D9ED 0%, #3023AE 48%, #F853FE 100%);
+    background: linear-gradient(to right, #50D9ED 0%, #3023AE 48%, #F853FE 100%);
+  }
+}
+
+// TODO: deprecate this extension (module has no borders by default; don't need to redefine that here)
+.module--borders-none {
+  border: none;
+
+  .module__head {
+    border: none;
+  }
+
+  .module__foot {
+    border: none;
+  }
+}
+
+// Padding
+
+.module--padding-tight { // less padding than default for each module
+
+  // Padding tight works with any module extension that includes inner padding.
+  // Each of those extensions needs to define its rules here.
+
+  &.module--island {
+    .module__head, .module__foot {
+      padding: ($content-spacing * 1.5) ($content-spacing * 1.5) ( ($content-spacing * 1.5) - 2px );
+    }
+    .module__body {
+      padding: ($content-spacing * 1.5) ($content-spacing * 1.5) ( ($content-spacing * 3) - 2px );
+    }
+  }
+
+  &.module--cloud {
+    .module__head { padding: ($content-spacing * 2) ($content-spacing * 4) ($content-spacing); }
+    .module__body { padding: ($content-spacing) ($content-spacing * 4); }
+    .module__foot { padding: ($content-spacing) ($content-spacing * 4) ($content-spacing * 2); }
+  }
+
+  &.module--lilypad {
+    .module__head, .module__body, .module__foot {
+      padding: ($content-spacing * .75);
+    }
+  }
+
+  // NOTE: .module--padding-tight.module--island--cap needs to be defined after
+  // .module--padding-tight.module--island in order to override the styles
+  &.module--island--cap {
+    .module__head {
+      padding-top: ($content-spacing / 2);
+      padding-bottom: ($content-spacing / 2);
+    }
+
+    .module__body {
+      padding: $content-spacing * 1.5;
+    }
+  }
+
+  &.module--billboard {
+    .module__head { padding: ($content-spacing) ($content-spacing) ($content-spacing); }
+    .module__foot { padding: ($content-spacing) ($content-spacing) ($content-spacing); }
+  }
+}
+
+.module--padding-flush-wings { // module with no padding on wings and uniform vertical padding
+
+  // Padding flush wings works with any module extension that includes inner padding.
+  // Each of those extensions needs to define its rules here.
+
+  &.module--island, &.module--tabular {
+    > .module__body, > .module__foot {
+      padding: $content-spacing 0;
+    }
+  }
+
+  &.module--lilypad {
+    > .module__head, > .module__body, > .module__foot {
+      padding: $content-spacing 0;
+    }
+  }
+}
+
+.module--padding-flat { // module without vertical padding
+
+  // Padding flat works with any module extension that includes inner padding.
+  // Each of those extensions needs to define its rules here.
+
+  &.module--island, &.module--tabular {
+    > .module__body {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    > .module__foot {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  &.module--lilypad {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    > .module__head, > .module__body, > .module__foot {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+}
+
+// Margin
+
+// Module without vertical margin
+.module--flat { margin-top: 0; margin-bottom: 0; }
+
+// Outdent module to be flush with sides of outer container
+.module--outdent { margin: -($content-spacing / 2); }
+
+// Module without margin
+.module--flush { margin: 0; }
+
+// Module with extra margin
+.module--spacious { margin: $content-spacing * .75; }
+
+// Module without side margins
+.module--flush-wings { margin-right: 0; margin-left: 0; }
+
+// Module without margin on inner items
+.module--flush-inner {
+  .module__head, .module__body, .module__foot { margin: 0; }
+}
+
+// Module with extra margin bottom
+.module--margin-bottom-medium { margin-bottom: ($content-spacing * .75); }
+.module--margin-bottom-large { margin-bottom: ($content-spacing * 1.5); }
+.module--margin-bottom-larger { margin-bottom: ($content-spacing * 2.5); }
+.module--margin-bottom-largest { margin-bottom: ($content-spacing * 4.5); }
+
+// Hover states
+
+.module--hoverable {
+  &.module--island:hover { background-color: $grey-faint;}
+}
+
+// Scrolling
+
+.module--overflow-y {
+  .module__body { overflow-y: auto; }
+
+  &.module--overflow-height-medium {
+    .module__body { max-height: ($content-spacing * 18); }
+  }
+
+//  &.module--overflow-height-small {
+//    .module__body { max-height: ($content-spacing * 8); }
+//  }
+
+  &.module--overflow-height-large {
+    .module__body { max-height: ($content-spacing * 25); }
+  }
+}
+
+// Corners
+
+.module--corners-sharp {
+  border-radius: 0;
+  .module__head, .module__foot { border-radius: 0; }
+}
+
+// Nowrap
+
+.module--head-nowrap { // Prevents text in module head from dropping to next line
+  .module__head {
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+
+    // Sometimes this ends up 1px from the edge in chrome due to browser bug. Return to this in QA.
+    &:after {
+      content: "";
+      display: block;
+      background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,100) 80%, rgba(255,255,255,100) 100%);
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: $content-spacing;
+    }
+  }
+
+  // Head nowrap works with any module extension.
+  // Define any extension-specific rules here.
+
+  &.module--island {
+    .module__head:after {
+      border-top-right-radius: ($module-border-radius - 1);
+    }
+  }
+}
+
+// Fixed Width
+.module--fixed-width-s {
+  width: 228px;
+}
+
+.module--fixed-width-m {
+  width: 320px;
+}
+
+// Shadow
+
+.module--shadow-small {
+  @include box-shadow(0 2px 8px rgba(0,0,0,.1));
+}
+
+.module--shadow-medium {
+  @include box-shadow(0 2px 16px rgba(0,0,0,.1));
+}
+
+.module--shadow-large {
+  @include box-shadow(0 2px 32px rgba(0,0,0,.1));
+}

@@ -1,0 +1,223 @@
+/*
+ * Levels
+ * Levels are the outermost elements of the grid. They define horizontal strips across the entire content area, with level__inner children that center their contents and provide a maximum width.
+ * Levels can be extended to provide background colors, background images, additional vertical spacing (or negative spacing), and different max-widths for level__inner.
+ */
+
+.level {
+  // Level’s paddings are at $content-spacing * 1.5 so that when modules are inside them, the module’s $content-spacing / 2 margins combine with these paddings to make $content-spacing * 2 gutters on the outside.
+  // Level is responsible for horizontal paddings so that it uses up all of its available width and can be used for background "strips" without requiring negative margins.
+  // .site-main is responsible for vertical paddings.
+  padding-right: ($content-spacing * .5);
+  padding-left: ($content-spacing * .5);
+
+  @media only screen and (min-width: $breakpoint-large) {
+    // At large enough sizes, the levels should be indented from the left such that the edge of the content aligns with the edge of the page title.
+    padding-left: $site-header-height + 1px + ($content-spacing * 1.5); // Site-header height is a proxy for the User Menu block width (because is a square). Then we add a pixel for the border next to it, then the normal content spacing we needed to start with.
+    padding-right: $site-header-height + 1px + ($content-spacing * 1.5); // Site-header height is a proxy for the User Menu block width (because is a square). Then we add a pixel for the border next to it, then the normal content spacing we needed to start with.
+  }
+}
+
+.level__inner {
+  @extend .clearfix;
+  margin: 0 auto;
+  max-width: $max-content-width;
+}
+
+
+/*
+ * Extensions
+ */
+
+// Poster level has large padding and center-aligned text
+
+.level--poster {
+  padding-top: 50%;
+  position: relative;
+
+  // Maintain a nice aspect ratio regardless of screen size.
+  @media only screen and (min-width: $breakpoint-large) { padding-top: 33%; }
+  @media only screen and (max-width: $breakpoint-small) { padding-top: 100%; }
+
+  .level__inner {
+    @extend .util--abs-center-both;
+    @extend .border-box;
+    text-align: center;
+    max-width: 480px;
+    padding-left: $content-spacing / 2;
+    padding-right: $content-spacing / 2;
+    width: 100%;
+  }
+}
+
+
+// Level Fence Sitting
+// A level whose contents appear to be "sitting" on the border between two levels.
+// To achieve this effect, choose a two-color-background that matches the background
+// color of the level above and the level below.
+
+.level--fence-sitting {
+  // Default color scheme
+  @include two-color-background($grey-faintest, $grey-darker);
+
+  // Define other color schemes below as needed
+  // + .level--background-color-blue { // example grey-faintest + blue color scheme
+  //   @include two-color-background($grey-faintest, $blue);
+  // }
+}
+
+
+/*
+ * Options
+ */
+
+// Spacing
+
+.level--flush {
+  padding-left: 0;
+  padding-right: 0;
+
+  .level__inner { max-width: 100%; }
+
+  @media only screen and (min-width: $breakpoint-large) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.level--margin-bottom-small { margin-bottom: ($content-spacing); }
+// .level--margin-bottom-medium { margin-bottom: ($content-spacing * 2); }
+.level--margin-bottom-large { margin-bottom: ($content-spacing * 4); }
+
+// Border
+
+.level--border-top {
+  border-top: ($content-spacing / 2) solid $green;
+}
+
+.level--border-bottom {
+  border-bottom: 1px solid $grey-lightest;
+}
+
+// Color
+
+.level--background-color-grey-faint {
+  background: $grey-faint;
+
+  &.level--border-bottom {
+    border-bottom: 1px solid $grey-lightest;
+  }
+}
+
+.level--background-color-grey-faintest {
+  background: $grey-faintest;
+}
+
+.level--background-color-grey-dark {
+  background: $grey-dark;
+}
+
+.level--background-color-grey-darker {
+  background: $grey-darker;
+}
+
+.level--background-color-green {
+  background: $green;
+}
+
+.level--background-color-green-dark {
+  background: $green-dark;
+}
+
+.level--background-color-blue {
+  background: $blue;
+}
+
+.level--background-color-aqua-green-light {
+  background: $aqua-green-light;
+}
+
+.level--background-color-white {
+  background: $white;
+}
+
+.level--background-color-blue-lighter {
+  background: $blue-lighter;
+
+  &.level--border-bottom {
+    border-bottom: 1px solid $blue-lighter;
+  }
+}
+
+.level--background-color-blue-light {
+  background: $blue-light;
+
+  &.level--border-bottom {
+    border-bottom: 1px solid $blue-light;
+  }
+}
+
+// Level with background image
+// TODO: currently requires adding background image via inline style attribute. Refactor to not use inline styles.
+
+.level--has-image-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+// Levels with extra padding between mobile and large breakpoints
+
+.level--add-padding-early {
+  @media only screen and (min-width: $breakpoint-mobile) and (max-width: $breakpoint-large - 1px) { // apply between the mobile breakpoint and large breakpoint only
+    padding-left: ($site-header-height - ($content-spacing / 2));
+    padding-right: ($site-header-height - ($content-spacing / 2));
+  }
+}
+
+/*
+ * Contextual Styles
+ */
+
+// Levels on public lesson pages
+// Special use case: public lesson pages have very specific padding requirements based on header logo width
+
+.body--public .level {
+  @media only screen and (min-width: $breakpoint-small) {
+    padding-left: 126px;
+    padding-right: $content-spacing / 2;
+  }
+  @media only screen and (min-width: $breakpoint-large) {
+    padding-left: 126px;
+    padding-right: 126px;
+  }
+  &.level--add-padding-early {
+    @media only screen and (min-width: $breakpoint-small) { // apply at medium breakpoint only
+      padding-left: 126px;
+      padding-right: 126px;
+    }
+  }
+  &.level--has-flex-padding { // Restore the default padding on public views
+    padding-left: $content-spacing / 2;
+    padding-right: $content-spacing / 2;
+  }
+}
+
+// Levels on landing pages
+// Special use case: landing pages have greater padding requirements as they normally do not contain the peripheral content of the Learn portal (e.g. sidebar, chat window, etc)
+
+.body--disable-header .level,
+.body--extra-padding .level {
+  @media only screen and (min-width: $breakpoint-medium) {
+    padding-left: $content-spacing * 4;
+    padding-right: $content-spacing * 4;
+  }
+  @media only screen and (min-width: $breakpoint-large) {
+    padding-left: $content-spacing * 12;
+    padding-right: $content-spacing * 12;
+  }
+  &.level--flush {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

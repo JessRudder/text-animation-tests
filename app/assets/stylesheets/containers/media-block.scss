@@ -1,0 +1,177 @@
+/*
+ * Container: Media Block
+ * Media Blocks are a fundamantal container. They take a media element and position it to the left or right of a content block. The content block can contain anything from a button to a header to a full text-block.
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+.media-block {
+  display: table;
+}
+
+
+/*
+ * Local Descendants
+ */
+
+div.media-block__media, div.media-block__content { // Apply these classes to divs. Put your content inside them.
+  display: table-cell;
+  vertical-align: middle;
+}
+
+div.media-block__media {
+  padding-right: $content-spacing;
+}
+
+
+/*
+ * Options
+ */
+
+// Dual Media
+// Media block with media elements on left and right of center content
+//
+// Example markup:
+// .media-block.media-block--dual-media
+//   .media-block__media
+//   .media-block__content
+//   .media-block__media
+
+div.media-block--dual-media {
+  > div.media-block__media:first-child { }
+
+  > div.media-block__content { width: 100%; }
+
+  > div.media-block__media:last-child {
+    padding-right: 0;
+    padding-left: $content-spacing;
+  }
+}
+
+div.media-block--dual-media--no-fill {
+  > div.media-block__content { width: inherit; }
+}
+
+// Alignment
+
+.media-block--vertical-align-top {
+  > .media-block__media, > .media-block__content {
+    vertical-align: top;
+  }
+}
+
+
+// Spacing Tight
+
+.media-block--spacing-tight {
+  .media-block__media {
+    padding-right: ($content-spacing * .75);
+  }
+
+  // Spacing tight works with any media-block extension that includes inner padding.
+  // Each of those extensions needs to define its rules here.
+
+  &.media-block--side-alt {
+    .media-block__media {
+      padding-left: ($content-spacing * .75);
+    }
+  }
+
+  &.media-block--dual-media {
+    .media-block__media:last-child {
+      padding-left: ($content-spacing * .75);
+    }
+  }
+}
+
+// Spacing Tighter
+
+.media-block--spacing-tighter {
+  .media-block__media {
+    padding-right: ($content-spacing * .50);
+  }
+
+  // Spacing tighter works with any media-block extension that includes inner padding.
+  // Each of those extensions needs to define its rules here.
+
+  &.media-block--side-alt {
+    .media-block__media {
+      padding-left: ($content-spacing * .50);
+    }
+  }
+
+  &.media-block--dual-media {
+    .media-block__media:last-child {
+      padding-left: ($content-spacing * .50);
+    }
+  }
+}
+
+// Spacing Tightest
+
+.media-block--spacing-tightest {
+  .media-block__media {
+    padding-right: ($content-spacing * .25);
+  }
+
+  // Spacing tightest works with any media-block extension that includes inner padding.
+  // Each of those extensions needs to define its rules here.
+
+  &.media-block--side-alt {
+    .media-block__media {
+      padding-left: ($content-spacing * .25);
+    }
+  }
+
+  &.media-block--dual-media {
+    .media-block__media:last-child {
+      padding-left: ($content-spacing * .25);
+    }
+  }
+}
+
+// Spacing Large
+
+.media-block--spacing-large {
+  .media-block__media {
+    padding-right: ($content-spacing * 2);
+  }
+
+  // Spacing large works with any media-block extension that includes inner padding.
+  // Each of those extensions needs to define its rules here.
+
+  &.media-block--side-alt {
+    .media-block__media {
+      padding-left: ($content-spacing * 2);
+    }
+  }
+
+  &.media-block--dual-media {
+    .media-block__media:last-child {
+      padding-left: ($content-spacing * 2);
+    }
+  }
+}
+
+// Side Alt
+// Note: assumes default side is left. If default is ever right, change alt to left.
+//
+// Example markup:
+// .media-block.media-block--side-alt
+//   .media-block__media
+//   .media-block__content
+
+.media-block--side-alt {
+  > .media-block__media {
+    padding-right: 0;
+    padding-left: $content-spacing;
+  }
+}
+
+// Layout options
+
+.media-block--fill { width: 100%; }
+.media-block__content--fill { width: 100%; }

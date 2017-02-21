@@ -1,0 +1,372 @@
+/*
+ * Object: Input
+ * Should be applied to input, select, and textarea elements.
+ */
+
+/*
+ * Local variables
+ */
+
+// TODO: rm temp file; use sprite.svg
+$icon-upload: image-url('flatchat/fichat-icon-upload.svg');
+
+
+/*
+ * Overall Rules
+ */
+
+.input {
+  @extend .border-box;
+  @extend .util--font-style-4;
+  outline: none;
+  border: 1px solid $grey-lightest;
+  border-radius: $content-spacing / 4;
+  padding: ($content-spacing) 0 ($content-spacing) ($content-spacing / 2);
+  width: 100%;
+  font-family: inherit;
+}
+
+/*
+ * Extensions
+ */
+
+.input--textarea-clear {
+  border: none;
+  resize: none;
+  height: $content-spacing * 2.25;
+  padding: ($content-spacing / 2 + 1) 0 ($content-spacing / 2 - 1) ($content-spacing / 2);
+}
+
+.input--textarea-hide-scroll {
+  overflow-y: hidden;
+}
+
+// Text Area Group
+// Textarea + bottom label unit
+//
+// Sample markup:
+// .textarea-group
+//   textarea.textarea-group__textarea
+//   .textarea-group__foot
+//     // foot content
+
+$textarea-group-border-radius: 6px;
+
+.textarea-group {
+  .textarea-group__textarea {
+    @extend .input;
+    @extend .input--no-resize;
+    @extend .border-box;
+    padding: ($content-spacing) ($content-spacing / 2);
+    border-top-left-radius: $textarea-group-border-radius;
+    border-top-right-radius: $textarea-group-border-radius;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .textarea-group__foot {
+    background-color: $grey-faintest;
+    border-bottom: 1px solid $grey-lightest;
+    border-right: 1px solid $grey-lightest;
+    border-left: 1px solid $grey-lightest;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: $textarea-group-border-radius;
+    border-bottom-right-radius: $textarea-group-border-radius;
+
+    padding: $content-spacing / 4;
+    position: relative;
+    margin-top: -3px; // fix foot directly flush against bottom of textarea
+  }
+}
+
+// Speech Bubble
+// Styles textarea input to look like a speech bubble, with options for left and right pointers
+// By default, this will display a left pointer and should have a textarea as a child.
+// Use local extension input--speech-bubble--side-alt to point right.
+
+.input--speech-bubble {
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  border-radius: $content-spacing / 4;
+  border: 1px solid $grey-faint;
+  background: $white;
+
+  textarea {
+    position: inherit;
+    width: inherit;
+    height: inherit;
+    background: inherit;
+    margin: 0;
+    padding: 0;
+    border: none;
+    resize: none;
+  }
+}
+
+.input--speech-bubble:before,
+.input--speech-bubble--side-alt:after {
+  content:"";
+  position: absolute;
+  top: $content-spacing;
+  width: ($content-spacing * 0.75);
+  height:($content-spacing * 1.25);
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='20'><polyline points='12.4,0.8 0.4,10.8 12.4,20.8' fill='" + $white + "' stroke-width='1' stroke='" + $grey-faint + "' /></svg>") center top no-repeat; // FF does not support these hex colors. That’s okay.
+}
+.input--speech-bubble:before { right: 100%; }
+.input--speech-bubble--side-alt:after { left: 100%; transform:scale(-1,1); }
+.input--speech-bubble--side-alt:before { display: none; }
+
+// Checkbox group
+// Checkbox + label unit
+//
+// Sample markup:
+// .checkbox-group
+//   input.checkbox-group__input type='checkbox'
+//   .checkbox-group__label I agree
+
+.checkbox-group { position: relative; height: ($content-spacing * 1.5); }
+
+.checkbox-group input[type="checkbox"].checkbox-group__input,
+.checkbox-group input[type="checkbox"].checkbox-group__input + .checkbox-group__label:before {
+  position: absolute;
+  left: 0;
+}
+
+.checkbox-group input[type="checkbox"].checkbox-group__input {
+  -webkit-appearance: checkbox;
+  opacity: 0;
+  z-index: 1;
+  width: ($content-spacing * 1.5);
+  height: ($content-spacing * 1.5);
+}
+
+.checkbox-group input[type="checkbox"].checkbox-group__input + .checkbox-group__label:before {
+  @extend .border-box;
+  content: '';
+  width: ($content-spacing * 1.5);
+  height: ($content-spacing * 1.5);
+  border: 3px solid $grey-faint;
+  border-radius: ($content-spacing / 4);
+}
+
+.checkbox-group input[type="checkbox"].checkbox-group__input + .checkbox-group__label {
+  position: absolute;
+  line-height: ($content-spacing * 1.5);
+  padding-left: ($content-spacing * 2);
+}
+
+.checkbox-group input[type="checkbox"].checkbox-group__input + .checkbox-group__label:before {
+  background: $white url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='16' viewBox='0 0 24 16.9'><path fill='"+ $grey-faintest +"' d='M8.5,16.9c-0.4,0-0.7-0.1-1-0.4L0.4,9.4c-0.5-0.5-0.5-1.4,0-2s1.4-0.5,2,0l6.1,6.1L21.6,0.4c0.5-0.5,1.4-0.5,2,0 c0.5,0.5,0.5,1.4,0,2L9.5,16.5C9.2,16.8,8.9,16.9,8.5,16.9C8.5,16.9,8.5,16.9,8.5,16.9z'/></svg>") center center no-repeat;
+}
+
+.checkbox-group input[type="checkbox"].checkbox-group__input:checked + .checkbox-group__label:before {
+  background-color: $blue;
+  border-color: $blue;
+}
+
+// Radio Group
+// Radio + label unit
+//
+// Sample markup:
+// .radio-group.radio-group--inline
+//   input.radio-group__input type='radio' name='group' id='js--input1'
+//   label.radio-group__label for='js--input1' Yes
+// .radio-group.radio-group--inline
+//   input.radio-group__input type='radio' name='group' id='js--input2'
+//   label.radio-group__label for='js--input2' No
+
+$radio-icon-width: ($content-spacing * 2);
+
+.radio-group { }
+.radio-group input[type='radio'].radio-group__input { opacity: 0; }
+.radio-group input[type='radio'].radio-group__input + .radio-group__label { cursor: pointer; }
+
+.radio-group input[type='radio'].radio-group__input + .radio-group__label:before {
+  @extend .border-box;
+  content: '';
+  width: $radio-icon-width;
+  height: $radio-icon-width;
+  border: 3px solid $grey-lighter;
+  border-radius: 99999px;
+}
+
+.radio-group input[type='radio'].radio-group__input:checked + .radio-group__label:before {
+  background: $green url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16.9' width='12' height='16'><path fill='" + $white + "' d='M8.5,16.9c-0.4,0-0.7-0.1-1-0.4L0.4,9.4c-0.5-0.5-0.5-1.4,0-2s1.4-0.5,2,0l6.1,6.1L21.6,0.4c0.5-0.5,1.4-0.5,2,0 c0.5,0.5,0.5,1.4,0,2L9.5,16.5C9.2,16.8,8.9,16.9,8.5,16.9C8.5,16.9,8.5,16.9,8.5,16.9z'/></svg>") center center no-repeat;
+}
+
+/* Local option: Inline */
+
+.radio-group--inline {
+  position: relative;
+
+  input[type='radio'].radio-group__input {
+    z-index: 1;
+    width: $radio-icon-width;
+    height: $radio-icon-width;
+    cursor: pointer;
+  }
+
+  input[type='radio'].radio-group__input,
+  input[type='radio'].radio-group__input + .radio-group__label:before {
+    position: absolute;
+    left: 0;
+  }
+
+  input[type='radio'].radio-group__input + .radio-group__label {
+    padding-left: ($content-spacing * 3);
+    line-height: $radio-icon-width;
+  }
+}
+
+/* Local option: Stacked */
+
+.radio-group--stacked {
+  text-align: center;
+
+  input[type='radio'].radio-group__input { display: none; }
+  input[type='radio'].radio-group__input + .radio-group__label { display: block; }
+
+  input[type='radio'].radio-group__input + .radio-group__label:before {
+    display: block;
+    margin: 0 auto ($content-spacing / 2);
+  }
+}
+
+/* Local option: Keyhole */
+// Radio group options where the label is styled as a card and the radio button sits on the top border of the card
+
+.radio-group--keyhole {
+  input[type='radio'].radio-group__input { display: none; }
+  input[type='radio'].radio-group__input + .radio-group__label { display: block;
+    border: 2px solid $grey-faint;
+    border-radius: 3px;
+  }
+
+  input[type='radio'].radio-group__input + .radio-group__label:before {
+    border: 2px solid $grey-faint;
+    display: block;
+    margin: -($content-spacing) auto ($content-spacing / 2);
+    background-color: $white;
+  }
+
+  input[type='radio'].radio-group__input:checked + .radio-group__label { border: 2px solid $grey-light; }
+  .radio-group__label:hover { @include box-shadow(0 2px 16px rgba(0,0,0,.1)); }
+}
+
+// Select Group
+// Select input with downward facing arrow
+//
+// Sample markup:
+// .select-group
+//   select.select-group__field
+//     option
+
+.select-group {
+  position: relative;
+  cursor: pointer;
+
+  .select-group__field {
+    @extend .input;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    height: ($content-spacing * 0.75);
+    width: ($content-spacing * 0.75);
+    top: 50%;
+    right: 8px;
+    transform: translate(-50%, -50%);
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 4.5'><path d='M0,0,4.5,4.5,9,0Z'/></svg>") center center no-repeat;
+  }
+}
+
+// Number
+// Makes spinner viewable at all times for number inputs, rather than showing on hover alone
+
+.input--number-spinner::-webkit-outer-spin-button,
+.input--number-spinner::-webkit-inner-spin-button {
+  opacity: 1;
+}
+
+// Date
+
+.input--date-picker::-webkit-inner-spin-button,
+.input--date-picker::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// File Upload Group
+// File upload input + button unit with icon
+//
+// Sample markup:
+// .file-upload-group
+//   .file-upload-group__button
+//   input.file-upload-group__input type='file'
+
+.file-upload-group {
+  position: relative;
+  min-height: $content-spacing * 2.25; // min-height of default .input
+  min-width: $content-spacing * 2.25;
+
+  .file-upload-group__button,
+  input[type='file'].file-upload-group__input {
+    @extend .util--abs-center-both;
+    cursor: pointer;
+  }
+
+  .file-upload-group__button {
+    width: $content-spacing * 1.5;
+    height: $content-spacing * 1.5;
+    border: none;
+    background: $icon-upload no-repeat center center;
+  }
+
+  input[type='file'].file-upload-group__input {
+    overflow: hidden;
+    opacity: 0;
+    z-index: 1;
+  }
+}
+
+/*
+ * Options
+ */
+
+// Border
+
+.input--border-none { border: none; }
+.input--border-bottom-only { border: none; border-bottom: 2px solid $grey-lightest; }
+.input--border-color-blue { border-color: $blue; }
+.input--border-color-red { border-color: $red; }
+.input--border-color-yellow { border-color: $yellow; }
+
+// Font color
+// TODO: refactor to inherit from heading--color-whatevs
+.input--color-blue { color: $blue; }
+
+// Background color
+
+.input--background-transparent { background: transparent; }
+
+// State
+
+.input--disabled { // TODO: refactor to use data state attribute or pseudoelement
+  background-color: $grey-faint;
+  color: $grey-lighter;
+  pointer-events: none;
+}
+
+.input--no-resize { resize: none; }
+
+// Spacing
+
+.input--padding-none {
+  padding: 0;
+}

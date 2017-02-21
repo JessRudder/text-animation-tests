@@ -1,0 +1,269 @@
+.clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+.border-box {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.unselectable,
+.unselectable:hover {
+  cursor: default;
+  -moz-cursor: default;
+  -webkit-cursor: default;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+.hoverable:hover {
+  cursor: pointer;
+  -moz-cursor: pointer;
+  -webkit-cursor: pointer;
+}
+
+.inactive {
+  position: relative;
+
+  &:before {
+    @extend .util--z-index-1;
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    border-radius: inherit;
+    background-color: $white;
+    opacity: 0.8;
+  }
+}
+
+/*
+ * Box Shadow
+ */
+
+@mixin box-shadow($val) {
+	/* offset-x | offset-y | blur-radius | spread-radius | color */
+	-webkit-box-shadow: $val;
+	-moz-box-shadow: $val;
+	-ms-box-shadow: $val;
+	-o-box-shadow: $val;
+	box-shadow: $val;
+}
+
+
+/*
+ * Transforms
+ * Courtesy: http://codepen.io/sawmac/pen/qGudy
+ */
+
+// Base mixin
+@mixin transform($transforms) {
+     -moz-transform: $transforms;
+  -webkit-transform: $transforms;
+          transform: $transforms;
+}
+
+// Rotate
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+
+// Scale
+@mixin scale($scale) {
+   @include transform(scale($scale));
+}
+
+// Translate
+@mixin translate ($x, $y) {
+   @include transform(translate($x, $y));
+}
+
+// Origin
+@mixin transform-origin($x,$y) {
+  -webkit-transform-origin: $x $y;
+          transform-origin: $x $y;
+}
+
+
+/*
+ * Transitions
+ * Courtesy: http://codepen.io/sawmac/pen/cayhK/
+ */
+
+@mixin transition($transition...) {
+    -moz-transition:    $transition;
+    -webkit-transition: $transition;
+    -o-transition:      $transition;
+    transition:         $transition;
+}
+
+
+/*
+ * Backgrounds
+ */
+
+// Split background
+
+@mixin two-color-background($top, $bottom) {
+  background: $top;
+  background: -moz-linear-gradient(top, $top 0%, $top 50%, $bottom 51%, $bottom 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, $top), color-stop(50%, $top), color-stop(51%, $bottom), color-stop(100%, $bottom));
+  background: -webkit-linear-gradient(top, $top 0%, $top 50%, $bottom 51%, $bottom 100%);
+  background: -o-linear-gradient(top, $top 0%, $top 50%, $bottom 51%, $bottom 100%);
+  background: -ms-linear-gradient(top, $top 0%, $top 50%, $bottom 51%, $bottom 100%);
+  background: linear-gradient(to bottom, $top 0%, $top 50%, $bottom 51%, $bottom 100%);
+}
+
+
+/*
+ * Borders
+ */
+
+// Serrated Top Border
+// https://gist.github.com/justinmc/9837998
+@mixin border-top-serrated($size, $color) {
+  & {
+    position: relative;
+  }
+
+  &:before {
+    background:
+      -webkit-gradient(-135deg, transparent $size, $color 0),
+      -webkit-gradient(135deg, transparent $size, $color 0);
+    background:
+      -moz-linear-gradient(-135deg, transparent $size, $color 0),
+      -moz-linear-gradient(135deg, transparent $size, $color 0);
+    background:
+      -ms-linear-gradient(-135deg, transparent $size, $color 0),
+      -ms-linear-gradient(135deg, transparent $size, $color 0);
+    background:
+      -o-linear-gradient(-135deg, transparent $size, $color 0),
+      -o-linear-gradient(135deg, transparent $size, $color 0);
+    background:
+      linear-gradient(-135deg, transparent $size, $color 0),
+      linear-gradient(135deg, transparent $size, $color 0);
+
+    top: -($size);
+    background-position: top center;
+    @include border-serrated-helper($size);
+  }
+}
+
+// Serrated Bottom Border
+// https://gist.github.com/justinmc/9837998
+@mixin border-bottom-serrated($size, $color) {
+  & {
+    position: relative;
+  }
+
+  &:after {
+    background:
+      -webkit-gradient(-45deg, transparent $size, $color 0),
+      -webkit-gradient(45deg, transparent $size, $color 0);
+    background:
+      -moz-linear-gradient(-45deg, transparent $size, $color 0),
+      -moz-linear-gradient(45deg, transparent $size, $color 0);
+    background:
+      -ms-linear-gradient(-45deg, transparent $size, $color 0),
+      -ms-linear-gradient(45deg, transparent $size, $color 0);
+    background:
+      -o-linear-gradient(-45deg, transparent $size, $color 0),
+      -o-linear-gradient(45deg, transparent $size, $color 0);
+    background:
+      linear-gradient(-45deg, transparent $size, $color 0),
+      linear-gradient(45deg, transparent $size, $color 0);
+
+    bottom: -($size);
+    background-position: bottom center;
+    @include border-serrated-helper($size);
+  }
+}
+
+// use in conjunction with border-bottom-serrated or border-top-serrated
+@mixin border-serrated-helper($size) {
+  content: " ";
+  display: block;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  height: $size;
+  background-size: ($size * 0.875) ($size * 2);
+}
+
+/*
+ * Line Clamp
+ * mixin for a multiline text block with ellipsis at the end
+ */
+
+
+@mixin line-clamp($line-count: 8){
+  background: white;
+  display: block;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  max-height: 1.25em * $line-count - 0.2em;
+  -webkit-line-clamp: $line-count;
+  -webkit-box-orient: vertical;
+}
+
+/*
+ * Slide Bounce
+ * Transition effect used in chat
+ */
+
+@mixin slide-bounce($property) {
+  -webkit-transition: $property 400ms cubic-bezier(0.680, 0, 0.155, 1); /* older webkit */
+  @include transition($property 400ms cubic-bezier(0.680, -0.470, 0.155, 1.360));
+}
+
+/*
+ * Keyfram Animations
+ * Keyframe animations used in animated Learn logo
+ */
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes cycle-gradient-start {
+  0%  { stop-color: $blue-light; }
+  20% { stop-color: $blue; }
+  35% { stop-color: $red; }
+  50% { stop-color: $grey; }
+  65% { stop-color: $red; }
+  80% { stop-color: $purple; }
+  95% { stop-color: $blue-light; }
+}
+
+@keyframes cycle-gradient-stop {
+  0%  { stop-color: $blue-light; }
+  20% { stop-color: $yellow; }
+  35% { stop-color: $purple; }
+  50% { stop-color: $grey; }
+  65% { stop-color: $purple; }
+  80% { stop-color: $blue; }
+  95% { stop-color: $blue-light; }
+}
+
+@keyframes cycle-offset {
+  0%   { offset: '.95'; }
+  10%  { offset: '.80'; }
+  20%  { offset: '.60'; }
+  30%  { offset: '.40'; }
+  40%  { offset: '.20'; }
+  50%  { offset:   '0'; }
+  60%  { offset: '.20'; }
+  70%  { offset: '.40'; }
+  80%  { offset: '.60'; }
+  90%  { offset: '.80'; }
+  100% { offset: '.95'; }
+}

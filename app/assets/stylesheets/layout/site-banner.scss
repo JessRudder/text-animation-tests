@@ -1,0 +1,265 @@
+/*
+ * Banner
+ * Placed at the top of the page when the user needs to do something. Expects a color and often an icon to be included.
+ */
+
+.site-banner {
+  display: block;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: $site-header-height;
+  height: $site-banner-height;
+  overflow: hidden;
+  @include transition(all .08s);
+  @include slide-bounce(right);
+  z-index: 1;
+  @extend .level;
+
+  &:hover {
+    color: initial;
+  }
+}
+
+.site-banner__inner {
+  position: absolute;
+  top: 50%;
+  @include translate(0,-50%);
+  text-align: center;
+  width: 100%;
+  @extend .level__inner;
+  position: relative;
+  @extend .border-box;
+  padding-left: $content-spacing / 2;
+  padding-right: $content-spacing / 2;
+
+  @media only screen and (min-width: $breakpoint-large) {
+    text-align: left;
+  }
+}
+
+.site-banner__main {
+  position: relative;
+  display: inline-block;
+  padding-right: $content-spacing * 2;
+  @media only screen and (min-width: $breakpoint-large) {
+    float: left;
+    padding-top: 2px;
+    height: $site-banner-height - 2px;
+    line-height: $site-banner-height - 2px; // 2px aligns baseline of headlines a little better
+  }
+}
+
+.site-banner__main__go {
+  height: $content-spacing;
+  width: $content-spacing;
+  opacity: .6;
+  right: 0;
+  @include transition( all .08s );
+  @extend .util--abs-center-top;
+}
+
+.site-banner:hover {
+  .site-banner__icon {
+    opacity: .8;
+  }
+  .site-banner__icon--dismiss {
+    @extend .hoverable;
+    opacity: 1;
+  }
+  .site-banner__main__go {
+    @extend .hoverable;
+    opacity: 1;
+    right: -4px;
+  }
+}
+
+
+/*
+ * Extensions
+ */
+
+.site-banner--has-icon { // Add this class to the banner when an icon has been provided. Class the icon itself with ".site-banner__icon".
+
+  .site-banner__icon {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: $content-spacing / 2;
+    @include translate(0, -50%);
+  }
+
+  @media only screen and (min-width: $breakpoint-large) {
+    .site-banner__inner {
+      padding-left: $content-spacing * 3.5;
+    }
+    .site-banner__icon {
+      display: block;
+    }
+  }
+}
+
+.site-banner--fixed-top { // Fixed banner across top of window
+  @extend .util--z-index-4;
+  width: 100%;
+  top: 0;
+
+  // override default padding to keep text center on larger screens
+  @media only screen and (min-width: $breakpoint-large) {
+    padding-left: 0px;
+  }
+
+  // override default text align to keep text center on larger screens
+  .site-banner__inner {
+    @media only screen and (min-width: $breakpoint-large) {
+      text-align: center;
+    }
+  }
+
+  // override keep text center on larger screens
+  .site-banner__main {
+    @media only screen and (min-width: $breakpoint-large) {
+      float: none;
+    }
+  }
+}
+
+.site-banner--bottom {
+  top: inherit;
+  bottom: 0;
+  height: $ad-height;
+  padding: 0;
+  z-index: 0; // override default z-index
+  background-color: $green-lighter;
+  @include box-shadow(0 -2px 14px rgba(0,0,0,.2));
+
+  .site-banner__inner { padding: 0; } // override default inner padding
+}
+
+
+/*
+ * Options
+ */
+
+// Height
+
+.site-banner--height-small {
+  height: ($site-banner-height / 2);
+
+  .site-banner__main {
+    @media only screen and (min-width: $breakpoint-large) {
+      padding-top: 0;
+      height: ($site-banner-height / 2);
+      line-height: ($site-banner-height / 2);
+    }
+  }
+
+  .site-banner__icon,
+  .site-banner__main__go {
+    height: ($content-spacing / 2);
+    width: ($content-spacing / 2);
+  }
+}
+
+// Color
+
+.site-banner--color-green {
+  background-color: $green;
+  color: $white;
+
+  &:hover {
+    color: $white;
+    background-color: $green-dark;
+  }
+}
+
+.site-banner--color-blue {
+  background-color: $blue;
+  color: $white;
+
+  &:hover {
+    color: $white;
+    background-color: $blue-dark;
+  }
+}
+
+.site-banner--color-purple {
+  background-color: $purple;
+  color: $white;
+
+  &:hover {
+    color: $white;
+    background-color: $purple-dark;
+  }
+}
+
+.site-banner--color-grey-light {
+  background-color: $grey-light;
+  color: $white;
+
+  &:hover {
+    color: $white;
+    background-color: $grey;
+  }
+}
+
+.site-banner--color-gold {
+  background-color: $gold;
+  color: $white;
+
+  &:hover {
+    color: $white;
+    background-color: $gold-dark;
+  }
+}
+
+.site-banner--color-red {
+  background-color: $red;
+  color: $white;
+
+  &:hover {
+    color: $white;
+    background-color: $red-dark;
+  }
+}
+
+
+/*
+ * Contextual styles
+ */
+
+// When there is a subheader present and banner, push down the subheader by the size of the subheader and push down the start of the main content, e.g. lesson page
+
+body.body--has-subheader {
+  .site-banner { top: $site-header-height * 2; }
+  .site-banner--fixed-top { top: 0; }
+  .site-banner--bottom { top: inherit; }
+}
+
+body.body--has-sidebar {
+  .site-banner {
+    // When there is a sidebar present push over subheader
+    @media screen and (min-width: $breakpoint-medium) {
+      right: $site-sidebar-width;
+    }
+  }
+
+  // When chat is open, push right
+  .site-banner[data-state='compressed'] {
+    right: $chat-lobby-width;
+  }
+}
+
+body.body--has-sidebar--collapsable {
+  // When there is a collapsable sidebar present, don't overlap sidebar
+  .site-banner {
+    @media screen and (min-width: $breakpoint-mobile) and (max-width: $breakpoint-medium) {
+      right: $site-sidebar-collapsable-width;
+    }
+  }
+}
+
+body.body--disable-header {
+  // When the header is disabled, raise the banner to the top
+  .site-banner { top: 0; }
+}

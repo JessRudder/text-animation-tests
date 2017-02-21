@@ -1,0 +1,153 @@
+/*
+ * Object: Bubble Bar
+ * Labeled row of circular images which can be links, followed by a count at the end (optional)
+ */
+
+/*
+ * Local variables
+ */
+
+$bubble-bar-list-spacing: ($content-spacing / 4);
+$bubble-bar-list-spacing-medium: ($content-spacing / 2);
+$bubble-bar-list-spacing-large: ($content-spacing * 0.75);
+$bubble-bar-item-width: 26px;
+$bubble-bar-item-width-medium: 38px;
+$bubble-bar-item-width-large: 54px;
+
+
+/*
+ * Overall Rules
+ */
+
+.bubble-bar {
+  // Nothing yet
+}
+
+
+/*
+ * Local Descendants
+ */
+
+.bubble-bar__label {
+  @extend .heading;
+  @extend .heading--level-6;
+  @extend .heading--color-grey-light;
+  @extend .util--margin-bm;
+}
+
+.bubble-bar__list {
+  @extend .clearfix;
+  margin: (-1 * $bubble-bar-list-spacing) 0 0 (-1 * $bubble-bar-list-spacing);
+
+  & > li {
+    float: left;
+    width: $bubble-bar-item-width;
+    margin: $bubble-bar-list-spacing 0 0 $bubble-bar-list-spacing;
+  }
+  & > li.bubble-bar__more { width: auto; } // allow bubble-bar__more to size based on width of its contents
+
+  /* Local options */
+
+  &.bubble-bar__list--vertical { // Vertical bubble bar
+    margin: 0;
+    & > li { margin: 0; float: none; }
+  }
+}
+
+.bubble-bar__link {
+  @extend .image-frame;
+  @extend .image-frame[class*="image-frame--border-radius"];
+  @extend .image-frame--border-radius-full;
+
+  &:hover {
+    .bubble-bar__link__image { opacity: .8; }
+  }
+
+  /* Local options */
+
+  // Hover
+
+  &.bubble-bar__link--no-hover:hover {
+    .bubble-bar__link__image { opacity: 1; }
+  }
+
+  // Color
+
+  &.bubble-bar__link--border-yellow { border: 2px solid $yellow; }
+}
+
+.bubble-bar__link__image {
+  @extend .image-frame__image;
+  border-radius: inherit;
+}
+
+.bubble-bar__more {
+  @extend .util--font-style-1;
+  @extend .unselectable;
+  border-radius: 9999px;
+  border: 1px solid $grey-light;
+  height: ($bubble-bar-item-width - 2px);
+  min-width: ($bubble-bar-item-width - 2px);
+  line-height: ($bubble-bar-item-width - 2px);
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: $grey-light;
+  white-space: nowrap;
+
+  /* Local options */
+
+  // Color
+
+  &.bubble-bar__more--color-white      { background: $white; }
+  &.bubble-bar__more--color-green      { color: $white; background: $green; border-color: $green; }
+  &.bubble-bar__more--color-yellow     { color: $white; background: $yellow; border-color: $yellow; }
+  &.bubble-bar__more--color-grey-light { color: $white; background: $grey-light; }
+}
+
+
+/*
+ * Options
+ */
+
+
+// Size
+
+.bubble-bar--size-medium {
+  .bubble-bar__list {
+    margin: (-1 * $bubble-bar-list-spacing-medium) 0 0 (-1 * $bubble-bar-list-spacing-medium);
+
+    & > li {
+      float: left;
+      width: $bubble-bar-item-width-medium;
+      margin: $bubble-bar-list-spacing-medium 0 0 $bubble-bar-list-spacing-medium;
+    }
+    & > li.bubble-bar__more { width: auto; }
+
+    .bubble-bar__more {
+      @extend .util--font-style-4;
+      min-width: ($bubble-bar-item-width-medium - 2px);
+      height: ($bubble-bar-item-width-medium - 2px);
+      line-height: ($bubble-bar-item-width-medium - 2px);
+    }
+  }
+}
+
+.bubble-bar--size-large {
+  .bubble-bar__list {
+    margin: (-1 * $bubble-bar-list-spacing-large) 0 0 (-1 * $bubble-bar-list-spacing-large);
+
+    & > li {
+      float: left;
+      width: $bubble-bar-item-width-large;
+      margin: $bubble-bar-list-spacing-large 0 0 $bubble-bar-list-spacing-large;
+    }
+    & > li.bubble-bar__more { width: auto; }
+
+    .bubble-bar__more {
+      @extend .util--font-style-6;
+      min-width: ($bubble-bar-item-width-large - 2px);
+      height: ($bubble-bar-item-width-large - 2px);
+      line-height: $bubble-bar-item-width-large;
+    }
+  }
+}

@@ -1,0 +1,99 @@
+/*
+ * Object: Inline SVG
+ * SVG images included inline in the markup.
+ * Do some more research on how this should be implemented best for cross-browser compatibility
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+svg, .inline-svg {
+  display: inline-block;
+}
+
+.inline-svg {
+  width: 100%;
+}
+
+
+/*
+ * Extensions
+ */
+
+// Rotation
+
+.inline-svg--rotatable {
+  transition: all 0.3s ease;
+}
+
+.inline-svg--rotatable[data-state="open"] { // update data-state via js
+  @include rotate(-180);
+}
+
+// Velocity
+
+.inline-svg--velocity__outer__segment {
+  fill: $grey-faint;
+  stroke-width: 2;
+  stroke: $grey-faint; // Stroke hack prevents hairlines between segments: http://stackoverflow.com/questions/17825645/adjacent-svgpolygon-edges-do-not-meet
+}
+
+.inline-svg--velocity__outer__segment[data-state='active'] {
+  fill: $yellow;
+  stroke: $yellow; // Stroke hack prevents hairlines between segments: http://stackoverflow.com/questions/17825645/adjacent-svgpolygon-edges-do-not-meet
+}
+
+.inline-svg--velocity__dial__needle {
+  transform-origin: -6% 50%;
+  -moz-transform-origin: 50% 93%; // Firefox calculates the offset differently (relative to document, not element, I believe). Needs a different origin
+}
+
+.inline-svg--velocity__dial__inner { fill: $white; }
+
+.inline-svg--velocity__ticks__tick {
+  stroke: $black;
+  stroke-width:2;
+  stroke-miterlimit:10;
+}
+
+
+/*
+ * Options
+ */
+
+// Size
+
+.inline-svg--fixed-size-small {
+  height: ($content-spacing * 0.625);
+  width: ($content-spacing * 0.625);
+}
+
+.inline-svg--fixed-size-medium {
+  height: ($content-spacing * 1.25);
+  width: ($content-spacing * 1.25);
+}
+
+.inline-svg--fixed-size-large {
+  height: ($content-spacing * 1.8);
+  width: ($content-spacing * 1.8);
+}
+
+// Fill
+
+.inline-svg--fill-grey       { fill: $grey; }
+.inline-svg--fill-white      { fill: $white; }
+.inline-svg--fill-green      { fill: $green; }
+.inline-svg--fill-blue       { fill: $blue; }
+.inline-svg--fill-blue-dark  { fill: $blue-dark; }
+.inline-svg--fill-yellow     { fill: $yellow; }
+.inline-svg--fill-grey-light { fill: $grey-light; }
+.inline-svg--fill-grey-dark  { fill: $grey-dark; }
+.inline-svg--fill-gold-light { fill: $gold-light; }
+
+// Transform
+
+.inline-svg--transform-mirror {
+  transform: scale(-1, 1);
+}

@@ -1,0 +1,116 @@
+/*
+ * http://bradsknutson.com/blog/css-tooltip/
+ */
+
+.hovercard {
+}
+
+/*
+ * Local Descendants
+ */
+
+.hovercard__trigger {
+  position: relative;
+  cursor: pointer;
+}
+
+.hovercard__promo {
+  position: absolute;
+  z-index: 2;
+  width: 275px;
+  @include transition(all 0.3s linear);
+  opacity: 0;
+  &:before {
+    // Triangle pointer to trigger
+    content: "";
+    position: absolute;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid $grey-darker;
+    bottom: 100%;
+    right:5%;
+  }
+  top: 41px;
+  right:-9px;
+  &.hovercard__show {
+    opacity: 1;
+  }
+}
+
+.hovercard__trigger > .hovercard__content {
+  @include box-shadow(2px 2px 16px rgba(0,0,0,.1));
+  @include transition(all 0.3s linear);
+  cursor: auto;
+  visibility: hidden;
+  opacity:0;
+  transform: scale(0);
+  position: absolute;
+  top: 150%;
+
+  &:before {
+    // Triangle pointer to trigger
+    content: "";
+    position: absolute;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid $grey-darker;
+    bottom: 100%;
+    left: 50%;
+  }
+}
+
+.hovercard__trigger:hover > .hovercard__content {
+  visibility: visible;
+  opacity: 1;
+  z-index: 2;
+  transform: rotate(360deg);
+}
+
+.hovercard__trigger.hovercard__content--bottom-center > .hovercard__content {
+  left: -310%;
+
+  &:before {
+    left: 82px;
+  }
+}
+
+.hovercard__trigger.hovercard__content--bottom-right > .hovercard__content {
+  left: -140%;
+
+  &:before {
+    left: 38px;
+  }
+}
+
+.hovercard__trigger.hovercard__content--bottom-far-right > .hovercard__content {
+  left: -25%;
+
+  &:before {
+    left: 13px;
+  }
+}
+
+.hovercard__trigger.hovercard__content--bottom-farthest-left > .hovercard__content {
+  left: -610%;
+
+  &:before {
+    left: 200px;
+  }
+}
+
+.hovercard__trigger.hovercard__content--sidebar-bottom-right > .hovercard__content {
+  left: 0;
+
+  &:before {
+    left: 5px;
+  }
+}
+
+.hovercard__trigger--large.hovercard__content--bottom-right > .hovercard__content {
+  top: 125%;
+  left: -50%;
+
+  &:before {
+    left: 38px;
+  }
+}

@@ -1,0 +1,314 @@
+/*
+ * Placeholders
+ * Used for demonstration of the CSS framework and to aid collaboration
+ */
+
+.placeholder {
+  width: 100%;
+  padding-top: 66%;
+  position: relative;
+  border: 1px dashed $grey-light;
+  background-color: $grey-faintest;
+  border-radius: 6px;
+
+  &:before {
+    @extend .util--abs-center-both;
+    content: attr(data-content);
+    line-height: 1.25;
+    font-size: 20px;
+    font-weight: normal;
+    color: $grey;
+    width: 90%;
+    text-align: center;
+  }
+}
+
+
+/*
+ * Utility Classes
+ * When smart to do so, put these in the markup. At other times, extend them with the SCSS to be DRY.
+ */
+
+
+// Floats
+
+.util--pull-right { float: right; }
+.util--pull-left { float: left; }
+.util--pull-center { margin-left: auto; margin-right: auto; }
+.util--float-around-me { overflow: hidden; }
+
+
+// Margin
+
+.util--margin-ts  { margin-top: $content-spacing / 4; }
+.util--margin-tm  { margin-top: $content-spacing / 2; }
+.util--margin-tl  { margin-top: $content-spacing; }
+.util--margin-txl { margin-top: $content-spacing * 3; }
+
+.util--margin-bs  { margin-bottom: $content-spacing / 4; }
+.util--margin-bm  { margin-bottom: $content-spacing / 2; }
+.util--margin-bl  { margin-bottom: $content-spacing; }
+.util--margin-bxl { margin-bottom: $content-spacing * 3; }
+
+.util--margin-rs  { margin-right: $content-spacing / 4; }
+.util--margin-rm  { margin-right: $content-spacing / 2; }
+.util--margin-rl  { margin-right: $content-spacing; }
+.util--margin-rxl { margin-right: $content-spacing * 3; }
+
+.util--margin-ls  { margin-left: $content-spacing / 4; }
+.util--margin-lm  { margin-left: $content-spacing / 2; }
+.util--margin-ll  { margin-left: $content-spacing; }
+.util--margin-lxl { margin-left: $content-spacing * 3; }
+
+
+// Padding
+
+.util--padding-txs { padding-top: $content-spacing / 8; }
+.util--padding-ts  { padding-top: $content-spacing / 4; }
+.util--padding-tm  { padding-top: $content-spacing / 2; }
+.util--padding-tl  { padding-top: $content-spacing; }
+.util--padding-txl { padding-top: $content-spacing * 2; }
+
+.util--padding-bxs { padding-bottom: $content-spacing / 8; }
+.util--padding-bs  { padding-bottom: $content-spacing / 4; }
+.util--padding-bm  { padding-bottom: $content-spacing / 2; }
+.util--padding-bl  { padding-bottom: $content-spacing; }
+.util--padding-bxl { padding-bottom: $content-spacing * 2; }
+
+.util--padding-rs  { padding-right: $content-spacing / 4; }
+.util--padding-rm  { padding-right: $content-spacing / 2; }
+.util--padding-rl  { padding-right: $content-spacing; }
+.util--padding-rxl { padding-right: $content-spacing * 2; }
+
+.util--padding-ls  { padding-left: $content-spacing / 4; }
+.util--padding-lm  { padding-left: $content-spacing / 2; }
+.util--padding-ll  { padding-left: $content-spacing; }
+.util--padding-lxl { padding-left: $content-spacing * 2; }
+
+
+// Text
+
+.util--text-align-c     { text-align: center; }
+.util--text-align-r     { text-align: right; }
+.util--vertical-align-m { vertical-align: middle; }
+.util--vertical-align-b { vertical-align: bottom; }
+
+
+// Display Utilities
+// Use these to hide/show elements at responsive breakpoints
+
+// Hide when smaller than small breakpoint
+@media only screen and (max-width: $breakpoint-small - 1px) {
+  .util--hide-mobile,    // hide at "mobile" breakpoint only (aka less than small breakpoint)
+  .util--show-small,     // show at small breakpoint only
+  .util--show-small-up,  // show at greater than or equal to small breakpoint only
+  .util--show-medium-up, // show at greater than or equal to medium breakpoint only
+  .util--show-large-up { // show at greater than or equal to large breakpoint only
+    display: none !important;
+  }
+}
+
+// Hide between small and medium breakpoint (greater than or equal to small breakpoint, less than medium breakpoint)
+@media only screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-medium - 1px) {
+  .util--hide-small,  // hide at small breakpoint only
+  .util--show-mobile, // show at mobile breakpoint only
+  .util--show-medium-up,
+  .util--show-large-up {
+    display: none !important;
+  }
+}
+
+// Hide between medium and large breakpoint (greater than or equal to medium breakpoint, less than large breakpoint)
+@media only screen and (min-width: $breakpoint-medium) and (max-width: $breakpoint-large - 1px) {
+  .util--hide-medium, // hide at medium breakpoint only
+  .util--show-mobile,
+  .util--show-small,
+  .util--show-large-up {
+    display: none !important;
+  }
+}
+
+// Hide when large breakpoint or above
+@media only screen and (min-width: $breakpoint-large) {
+  .util--hide-large, // hide at large breakpoint only
+  .util--show-mobile,
+  .util--show-small {
+    display: none !important;
+  }
+}
+
+// Hide at all breakpoints
+.util--hide { display: none !important; }
+[data-visibility='hidden'] { display: none !important; } // TODO: remove asap - KT
+
+.util--display-inline-block { display: inline-block; }
+.util--display-block { display: block; }
+
+
+// Z Index
+// Hey you. DO NOT START ADDING THESE WILLY-NILLY. They should be applied carefully, typically not as classes in markup but as extensions for our layout classes. These should be applied 5-10 times total in the whole app.
+
+.util--z-index-1   { z-index: 1; } // Layout elements outside of site-main, which need to overlap it
+.util--z-index-2   { z-index: 2; }
+.util--z-index-3   { z-index: 3; }
+.util--z-index-4   { z-index: 4; }
+.util--z-index-5   { z-index: 5; }
+.util--z-index-max { z-index: 9; } // 9 is "infinite" - do not end up with 9999 vs 999999 vs e^10
+
+
+// TODO: deprecate this in favor of proper container object with all necessary rules
+// for the subject (in this case, dms, since that's the only place this class is applied).
+.util--relative {
+  position: relative;
+}
+
+// Absolute position method centering
+// Remember to put a bounded width on the element being centered, and non-static position on its container.
+
+// Center vertically
+.util--abs-center-top {
+  position: absolute;
+  top: 50%;
+  transform: translate(0,-50%);
+}
+
+// Center vertically and horizontally
+.util--abs-center-both {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  @include translate(-50%,-50%);
+}
+
+// affix to bottom
+.util--abs-center-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+
+// Fix bottom right
+.util--affix-bottom-right {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+// Sticky positioning
+.util--anchor {
+  position: relative;
+
+  .util--anchor__frame {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+
+  .util--anchor__frame__fix-bottom {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .util--anchor__bottom {
+    position: fixed;
+    bottom: 0;
+  }
+}
+
+
+/*
+ * Special Styles
+ * Anything that well and truly doesn’t belong in the CSS system can go here.
+ * If this is ever more than a few lines, please look into how to refactor to systemetize the styles.
+ * Please leave a comment to justify your naughty behavior.
+ */
+
+// TODO: these are a temporary hacky solution for the typeahead.js suggestion box.
+// Refactor to follow proper OOCSS conventions.
+div.special--tt-menu {
+  background-color: $white;
+  border: 1px solid $grey-lightest;
+  border-bottom-left-radius: $content-spacing / 4;
+  border-bottom-right-radius: $content-spacing / 4;
+  width: 100%;
+
+  .special--tt-cursor,
+  .special--tt-cursor:hover,
+  .special--tt-cursor:active,
+  .special--tt-suggestion:hover,
+  .special--tt-suggestion:active {
+    background-color: $grey-lightest;
+  }
+
+  div.tt-dataset li:last-child { border: none; }
+}
+
+.site-header__search span.twitter-typeahead {
+  position: static !important;
+  display: inline !important;
+}
+
+// TODO: these are temporary overrides for jquery textcomplete used in chat.
+// Refactor to follow proper OOCSS conventions.
+.textcomplete-dropdown {
+  position: absolute !important;
+  top: auto !important;
+  bottom: 72px !important;
+  background-color: #fff;
+  padding: $content-spacing/2 0;
+  border-radius: $module-border-radius;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.35);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.35);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.35);
+
+  .textcomplete-item {
+    cursor: pointer;
+    padding: $content-spacing/2 $content-spacing;
+    line-height: 33px;  //hack
+    padding-right: $content-spacing * 3;
+    .status-alert__dot{
+      width: 9px;
+      height: 9px;
+      border:none;
+    }
+    a {
+      color: inherit;
+    }
+  }
+
+  .active { background-color: rgba(176, 243, 255, 0.29); }
+  .emoji-autocomplete-value { padding-left: 7px; }
+}
+
+//Chat animations
+
+.li-animation-uninitiated {
+  opacity: 0.01;
+}
+
+.li-animation-in li{
+  opacity: 1;
+  display: block;
+  transition: opacity 300ms ease-in;
+}
+
+.li-animation-half-out li {
+  opacity: 0.2;
+  transition: opacity 200ms ease-in;
+}
+
+.li-animation-out {
+  opacity: 0.01;
+  transition: opacity 250ms ease-in;
+}
+
+// More outlier classes from FlatChat
+// Class provided to us by the emojify library we're using to render emojis as images
+.emoji {
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-block;
+  margin-bottom: -0.25em;
+}

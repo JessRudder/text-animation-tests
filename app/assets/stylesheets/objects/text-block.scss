@@ -1,0 +1,508 @@
+/*
+ * Object: Text Block
+ * Special object to display flowing textual content. Implements automatic header styles for header elements, proper paragraph spacing, special blockquote styles, etc. Built to accept pre-formatted HTML which originates as markdown in GitHub.
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+.text-block {
+  line-height: 1.25;
+
+
+  // Headers
+  // Within text-blocks, uniform style for all header elements.
+
+  h1, h2, h3, h4, h5, h6 {
+    @extend .heading;
+    margin-top: 1em;
+  }
+
+  // Neighbor margins
+
+  h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, p + p, div + div, video + p,
+  img + p, pre + p, blockquote + p, table + p, ol + p, ul + p, div + p {
+    margin-top: 1em;
+  }
+
+
+  // Max-width for media elements
+
+  img { max-width: 100%; }
+
+
+  // Lists
+
+      ol { list-style-type: decimal; }
+      ul { list-style-type: circle; }
+  ol, ul { list-style-position: inside; }
+      li { margin-top: 0.5em }
+
+
+  // Code blocks
+
+  pre, code { font-family: monospace; }
+
+
+  // Tables
+
+  table {
+    border: 1px solid $grey-lighter;
+    text-align: left;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid $grey-lighter;
+    padding: $content-spacing ($content-spacing * 2);
+  }
+}
+
+
+/*
+ * Extensions
+ */
+
+// Readme
+// Lesson readme specific styles
+// ** Due to high specificity and non-OOCSS properties,
+// ** not intended to be used outside of lesson readme context.
+
+.text-block--readme {
+  @extend .util--font-style-6;
+  font-weight: 200;
+
+  > :first-child {
+    margin-top: $content-spacing * 2; /* Uniform spacing between parent and first child element */
+  }
+
+
+  /*
+   * Headers
+   * Within text-blocks, uniform style for all header elements.
+   */
+
+  h1, h2, h3, h4, h5, h6 {
+    @extend .heading--level-3;
+    margin-top: ($content-spacing * 4);
+  }
+
+
+  /*
+   * Neighbor margins
+   */
+
+  h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, p + p, div + div { @extend .util--margin-tl; }
+
+  .js--video-wrapper + p, video + p, img + p, pre + p, blockquote + p, table + p, ol + p, ul + p, div + p {
+    margin-top: $content-spacing * 1.5;
+  }
+
+
+  /*
+   * Island Elements
+   * DOM elements we want separated from surrounding elements.
+   */
+
+  .js--video-wrapper, video, img, pre, blockquote, table, ol, ul, input { margin-top: $content-spacing * 1.5; }
+
+
+  /*
+   * Lists
+   */
+
+  ol { margin-left: ($content-spacing * 2); list-style-type: none; }
+  ul { margin-left: $content-spacing * 1.25; list-style-position: outside; }
+
+  li { margin-top: $content-spacing - 4; }
+
+  ol:first-child { counter-reset: custom; }
+
+  ol li { counter-increment: custom; position: relative; }
+
+  ol li:before {
+    position: absolute;
+    left: -($content-spacing * 2 + 4);
+    top: -2px;
+    content: counter(custom);
+    border-radius: 9999px;
+    background-color: $grey-faint;
+    width: ($content-spacing * 2 - 4);
+    height: ($content-spacing * 2 - 4);
+    line-height: ($content-spacing * 2 - 4);
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: $grey-lighter;
+  }
+
+
+  /*
+   * Code snippets
+   */
+
+  code {
+    @extend .util--font-style-5;
+    background-color: $grey-faint;
+    border-radius: $content-spacing / 4;
+    padding: 0 ($content-spacing / 2) ($content-spacing / 4);
+    line-height: 1.5;
+    position: relative;
+    top: -1px;
+  }
+
+
+  /*
+   * Code blocks
+   */
+
+  pre {
+    @extend .border-box;
+    @extend .util--font-style-5;
+    overflow-y: hidden;
+    padding: 0 ($content-spacing * 2);
+    border-top: 6px solid $green;
+    border-radius: 0;
+    word-break: normal;
+    word-wrap: break-word;
+    background-color: $grey-faintest;
+    line-height: $content-spacing * 1.25;
+  }
+
+  pre code {
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    background: transparent;
+    white-space: pre-wrap;
+  }
+
+
+  /*
+   * Blockquotes
+   */
+
+  blockquote {
+    @extend .border-box;
+    background-color: $grey-faintest;
+    border-top: ($content-spacing / 2) solid $grey-faint;
+    padding: ($content-spacing * 1.25) ($content-spacing * 2);
+  }
+
+  blockquote h1, blockquote h2, blockquote h3, blockquote h4, blockquote h5, blockquote h6 {
+    margin-top: $content-spacing; // override default margin-top
+  }
+
+  blockquote > h1:first-child, blockquote > h2:first-child, blockquote > h3:first-child,
+  blockquote > h4:first-child, blockquote > h5:first-child, blockquote > h6:first-child {
+    margin-top: 0; // override default margin-top
+  }
+
+
+  /*
+   * Tables
+   */
+
+  td { @extend .util--font-style-5; }
+
+
+  /*
+   * SPECIAL
+   * Styles below are special cases and don't neccessarily follow proper OOCSS principles.
+   * They're bad examples / candidates for refactor. Don't model any new CSS after them.
+   */
+
+
+  /*
+   * Code Block Line Numbers
+   * Custom implemenation of google-code-prettify
+   */
+
+  .prettyprint.linenums {
+
+    ol {
+      list-style-type: none;
+      margin-top: 0;
+      border-left: 1px solid $grey-lighter;
+    }
+
+    ol li { margin-top: 0; padding-left: $content-spacing; }
+
+    ol:before, ol:after {
+      content: '';
+      margin-left: -($content-spacing / 4);
+      padding: ($content-spacing / 8 + 1) 0;
+    }
+
+    ol li:before {
+      @extend .util--font-style-5;
+      @extend .util--text-align-r;
+      content: counter(custom) " ";
+      background-color: transparent;
+      width: $content-spacing * 2;
+      font-weight: normal;
+      user-select: none;
+      left: -48px;
+    }
+  }
+
+
+  /*
+   * Quizzes
+   * For now, we're sticking with legacy class names and markup for quizzes.
+   * TODO: refactor parser to build proper OOCSS markup, then rewrite styling below.
+   */
+
+  .quiz-block {
+    border: 1px solid $grey-faint;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    counter-reset: question;
+
+    .CodeMirror {
+      @extend .util--font-style-5;
+      border: 1px solid $grey-faint;
+    }
+
+    // Override default top margins
+    div, h1, h2, h3, h4, h5, h6, pre { margin-top: 0; }
+
+    .quiz-title {
+      border-bottom: 1px solid $grey-faint;
+      padding: ($content-spacing * 2) ($content-spacing * 4);
+    }
+
+    .quiz-title h1 {
+      @extend .util--font-style-7;
+      text-transform: capitalize;
+      font-weight: normal;
+    }
+
+    .question-block {
+      padding: ($content-spacing * 2) ($content-spacing * 4);
+    }
+
+    .question-title {
+      @extend .util--font-style-6;
+      counter-increment: question;
+      padding-top: ($content-spacing / 2);
+
+      &:before {
+        content: counter(question) ". ";
+      }
+    }
+
+    .answer-block { padding-top: ($content-spacing / 2); }
+
+    .answer-block input[type="radio"],
+    .answer-block input[type="checkbox"] {
+      display:none;
+    }
+
+    .answer-block pre {
+      // Override default code block styling
+      background: transparent;
+      padding: 0 16px;
+      border: none;
+    }
+
+    .question-selection,
+    .question-selection.remove-hover:hover {
+      background-color: $grey-faintest;
+      border: 2px solid transparent;
+      padding: $content-spacing ($content-spacing * 4) $content-spacing ($content-spacing * 2);
+      margin-top: ($content-spacing / 2 - 3);
+      position: relative;
+      cursor: default;
+    }
+
+    .question-selection:hover {
+      cursor: pointer;
+      border-color: $blue-dark;
+      background-color: $white;
+    }
+
+    .question-selection .selected { border-color: $blue-dark; }
+    .question-selection ol:before, .question-selection ol:after  { content: none; }
+
+
+    // Multi-choice questions with multiple answers
+    .question-selection input[type="checkbox"] + .choice-index-span,
+    .question-selection input[type="checkbox"] + .choice-index-span pre {
+      padding-left: $content-spacing * 2;
+    }
+
+    // Multi-choice questions with multiple answers :unchecked
+    .question-selection input[type="checkbox"] + .choice-index-span:before {
+      content: '';
+      width: $content-spacing;
+      height: $content-spacing;
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border: 3px solid $grey-faint;
+      border-radius: ($content-spacing / 4);
+    }
+
+    // Multi-choice questions with multiple answers :checked
+    .question-selection input[type="checkbox"].selected + .choice-index-span:before {
+      border-color: $blue;
+      background: $blue url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='16' viewBox='0 0 24 16.9'><path fill='"+ $white +"' d='M8.5,16.9c-0.4,0-0.7-0.1-1-0.4L0.4,9.4c-0.5-0.5-0.5-1.4,0-2s1.4-0.5,2,0l6.1,6.1L21.6,0.4c0.5-0.5,1.4-0.5,2,0 c0.5,0.5,0.5,1.4,0,2L9.5,16.5C9.2,16.8,8.9,16.9,8.5,16.9C8.5,16.9,8.5,16.9,8.5,16.9z'/></svg>") center center no-repeat;
+    }
+
+    .assessment-btn {
+      @extend .button;
+      @extend input.button;
+      @extend .button--color-blue;
+    }
+
+    // Answer feedback: quizzes
+    .success-check, .incorrect-check {
+      display: none;
+
+      &:after {
+        content: '';
+        width: ($content-spacing * 1.5);
+        height: ($content-spacing * 1.5);
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: ($content-spacing);
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .success-check:after {
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMidYMid' viewBox='0 0 32 32'><circle cx='16' cy='16' r='15' fill='#f3faef' /><path d='M16.000,32.000 C7.163,32.000 -0.000,24.837 -0.000,16.000 C-0.000,7.164 7.163,0.000 16.000,0.000 C24.837,0.000 32.000,7.164 32.000,16.000 C32.000,24.837 24.837,32.000 16.000,32.000 ZM16.000,2.000 C8.280,2.000 2.000,8.280 2.000,16.000 C2.000,23.720 8.280,30.031 16.000,30.031 C23.720,30.031 30.000,23.720 30.000,16.000 C30.000,8.280 23.720,2.000 16.000,2.000 ZM13.772,21.651 C13.751,21.675 13.743,21.706 13.720,21.729 C13.329,22.119 12.696,22.119 12.306,21.729 L7.356,16.779 C6.965,16.388 6.965,15.755 7.356,15.364 C7.747,14.974 8.380,14.974 8.770,15.364 L12.998,19.592 L22.386,10.146 C22.776,9.755 23.410,9.755 23.800,10.146 C24.191,10.536 24.191,11.169 23.800,11.560 L13.772,21.651 Z' fill='" + $green + "' fill-rule='evenodd'/></svg>") center top no-repeat;
+    }
+
+    .incorrect-check:after {
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMidYMid' viewBox='0 0 33 33'><circle cx='16.5' cy='16.5' r='14.5' fill='#fee'/><path d='M16.500,33.000 C7.387,33.000 -0.000,25.613 -0.000,16.500 C-0.000,7.388 7.387,0.000 16.500,0.000 C25.613,0.000 33.000,7.388 33.000,16.500 C33.000,25.613 25.613,33.000 16.500,33.000 ZM16.500,2.062 C8.539,2.062 2.062,8.539 2.062,16.500 C2.062,24.461 8.539,30.970 16.500,30.970 C24.461,30.970 30.938,24.461 30.938,16.500 C30.938,8.539 24.461,2.062 16.500,2.062 ZM22.334,22.334 C21.931,22.736 21.278,22.736 20.875,22.334 L16.500,17.959 L12.125,22.334 C11.722,22.736 11.069,22.736 10.666,22.334 C10.264,21.931 10.264,21.278 10.666,20.875 L15.042,16.500 L10.666,12.125 C10.264,11.722 10.264,11.069 10.666,10.667 C11.069,10.264 11.722,10.264 12.125,10.667 L16.500,15.042 L20.875,10.667 C21.278,10.264 21.931,10.264 22.334,10.667 C22.736,11.069 22.736,11.722 22.334,12.125 L17.958,16.500 L22.334,20.875 C22.736,21.278 22.736,21.931 22.334,22.334 Z' fill='" + $red + "' fill-rule='evenodd' /></svg>") center top no-repeat;
+    }
+  }
+
+
+  /*
+   * Editor
+   */
+
+  // Override defaults
+  .CodeMirror { font: inherit; }
+  .CodeMirror, .CodeMirror pre, .CodeMirror div + div { margin: 0; }
+  .CodeMirror pre { font-family: "Nimbus Sans", Serif; border: none; background: none; z-index: 0; }
+  .CodeMirror-selected { opacity: 0.5; } // override inline styling added by codemirror
+
+  .editor-toolbar {
+    position: relative;
+    top: -($content-spacing);
+    height: ($content-spacing * 2.5 + 2); // account for 1px border
+    @extend .util--text-align-c;
+  }
+
+  .editor-toolbar a {
+    @extend .button--color-blue-light;
+    cursor: pointer;
+    display: inline-block;
+    height: ($content-spacing * 2.5);
+    width: ($content-spacing * 2.5);
+    border: 1px solid $white;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .editor-toolbar a.fa-bold {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='10' fill='"+ $white +"'><path d='M0 2h3.83c2.48 0 4.3 0.75 4.3 2.95 0 1.14-0.63 2.23-1.67 2.61v0.06c1.33 0.3 2.3 1.23 2.3 2.86 0 2.39-1.97 3.52-4.61 3.52H0V2z m3.66 4.95c1.67 0 2.38-0.66 2.38-1.69 0-1.17-0.78-1.61-2.34-1.61H2.13v3.3h1.53z m0.27 5.39c1.77 0 2.75-0.64 2.75-1.98 0-1.27-0.95-1.81-2.75-1.81H2.13v3.8h1.8z' /></svg>");
+  }
+
+  .editor-toolbar a.fa-italic {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='6' fill='"+ $white +"'><path d='M2.81 5h1.98L3 14H1l1.81-9z m0.36-2.7c0-0.7 0.58-1.3 1.33-1.3 0.56 0 1.13 0.38 1.13 1.03 0 0.75-0.59 1.3-1.33 1.3-0.58 0-1.13-0.38-1.13-1.03z' /></svg>");
+  }
+
+  .editor-toolbar a.fa-quote-left {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='14' fill='"+ $white +"'><path d='M6.16 3.17C3.73 4.73 2.55 6.34 2.55 9.03c0.16-0.05 0.3-0.05 0.44-0.05 1.27 0 2.5 0.86 2.5 2.41 0 1.61-1.03 2.61-2.5 2.61C1.09 14 0 12.48 0 9.75 0 5.95 1.75 3.22 5.02 1.33l1.14 1.84z m7 0C10.73 4.73 9.55 6.34 9.55 9.03c0.16-0.05 0.3-0.05 0.44-0.05 1.27 0 2.5 0.86 2.5 2.41 0 1.61-1.03 2.61-2.5 2.61-1.89 0-2.98-1.52-2.98-4.25 0-3.8 1.75-6.53 5.02-8.42l1.14 1.84z' /></svg>");
+  }
+
+  .editor-toolbar a.fa-list-ul {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='12' fill='"+ $white +"'><path d='M2 13c0 0.59 0 1-0.59 1H0.59c-0.59 0-0.59-0.41-0.59-1s0-1 0.59-1h0.81c0.59 0 0.59 0.41 0.59 1z m2.59-9h6.81c0.59 0 0.59-0.41 0.59-1s0-1-0.59-1H4.59c-0.59 0-0.59 0.41-0.59 1s0 1 0.59 1zM1.41 7H0.59c-0.59 0-0.59 0.41-0.59 1s0 1 0.59 1h0.81c0.59 0 0.59-0.41 0.59-1s0-1-0.59-1z m0-5H0.59c-0.59 0-0.59 0.41-0.59 1s0 1 0.59 1h0.81c0.59 0 0.59-0.41 0.59-1s0-1-0.59-1z m10 5H4.59c-0.59 0-0.59 0.41-0.59 1s0 1 0.59 1h6.81c0.59 0 0.59-0.41 0.59-1s0-1-0.59-1z m0 5H4.59c-0.59 0-0.59 0.41-0.59 1s0 1 0.59 1h6.81c0.59 0 0.59-0.41 0.59-1s0-1-0.59-1z' /></svg>");
+  }
+
+  .editor-toolbar a.fa-list-ol {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='12' fill='"+ $white +"'><path d='M12 13c0 0.59 0 1-0.59 1H4.59c-0.59 0-0.59-0.41-0.59-1s0-1 0.59-1h6.81c0.59 0 0.59 0.41 0.59 1zM4.59 4h6.81c0.59 0 0.59-0.41 0.59-1s0-1-0.59-1H4.59c-0.59 0-0.59 0.41-0.59 1s0 1 0.59 1z m6.81 3H4.59c-0.59 0-0.59 0.41-0.59 1s0 1 0.59 1h6.81c0.59 0 0.59-0.41 0.59-1s0-1-0.59-1zM2 1H1.28C0.98 1.19 0.7 1.25 0.25 1.34v0.66h0.75v2.14H0.16v0.86h2.84v-0.86h-1V1z m0.25 8.13c-0.17 0-0.45 0.03-0.66 0.06 0.53-0.56 1.14-1.25 1.14-1.89-0.02-0.78-0.56-1.3-1.36-1.3-0.59 0-0.97 0.2-1.38 0.64l0.58 0.58c0.19-0.19 0.38-0.38 0.64-0.38 0.28 0 0.48 0.16 0.48 0.52 0 0.53-0.77 1.2-1.7 2.06v0.58h3l-0.09-0.88h-0.66z m-0.08 3.78v-0.03c0.44-0.19 0.64-0.47 0.64-0.86 0-0.7-0.56-1.11-1.44-1.11-0.48 0-0.89 0.19-1.28 0.52l0.55 0.64c0.25-0.2 0.44-0.31 0.69-0.31 0.27 0 0.42 0.13 0.42 0.36 0 0.27-0.2 0.44-0.86 0.44v0.75c0.83 0 0.98 0.17 0.98 0.47 0 0.25-0.23 0.38-0.58 0.38-0.28 0-0.56-0.14-0.81-0.38L0 14.44c0.3 0.36 0.77 0.56 1.41 0.56 0.83 0 1.53-0.41 1.53-1.16 0-0.5-0.31-0.81-0.77-0.94z' /></svg>");
+  }
+
+  .editor-toolbar a.fa-link {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='16' fill='"+ $white +"' viewBox='0 0 512 512'><path d='M459.654,233.373l-90.531,90.5c-49.969,50-131.031,50-181,0c-7.875-7.844-14.031-16.688-19.438-25.813 l42.063-42.063c2-2.016,4.469-3.172,6.828-4.531c2.906,9.938,7.984,19.344,15.797,27.156c24.953,24.969,65.563,24.938,90.5,0 l90.5-90.5c24.969-24.969,24.969-65.563,0-90.516c-24.938-24.953-65.531-24.953-90.5,0l-32.188,32.219 c-26.109-10.172-54.25-12.906-81.641-8.891l68.578-68.578c50-49.984,131.031-49.984,181.031,0 C509.623,102.342,509.623,183.389,459.654,233.373z M220.326,382.186l-32.203,32.219c-24.953,24.938-65.563,24.938-90.516,0 c-24.953-24.969-24.953-65.563,0-90.531l90.516-90.5c24.969-24.969,65.547-24.969,90.5,0c7.797,7.797,12.875,17.203,15.813,27.125 c2.375-1.375,4.813-2.5,6.813-4.5l42.063-42.047c-5.375-9.156-11.563-17.969-19.438-25.828c-49.969-49.984-131.031-49.984-181.016,0 l-90.5,90.5c-49.984,50-49.984,131.031,0,181.031c49.984,49.969,131.031,49.969,181.016,0l68.594-68.594 C274.561,395.092,246.42,392.342,220.326,382.186z'/></svg>");
+  }
+
+  .editor-toolbar a.fa-picture-o {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='12' fill='"+ $white +"'><path d='M6 5h2v2H6V5z m6-0.5v9.5c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V2c0-0.55 0.45-1 1-1h7.5l3.5 3.5z m-1 0.5L8 2H1v11l3-5 2 4 2-2 3 3V5z' /></svg>");
+  }
+
+  .separator,
+  .editor-toolbar a.fa-eye,
+  .editor-toolbar a.fa-arrows-alt,
+  .editor-toolbar a.fa-question-circle,
+  .editor-toolbar a.fa-columns,
+  .editor-toolbar a.fa-header {
+    display: none;
+  }
+}
+
+
+// Showcase
+// Should be used in conjunction with .text-block--readme
+// Allows us to use majority of .text-block--readme styles without overriding
+// a select few OOCSS object/container default styles
+
+.text-block--showcase {
+
+  // Remove text-block default top margin
+  .stat__label, .stat--block-chart__main__inner__chart__block, .col,
+  .list > li, .menu__list li, .horizontal-list li, .list--spacing-none > li + li,
+  .media-block__media, .media-block__content, .media-block .heading, .media-block img,
+  .module__head, .module__body, .module__foot, .module .heading, .bubble-bar .heading,
+  input.input, .input--number-spinner, .image-frame img, .bubble-bar img,
+  .checkbox-group input, .radio-group input {
+    margin-top: 0px;
+  }
+
+  // List containers
+  .list, .menu__list, .horizontal-list, .bubble-bar__list, .stat--block-chart__main__inner__chart {
+    list-style-type: none;
+    margin: 0;
+  }
+
+  ol.list--numbered                   { @extend .list--numbered; }
+  ol.list--numbered li:before         { content: none; }
+  ol.list--bubble-count               { @extend .list--bubble-count; }
+  ol.list--bubble-count li:before     { top: 0; }
+
+  .list > li + li                     { margin-top: ($content-spacing / 2); }
+  .list--spacing-small > li + li      { margin-top: ($content-spacing / 4); }
+  .list--spacing-large > li + li      { margin-top: ($content-spacing); }
+  .bubble-bar__list                   { margin-top: (($content-spacing / 4) * -1); }
+  .bubble-bar__list > li              { margin-top:  ($content-spacing / 4); }
+  .bubble-bar__list--size-medium      { margin-top: (($content-spacing / 2) * -1); }
+  .bubble-bar__list--size-medium > li { margin-top:  ($content-spacing / 2); }
+  .bubble-bar__list--size-large       { margin-top: (($content-spacing * 0.75) * -1); }
+  .bubble-bar__list--size-large > li  { margin-top:  ($content-spacing * 0.75); }
+
+  // Module containers
+  .module                  { margin-top: ($content-spacing * 1.5) } // match text-block default top margin on pre "island element"
+  .module .module          { margin-top: initial; }
+  .module .module--outdent { @extend .module--outdent; }
+  .module .module--flat    { @extend .module--flat; }
+}
+
+
+/*
+ * Options
+ */
+
+// Margin
+
+.text-block--flush-top { // Offsets top margin applied to first header element
+  margin-top: -($content-spacing * 2);
+}

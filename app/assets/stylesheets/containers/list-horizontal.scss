@@ -1,0 +1,97 @@
+/*
+ * Container: Horizontal List
+ * Float-based horizontal list with varied spacing options. Possible to extend with border options and an inline-block method option as well.
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+ul.horizontal-list {
+  @extend .clearfix;
+}
+
+
+/*
+ * Local Descendants
+ */
+
+ul.horizontal-list > li {
+  float: left;
+
+  & + li {
+    margin-left: $content-spacing / 2;
+  }
+}
+
+
+/*
+ * Options
+ */
+
+// Spacing
+
+ul.horizontal-list--spacing-small {
+  li + li {
+    margin-left: $content-spacing / 4;
+  }
+}
+
+ul.horizontal-list--spacing-medium {
+  li + li {
+    margin-left: $content-spacing / 2;
+  }
+}
+
+ul.horizontal-list--spacing-large {
+  & > li + li {
+    margin-left: $content-spacing;
+  }
+}
+
+ul.horizontal-list--vertical-middle {
+ li {
+    vertical-align: middle;
+    > * {
+      vertical-align: middle;
+    }
+  }
+}
+
+ol.horizontal-list--separators-grey-faint, ul.horizontal-list--separators-grey-faint {
+  & > li + li {
+    padding-left: $content-spacing;
+  }
+
+  & > li + li {
+    border-left: 1px solid $grey-faint;
+  }
+
+  &.list--last-child-border > li:last-child {
+    border-right: 1px solid $grey-faint;
+  }
+}
+
+
+ul.horizontal-list--vertical-top {
+ li {
+    vertical-align: top;
+  }
+}
+
+ul.horizontal-list--vertical-bottom {
+ li {
+    vertical-align: bottom;
+  }
+}
+
+// Inline Display mode. Keep in mind this will add more margin left and right unless you eliminate all space and carriage returns between adjacent elements in the markup.
+ul.horizontal-list--display-inline {
+  display: inline-block;
+
+  > li {
+    float: none;
+    display: inline-block;
+  }
+}

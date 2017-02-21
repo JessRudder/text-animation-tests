@@ -1,0 +1,420 @@
+/*
+ * Font Declarations
+ */
+
+// JSL Ancient
+@font-face {
+  font-family: "JSL Ancient";
+  src: font_url("jancient.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Coolvetica";
+  src: font_url("coolvetica.ttf") format("truetype");
+}
+
+/*
+ * Typographic Utilities
+ */
+
+// Font size
+
+.util--font-style-1  { font-size: 12px; }
+.util--font-style-2  { font-size: 13px; }
+.util--font-style-3  { font-size: 14px; }
+.util--font-style-4  { font-size: 15px; }
+.util--font-style-5  { font-size: 17px; }
+.util--font-style-6  { font-size: 20px; }
+.util--font-style-7  { font-size: 22px; }
+.util--font-style-8  { font-size: 26px; }
+.util--font-style-9  { font-size: 30px; }
+.util--font-style-10 { font-size: 36px; }
+.util--font-style-11 { font-size: 42px; }
+.util--font-style-12 { font-size: 48px; }
+.util--font-style-13 { font-size: 56px; }
+.util--font-style-14 { font-size: 62px; }
+.util--font-style-15 { font-size: 68px; }
+.util--font-style-16 { font-size: 85px; }
+
+// Text Overflow
+
+.util--truncate-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.util--break-word {
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.util--text-wrap {
+  white-space: pre-wrap;
+}
+
+.util--no-text-wrap {
+  white-space: pre;
+}
+
+/*
+ * Global Styles
+ */
+
+body {
+  font-family: "Coolvetica", Serif;
+  color: $ink;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  font-kerning: normal;
+  -webkit-font-kerning: normal;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+sub {
+  vertical-align: sub;
+  font-size: smaller;
+}
+
+sup {
+  vertical-align: super;
+  font-size: smaller;
+}
+
+pre.code-block {
+  @extend .border-box;
+  font-family: monospace;
+  border-left: 4px solid $purple-lighter;
+  padding-left: ($content-spacing * 1.5);
+
+  code.code-block__code {
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    white-space: pre-wrap;
+    line-height: 1.25em;
+  }
+}
+
+
+/*
+ * Links
+ */
+
+a {
+  color: $blue;
+  text-decoration: none;
+  &:hover { color: $blue-dark; }
+}
+
+
+// Color
+
+a.link--color-inherit {
+  color: inherit;
+  &:hover { color: inherit; }
+}
+
+a.link--color-grey {
+  color: $grey;
+  &:hover { color: $grey-darker; }
+}
+
+a.link--color-grey-light {
+  color: $grey-light;
+  &:hover { color: $grey; }
+}
+
+a.link--color-aqua-green {
+  color: $aqua-green;
+  &:hover { color: $aqua-green-dark; }
+}
+
+// Highlight
+// Applies background color and padding for a "highlighted" effect
+
+a.link--highlight-color-blue {
+  border-radius: ($content-spacing / 4);
+  padding: ($content-spacing / 4);
+  background-color: $blue;
+  color: $white;
+
+  &:hover {
+    background-color: $blue-dark;
+    color: $white;
+  }
+}
+
+
+// Underline
+// Overrides default link style to add underline
+
+a.link--text-underline {
+  text-decoration: underline;
+}
+
+
+/*
+ * Headers
+ */
+
+.heading {
+  line-height: 1.25;
+  font-weight: normal;
+
+  // Headings will also have unique weight-lighter and weight-bolder extensions that allow a lighter or bolder version of that heading
+  // These weights will be unique to each heading, as different fonts will have different weights installed, so we can't assume a specific weight will be available.
+
+  // When we have an anchor inside a heading, use the color the header wants to be naturally, and don’t add an underline. Keep an eye on this – might not be reliable when headings are extended and so on
+  a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+
+    &.link--text-underline {
+      text-decoration: underline;
+    }
+  }
+
+  // When we have a code snippet inside a heading, we apply a background color, padding and small border radius, similar to our .heading--highlight styling.
+  code {
+    background-color: $grey-faint;
+    border-radius: $content-spacing / 4;
+    padding: 0 ($content-spacing / 2) ($content-spacing / 4);
+  }
+
+  &.heading--weight-bold { font-weight: bold; }
+}
+
+
+/*
+ * Heading Options
+ */
+
+// Color
+
+.heading--color-black {
+  color: $black;
+  a:hover { color: $blue-dark; }
+}
+
+.heading--color-green {
+  color: $green;
+  a:hover { color: $green-dark; }
+}
+
+.heading--color-blue {
+  color: $blue;
+  a:hover { color: $blue-dark; }
+}
+
+.heading--color-blue-dark {
+  color: $blue-dark;
+  a:hover { color: $blue-darker; }
+}
+
+.heading--color-grey {
+  color: $grey;
+  a:hover { color: $grey-darker; }
+}
+
+.heading--color-grey-faintest {
+  color: $grey-faintest;
+  a:hover { color: $grey-faintest; }
+}
+
+.heading--color-grey-light {
+  color: $grey-light;
+  a:hover { color: $grey; }
+}
+
+.heading--color-grey-lighter {
+  color: $grey-lighter;
+  a:hover { color: $grey; }
+}
+
+.heading--color-grey-darker {
+  color: $grey-darker;
+  a:hover { color: $grey; }
+}
+
+.heading--color-grey-dark {
+  color: $grey-dark;
+  a:hover { color: $grey; }
+}
+
+.heading--color-yellow {
+  color: $yellow;
+  a:hover { color: $yellow-dark; }
+}
+
+.heading--color-gold-light {
+  color: $gold-light;
+  a:hover { color: $gold; }
+}
+
+.heading--color-white {
+  color: $white;
+  a:hover { color: $grey-lighter; }
+}
+
+.heading--color-purple{
+  color:$purple;
+}
+
+.heading--color-red {
+  color: $red;
+  a:hover { color: $red-dark; }
+}
+
+.heading--color-aqua-green {
+  color: $aqua-green;
+  a:hover { color: $aqua-green; }
+}
+
+// Highlight
+// Applies background color and padding for a "highlighted" effect
+
+.heading[class*=highlight] {
+  // Headings with a class that includes highlight
+  padding: 0 ($content-spacing / 4);
+  border-radius: ($content-spacing / 4);
+
+}
+
+.heading.heading--highlight-tight {
+  padding: 2px ($content-spacing / 4);
+  border-radius: 2px;
+}
+
+.heading--highlight-color-grey-lightest {
+  background-color: $grey-lightest;
+}
+
+.heading--highlight-color-grey-light {
+  background-color: $grey-light;
+}
+
+.heading--highlight-color-red {
+  background-color: $red;
+}
+
+.heading--highlight-color-blue-darker {
+  background-color: $blue-darker;
+}
+
+.heading--highlight-color-green {
+  background-color: $green;
+}
+
+.heading--highlight-color-gold {
+  background-color: $gold;
+}
+
+// Boxed
+// Outlines content of header
+
+.heading--boxed {
+  padding: ($content-spacing / 2) $content-spacing;
+  border-style: solid;
+  border-width: ($content-spacing / 8);
+  border-radius: ($content-spacing / 4);
+}
+
+// Fence-Sitting
+// Text with thin divider line on either side
+// By default, text is centered, with lines filling width of parent container
+// ex: ---- text ----
+
+.heading--fence-sitting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:before, &:after {
+    content: '';
+    border: 1px solid $grey-lightest;
+    display: flex;
+    width: 100%;
+  }
+
+  &:before { margin-right:($content-spacing); }
+  &:after { margin-left: ($content-spacing) }
+}
+
+// Display
+
+.heading--display-inline-block { display: inline-block; }
+
+// Text Transform
+
+.heading--text-uppercase { text-transform: uppercase; }
+
+// Text Decoration
+
+.heading--text-underline { text-decoration: underline; }
+.heading--text-line-through { text-decoration: line-through; }
+
+
+/*
+ * Individual heading styles
+ */
+
+.heading--level-1 { // heading--level-1 is bold and large
+  @extend .util--font-style-16; // 22px
+  font-weight: bold;
+  letter-spacing: -0.02em;
+  font-family: "JSL Ancient";
+  &.heading--weight-lightest { font-weight: 200; }
+  &.heading--weight-lighter { font-weight: normal; }
+  &.heading--font-size-smaller { @extend .util--font-style-6; } // 20px
+  &.heading--font-size-larger { @extend .util--font-style-8; }  // 26px
+  &.heading--font-size-largest { @extend .util--font-style-9; } // 30px
+}
+
+.heading--level-2 { // heading--level-2 is larger, normal style
+  @extend .util--font-style-6; // 20px
+  font-weight: normal;
+  &.heading--weight-bolder { font-weight: bold; }
+  &.heading--weight-lighter { font-weight: 200; }
+  &.heading--font-size-smaller { @extend .util--font-style-5; }  // 17px
+  &.heading--font-size-larger { @extend .util--font-style-7; }   // 22px
+}
+
+.heading--level-3 { // heading--level-3 is bold uppercase
+  @extend .util--font-style-4; // 15px
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  &.heading--weight-lighter { font-weight: normal; }
+  &.heading--font-size-largest { @extend .util--font-style-6; }  // 20px
+  &.heading--font-size-larger { @extend .util--font-style-5; }   // 17px
+  &.heading--font-size-smaller { @extend .util--font-style-3; }  // 14px
+  &.heading--font-size-smallest { @extend .util--font-style-2; } // 13px
+}
+
+.heading--level-4 { // heading--level-4 is bold and small
+  @extend .util--font-style-4; // 15px
+  font-weight: bold;
+  &.heading--weight-lighter { font-weight: normal; }
+  &.heading--font-size-larger { @extend .util--font-style-5; }   // 17px
+  &.heading--font-size-smaller { @extend .util--font-style-3; }  // 14px
+  &.heading--font-size-smallest { @extend .util--font-style-2; } // 13px
+}
+
+.heading--level-5 { // heading--level-5 is bold and very small
+  @extend .util--font-style-1; // 12px
+  font-weight: bold;
+  &.heading--weight-bolder { font-weight: 900; }
+  &.heading--weight-lighter { font-weight: normal; }
+  &.heading--font-size-larger { @extend .util--font-style-2; }   // 13px
+}
+
+.heading--level-6 { // heading--level-6 is very small caps
+  @extend .util--font-style-1; // 12px
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  &.heading--weight-bolder { font-weight: bold; }
+  &.heading--font-size-larger { @extend .util--font-style-2; } // 13px
+  &.heading--font-size-smaller { font-size: 9px; }
+}

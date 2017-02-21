@@ -1,0 +1,68 @@
+/*
+ * Objects are small, atomic pieces at the very bottom of the DOM. They should rarely contain any other objects and never contain other objects.
+ * Objects are the most quarantined part of the Ironboard CSS framework. They do not have children, so their rules cannot "infect" other things on the page.
+ * Objects sometimes flex to 100% of their parent’s width, but often have a fixed width, max-width, or width dependent on the data inside them.
+ * Objects should be tiny.
+ * Objects should be named generically, but don’t need to be as generic as containers. However, they should be extremely location-independent. Bad: ".homepage-profile-picture" / ".track-id". Good: ".thumbnail-image-wrapper" / ".statistic"
+ */
+
+
+/*
+ * Local variables
+ * Since these are not scoped, make sure to prefix them with the name of the object in question.
+ */
+
+$sample-object-height: 123px;
+
+
+/*
+ * Overall Rules
+ * Place standard overall rules at the beginning of the file
+ */
+
+.sample-object {
+  rule: value;
+  rule: value;
+
+
+  /*
+   * Responsive Overrides
+   */
+
+  @media @breakpoint {
+    rule: value;
+  }
+}
+
+
+/*
+ * Local Descendants
+ * Scoped child elements which can exist only as a part of this object.
+ */
+
+.sample-object__child {
+  rule: value;
+  rule: value;
+}
+
+
+/*
+ * Options
+ * Options tweak the object but do not change its basic nature. Options should be implemented using custom HTML attributes using the prefix "style-". Good examples are color overrides, padding and margin tweaks, and font size tweaks.
+ */
+
+.sample-object.sample-object--color-red { // Overwrite the typical color
+  color: red;
+}
+
+
+/*
+ * Extensions
+ * Extensions change the basic nature of the object and acheive effects not efficiently acheivable with Options. It the modification you’re doing doesn’t fit neatly as an Option, it’s probably an Extension.
+ * The extension class is used in conjunction with the base class for the object, not as a replacement for it. The class chain should never include an extension class (one with “--”) without its base class.
+ */
+
+.sample-object--extension {
+  rule: value;
+  rule: value;
+}

@@ -1,0 +1,145 @@
+/*
+ * Menus
+ * Menus require a special .js--menu-click-listener class added to one of their parents.
+ * That parent is then the menu container, and the menu appears based on clicks on that container.
+ * This class is implemented by the header for the user and admin menus, with some special overrides
+ */
+
+$admin-menu-max-height: 600px;
+$menu-carat-height: $content-spacing * .5;
+$menu-background: $grey-faintest;
+$menu-border: $grey-lightest;
+$menu-inner-padding: $content-spacing * 1.5;
+
+// The click listener. Not a BEM child of menu, but a special helper class that works alongside it.
+
+.js--menu-click-listener {
+  cursor: pointer;
+  position: relative;
+  // Might want to add some hover rules to this
+}
+
+
+// The Menu itself.
+// It's important the menu is displayed visually adjacent to the .js--menu-click-listener, or the user won't actually be able to get to the menu.
+
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-left: -1 * $menu-inner-padding; // Box is positioned absolute to top 100% left 0 to provide a base position. Use margin to do the actual positioning relative to that origin. Then we can use translate to do animations with css
+  margin-top: 16px;
+  display: none;
+  width: $content-spacing * 16;
+  background: $menu-background;
+  z-index: 1;
+  border: solid 1px $menu-border;
+  border-radius: 6px;
+
+  // Carat. Uses rotated rectangle.
+  &:before {
+    content: '';
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='12'><polyline points='0.4,12.8 10.4,0.8 20.4,12.8 ' fill='" + $menu-background + "' stroke-width='1' stroke='" + $menu-border + "' /></svg>") center top no-repeat; // FF does not support these hex colors. That’s okay.
+    display: block;
+    position: absolute;
+    top: -1 * $menu-carat-height;
+    left: $menu-inner-padding; // Align left edge of carat with left edge of content.
+    height: 8px;
+    width: 16px;
+  }
+}
+
+
+/*
+ * Local Descendants
+ */
+
+// Menu Lists should look like certain list types
+.menu__list {
+  @extend ul.list;
+  @extend ul.list--spacing-none;
+  @extend ul.list--separators-grey-lightest;
+}
+
+// Menu List Items expect to have links, and style them
+.menu__list__item a {
+  color: $grey-light;
+  display: block;
+  padding: $content-spacing ($menu-inner-padding - 1); // We want inner padding to include the 1px border, so make it slightly skinnier here.
+  @extend .border-box;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: left;
+  @include transition(all .15s);
+
+  &:hover {
+    color: $grey;
+  }
+}
+
+.menu__list__item__inner {
+  display: block;
+  position: relative;
+  @extend .util--font-style-4;
+}
+
+.menu__list__item a:hover .menu__list__item__inner {
+  padding-left: 0;
+}
+
+// List item icons, if necessary.
+
+.menu__list__item__icon {
+  position: absolute;
+  right: ($content-spacing * 1.5);
+  top: 50%;
+  @include translate(-50%,-50%);
+  display: block;
+  width: 18px;
+  height: 18px;
+  fill: $grey-light;
+}
+
+.menu__list__item__notification-count {
+  @extend .button;
+  @extend .button--circle;
+  @extend .button--color-blue;
+  position: absolute;
+  right: $content-spacing;
+  top: 50%;
+  @include translate(-50%,-50%);
+  display: block;
+}
+
+
+/*
+ * Options
+ */
+
+// Carat position
+
+.menu--side-alt {
+  left: auto;
+  right: 0;
+  margin-right: -1 * $menu-inner-padding;
+
+  // Swap carat position
+  &:before {
+    left: auto;
+    right: $menu-inner-padding;
+  }
+}
+
+// Behavior
+
+.unselectable {
+  // Define behavior on individual basis for options/extensions
+  &.menu__list__item a {
+    pointer-events: none;
+  }
+}
+
+.menu__list--overflow-y {
+  overflow-y: auto;
+  max-height: $admin-menu-max-height;
+}

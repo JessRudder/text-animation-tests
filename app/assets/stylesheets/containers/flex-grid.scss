@@ -1,0 +1,190 @@
+/*
+ * Container: Flex Grid
+ * Parent container for flexible items that can grow or shrink based on the available space in a container. The flexbox container can alter the height and width of its items to efficiently fill the available space. See: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+
+
+/*
+ * Overall Rules
+ */
+
+.flex-grid {
+}
+
+/*
+ * Local Descendants
+ */
+
+.flex-grid__item {  // Tag all flex items within a parent container
+  display: flex;
+
+  > .flex-grid__item__inner { // Tag items within flex-grid__item that should be flex children of the flex-grid__item.
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+
+/*
+ * Extensions
+ */
+
+// Threes
+// Lines up items stacked in groups of three.
+// Items will share same height, set by tallest item in set.
+// TODO: add to stylesheet - KT 11/11/2016
+
+.flex-grid--threes {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .flex-grid__item {
+    width: 33.33%;
+    flex-direction: column;
+
+    > .flex-grid__item__inner {
+      flex: 1;
+      justify-content: space-around;
+    }
+  }
+}
+
+// Stack threes at medium breakpoint and below
+@media only screen and (max-width: $breakpoint-medium) {
+  .flex-grid--threes { flex-direction: column; }
+  .flex-grid--threes .flex-grid__item { width: initial; }
+}
+
+// Stones
+// Builds a uniform grid of items similar to Threes, except overflow items do not wrap onto the next line.
+
+.flex-grid--stones {
+  @extend .flex-grid--threes;
+  flex-wrap: nowrap;
+
+  .flex-grid__item {
+    > .flex-grid__item__inner > .flex-grid__item__inner {
+      display: flex;
+      flex: 2 0 auto;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+// Stack stones at small breakpoint and below
+@media only screen and (max-width: $breakpoint-small) {
+  .flex-grid--stones { flex-direction: column; }
+  .flex-grid--stones .flex-grid__item { width: initial; }
+}
+
+// Jigsaw
+// A complex grid with rows and columns of varying widths and heights based on a 25-item collection. Items are styled based on 5-item chunks and fit into 5 layouts. It's a hybrid use of flexbox, in which the `flex-grid__item`s are made to flex to the height of their parent container. The pattern will be repeated for every 25 items and can accommodate collections of any size. Its design is optimized for styling a collection of items with headlines and text.
+
+.flex-grid--jigsaw {
+  // Three fixed item heights
+  $jigsaw-item-height-short: 295px;
+  $jigsaw-item-height-medium: 385px;
+  $jigsaw-item-height-tall: 590px;
+
+  .flex-grid__item { // The default flex item container that will be further styled based on its position in the collection on the page. 
+    width: 32%;
+    height: $jigsaw-item-height-short;
+    float: left;
+    overflow: hidden;
+    justify-content: space-between;
+
+    .flex-grid__item__headline {
+      @include line-clamp($line-count: 1);
+    }
+
+    .flex-grid__item__text {
+      @include line-clamp($line-count: 4);
+    }
+
+    .flex-grid__item__inner--revealable {
+      display: none;
+    }
+
+    > .flex-grid__item__inner {
+      flex-wrap: nowrap;
+      justify-content: space-between;
+    }
+  }
+
+  .flex-grid__item:nth-child(25n + 4),
+  .flex-grid__item:nth-child(25n + 5),
+  .flex-grid__item:nth-child(25n + 24),
+  .flex-grid__item:nth-child(25n + 25) {
+    width: 48.5%;
+    height: $jigsaw-item-height-medium;
+
+    .flex-grid__item__headline {
+      @extend .util--font-style-8;
+    }
+
+    .flex-grid__item__text {
+      @include line-clamp($line-count: 5);
+    }
+
+    .flex-grid__item__inner--revealable {
+      display: block;
+    }
+  }
+
+  .flex-grid__item:nth-child(25n + 11) {
+    height: $jigsaw-item-height-tall;
+
+    .flex-grid__item__headline {
+      @extend .util--font-style-8;
+      @include line-clamp($line-count: 3);
+    }
+
+    .flex-grid__item__text {
+      @include line-clamp($line-count: 12);
+    }
+
+    .flex-grid__item__inner--revealable {
+      display: block;
+    }
+  }
+
+  .flex-grid__item:nth-child(25n + 10), .flex-grid__item:nth-child(25n + 19) {
+    width:66.66%;
+
+    .flex-grid__item__headline {
+      @extend .util--font-style-8;
+    }
+  }
+
+  // Responsive behavior -- collapse grid items into single column at medium breakpoint
+  @media only screen and (max-width: $breakpoint-medium) {
+    // This is required here in the media query because the nths of childs are more specific and we need to override them.
+    .flex-grid__item,
+    .flex-grid__item:nth-child(25n + 4),
+    .flex-grid__item:nth-child(25n + 5),
+    .flex-grid__item:nth-child(25n + 10),
+    .flex-grid__item:nth-child(25n + 11),
+    .flex-grid__item:nth-child(25n + 19),
+    .flex-grid__item:nth-child(25n + 24),
+    .flex-grid__item:nth-child(25n + 25) {
+
+      width: 100%;
+      height: auto;
+
+      .flex-grid__item__headline {
+        @include line-clamp($line-count: 1);
+      }
+
+      .flex-grid__item__text {
+        @include line-clamp($line-count: 3);
+      }
+
+      .flex-grid__item__inner--revealable {
+        display: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,207 @@
+/*
+ * Site Main
+ */
+
+section.site-main {
+  position: absolute;
+  top: $site-header-height;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  @include slide-bounce(right);
+}
+
+
+// Inner container – spaced from the sides.
+
+.site-main__inner {
+  @extend .border-box;
+  position: relative;
+  padding-top: $content-spacing; // Left and right spacing handled by levels.
+  padding-bottom: ($site-footer-height + ($content-spacing * 1.5));
+  min-height: 100%;
+
+  // Breakpoint based on the custom one defined in table-grid
+  // e.g. found in standard site-main__inner__footer
+  @media only screen and (max-width: $breakpoint-small + 40) {
+    padding-bottom: ($site-footer-height * 3);
+  }
+}
+
+
+// Footer. This is a bit confusing – why is the footer a child of site-main? But the reason is that site-main is our primary scrolling container, and we need the footer inside it.
+
+.site-main__inner__footer {
+  @extend .level;
+  @extend .heading;
+  @extend .heading--level-6;
+  @extend .heading--color-grey;
+  background: $grey-faintest;
+  padding-top: ($content-spacing * 1.5);
+  padding-bottom: ($content-spacing * 1.5);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.site-main__inner__footer--fixed {
+  position: fixed;
+  bottom: 0;
+}
+
+.site-main__inner__footer__inner {
+  @extend .level__inner;
+  padding-left: $content-spacing / 2;
+  padding-right: $content-spacing / 2;
+  @extend .border-box;
+}
+
+.site-main__inner__footer__icon {
+  vertical-align: baseline;
+  position: relative;
+  top: 2px;
+}
+
+
+/*
+ * Contextual Styles
+ */
+
+body.body--background-grey {
+  // When the background is grey, make footer white
+  .site-main__inner__footer {
+    background-color: white;
+  }
+}
+
+body.body--header-background-purple {
+  // Apply purple color scheme to header
+  header.site-header {
+    background: $purple;
+
+    .site-header__user,
+    .site-header__menu__label         { color: $white; }
+    .site-header__home                { border-right-color: $purple-light; }
+    .site-header__search              { background-color: $purple; }
+    .site-header__search__trigger     { border-left-color: $purple-light; }
+    .site-header__menu__label__handle { background-color: $purple-light; }
+
+    .site-header__menu__label:hover {
+      .site-header__menu__label__handle { background-color: $purple-lighter; }
+    }
+  }
+}
+
+body.body--private {
+  // When private, site header colors are inverted
+  header.site-header {
+    background: $grey-darker;
+
+    .site-header__user,
+    .site-header__menu__label         { color: $white; }
+    .site-header__home                { border-right-color: $grey-dark; }
+    .site-header__menu__label__handle { background-color: $grey-dark; }
+    .site-header__search              { background-color: $grey-darker; }
+    .site-header__search__trigger     { border-left-color: $grey-dark; }
+
+    .site-header__menu__label:hover {
+      .site-header__menu__label__handle { background-color: $grey; }
+    }
+  }
+}
+
+body.body--public {
+  // When public, add padding early and remove top margin on footer
+  .site-main__inner__footer {
+    margin-top: 0;
+    @extend .level--add-padding-early;
+  }
+}
+
+body.body--disable-header {
+  // When header is removed, align site-main to top of page
+  .site-main {
+    top: 0;
+  }
+  .site-main__inner {
+    padding-top: 0;
+  }
+}
+
+body.body--disable-footer {
+  // When footer is removed, make site-main__inner flush with bottom of page
+  .site-main__inner {
+    padding-bottom: 0;
+  }
+}
+
+// Push the body area around depending on what other elements are present on the page. Not very OO, but very precise.
+// As flexbox becomes more reliable, move to it for more layout uses including this.
+
+body.body--has-subheader {
+  .site-main {
+    // When there is a subheader present, push content down height of header plus subheader, not just header.
+    top: $site-header-height + $site-subheader-height;
+  }
+}
+
+body.body--has-banner {
+  .site-main {
+    // When there is a banner present, push content down height of header plus banner, not just header.
+    top: $site-header-height + $site-banner-height;
+  }
+}
+
+body.body--has-subheader.body--has-banner {
+  .site-main {
+    // When there is a subheader present, push content down height of header plus subheader, not just header.
+    top: $site-header-height + $site-subheader-height + $site-banner-height;
+  }
+}
+
+body.body--has-sidebar {
+  .site-main {
+    // When at non-mobile sizes if there is a sidebar
+    // push in from the right
+    @media screen and (min-width: $breakpoint-medium) {
+      right: $site-sidebar-width;
+    }
+  }
+
+  // When chat is open, push right
+  .site-main[data-state='compressed'] {
+    right: $chat-lobby-width;
+  }
+}
+
+body.body--has-sidebar--side-alt {
+  .site-main {
+    // When at non-mobile sizes if there is a sidebar
+    // push in from the right
+    @media screen and (min-width: $breakpoint-medium) {
+      left: $site-sidebar-width;
+    }
+  }
+}
+
+// TODO: deprecate; can be replaced by body--has-sidebar--side-alt
+body.body--has-sidebar--always {
+  .site-main {
+    left: $site-sidebar-width;
+  }
+}
+
+// Removes top padding for pages that need their first level to be flush against the header/subheader
+
+body.body--padding-flush-top {
+  .site-main__inner {
+    padding-top: 0;
+  }
+}

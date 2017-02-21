@@ -1,0 +1,211 @@
+// Site Sidebar
+// Contains required child site-sidebar__content, and optional child
+// site-sidebar__actions. When actions is present, it will take space at the
+// top from content. Content is the scrolling inner element.
+
+section.site-sidebar {
+  display: none;
+  position: fixed;
+  top: $site-header-height;
+  right: 0;
+  bottom: 0;
+  width: $site-sidebar-width;
+  @extend .border-box;
+  background: $grey-faintest;
+  border-left: 1px solid $grey-faint;
+  overflow-y: auto;
+
+  @media screen and (min-width: $breakpoint-medium) {
+    display: flex;
+    flex-direction: column;
+  }
+
+}
+
+.site-sidebar__actions, .site-sidebar__content {
+  display: flex;
+  flex-direction: column;
+  padding: $content-spacing / 2; // Creates gutters of $content-spacing when mods are included. To override (if you want an element to touch the edges of the box) use .module--outdent.
+}
+
+.site-sidebar__actions {
+  border-bottom: 1px solid $grey-faint;
+}
+
+.site-sidebar__content {
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.site-sidebar__footer { }
+
+.site-sidebar__footer[data-state='open'] {
+  @extend .border-box;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: $site-sidebar-width;
+  border-left: 1px solid $grey-faint;
+}
+
+.site-sidebar__footer__inner {
+  border-top: 1px solid $grey-faint;
+  padding-top: $content-spacing;
+  padding-bottom: $content-spacing;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.site-sidebar__footer__inner--white {
+  background: $white;
+}
+
+.site-sidebar__footer__inner--green {
+  background: $green;
+  color: $white;
+}
+
+.site-sidebar__footer__inner--black {
+  background: $black;
+  color: $white;
+}
+
+/*
+ * Options
+ */
+
+// Always there sidebar (does not disappear at smaller screen sizes)
+
+
+section.site-sidebar--always {
+  @media screen and (min-width: 0) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// Side Alt
+// Note: assumes default side is right. If default is ever left, change alt to right.
+//
+// Example markup:
+// section.site-sidebar.site-sidebar--side-alt
+
+section.site-sidebar--side-alt {
+  left: 0;
+}
+
+// Collapsable elements
+// Sidebar can have child elements that are conditionally shown/hidden at different
+// screen resolutions. By default at larger screen resolutions, these rules shouldn't
+// affect the DOM elements they're applied to. Collapsable styles should only take
+// effect when scoped under body--has-sidebar--collapsable.
+
+.site-sidebar__collapsable__step--hide-small { display: inherit; }
+.site-sidebar__collapsable__step--show-small { display: none; }
+
+
+/*
+ * Contextual Styles
+ */
+
+body.body--has-full-width-subheader {
+  .site-sidebar {
+    top: $site-header-height * 2;
+  }
+}
+
+body.body--has-sidebar--background-white {
+  section.site-sidebar {
+    background: $white;
+  }
+}
+
+body.body--has-sidebar--background-grey {
+  section.site-sidebar {
+    background: $grey-faintest;
+  }
+}
+
+body.body--has-sidebar--collapsable {
+  section.site-sidebar {
+
+    @media screen and (min-width: $breakpoint-mobile) and (max-width: $breakpoint-medium) {
+      z-index: 1;
+      display: flex;
+      overflow: visible;
+      flex-direction: column;
+      width: $site-sidebar-collapsable-width;
+
+      .site-sidebar__actions { padding-top: 0; padding-bottom: 0; }
+      .site-sidebar__content { overflow: visible; }
+      .site-sidebar__footer__inner { position: relative; }
+
+      // A section of the sidebar that contains one or more elements that should be
+      // shown/hidden at lower screen resolutions, with option to reveal element(s) on hover
+      .site-sidebar__collapsable {
+        position: relative;
+
+        // Apply this rule to elements that should be shown when the sidebar is collapsed
+        // and hidden when sidebar is full width
+        .site-sidebar__collapsable__step--show-small { display: block; }
+
+        // Apply this rule to elements that should be hidden when the sidebar is collapsed.
+        // Combine this rule with optional extension "with-reveal" to show element on hover.
+        .site-sidebar__collapsable__step--hide-small { display: none; }
+
+        // Use this rule in conjunction with "site-sidebar__collapsable__element" to
+        // reveal a hidden element on hover when rail is collapsed.
+        .site-sidebar__collapsable__step--hide-small--with-reveal {
+          margin: 0 (-1 * ($content-spacing / 2)) 0 0;
+          position: absolute;
+          top: 0;
+          width: $site-sidebar-width - $site-sidebar-collapsable-width;
+          animation-name: slide;
+          animation-duration: 0.4s;
+          animation-timing-function: ease;
+        }
+
+        // Use this rule for elements close to the bottom of the page.
+        // Positions them to slide out from "above the fold", instead of below where they may be cut off
+        .site-sidebar__collapsable__step--hide-small--with-reveal--high {
+          top: initial;
+          bottom: 0;
+        }
+
+        @keyframes slide {
+          0% {
+            right: -($site-sidebar-width - $site-sidebar-collapsable-width);
+          }
+          100% {
+            right: 0;
+          }
+        }
+
+        &:hover {
+          .site-sidebar__collapsable__step--hide-small--with-reveal {
+            display: inline;
+            right: 0;
+            z-index: 2;
+          }
+
+          // Applies box-shadow to direct child div element
+          // The direct child element should be be a container of some sort, like a module
+          .site-sidebar__collapsable__step--hide-small--with-reveal > div {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            box-shadow: 0 0 ($content-spacing * 1.5) rgba(0,0,0,.15);
+            margin: 0;
+          }
+
+          // Apply this rule to "long" elements, like the self review assessment checklist,
+          // that should be capped at a max height and made scrollable in order to prevent
+          // them from getting cut off below/above the page.
+          .site-sidebar__collapsable__step--hide-small--with-scroll {
+            max-height: ($content-spacing * 12);
+            overflow-y: auto;
+          }
+        }
+      }
+    }
+  }
+}

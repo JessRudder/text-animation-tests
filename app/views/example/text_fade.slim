@@ -5,26 +5,41 @@
 
 = content_for(:application_body)
   main.full-screen(role="main")
-    section.full-screen.real-blue
-      div.vertical-center
-        h1.large-title Jessica Rudder is not a rockstar, ninja or wizard. There is one style she aspires to though...
-    section.full-screen-extra.real-blue#pinned-trigger1
-      div.vertical-center#pinned-element1
-        h1.large-title
+    .vignette
+    section.full-screen.manuscript
+      div.vertical-center.util--padding-rxl.util--padding-lxl
+        h1.heading.heading--level-1 Jessica Rudder is not a rockstar, ninja or wizard. There is one style she aspires to though...
+    section.full-screen-extra.manuscript#pinned-trigger1
+      div.vertical-center.util--padding-rxl.util--padding-lxl#pinned-element1
+        h1.heading.heading--level-1
           span.name.visible.text-fade-animation Michaelangelo 
           | was constantly trying to be better at sculpting. He was tortured by not having enough time to do things right. 
           |
           span.name.visible.text-fade-animation Michaelangelo 
           | knew there was a better way to sculpt.
-    section.full-screen.orange
-      div
-        h1.large-title Jessica is happy here.
-    / section.full-screen.orange#pinned-trigger1
-    /   div#pinned-element1
-    /     p This element will be pinned once it's trigger hits the top of the viewport and will have a duration of window height minus 100
-    / section.full-screen.red#pinned-trigger2
-    /   div
-    /     p This element will be pinned for a duration of 150px
-    / section.full-screen.blue
-    /   div
-    /     p Section Four!
+    section.full-screen.manuscript
+      div.util--padding-rxl.util--padding-lxl
+        h1.heading.heading--level-1 Jessica is happy here.
+    section.red
+      .module
+        .module__body
+          .flex-grid.flex-grid--jigsaw
+            - @projects.each do |project|
+              .flex-grid__item.module.module--island.module--padding-tight.module--shadow-small.js--project-item data-description=project.description data-tags=project.tags data-title=project.title
+                .flex-grid__item__inner.module__body
+                  .heading.heading--level-2 #{project.title}
+                  .heading.heading--level-2 #{project.short_description}
+                  .heading.heading--level-2 #{project.tags.join(", ")}
+  
+  .js--site-overlay.site-overlay
+    .site-overlay__inner
+      .js--site-overlay-content.site-overlay__content
+        .module.module--cloud.module--cap-ink.module--flush.module--cloud--background-color-manuscript.util--text-align-c
+          .module__head.heading--level-1
+            = svg_tag('svg__icon--x', width: '16', height: '16', class: 'module__head__icon js--close-modal')
+            h2.heading.heading--level-1#project-title 
+          .module__body
+            h2.heading.heading--level-1#project-description
+            h2.heading.heading--level-1#project-tags
+          .module__foot
+            a.button.button--corners-tight.button--layout-block.button--color-blue.js--close-modal(href='#') OK
