@@ -4,7 +4,7 @@ var scene1 = new ScrollMagic.Scene({
   triggerElement: "#pinned-trigger1",
   duration: $(window).height(),
   triggerHook: 0,
-  reverse: true
+  reverse: false
 })
   .on("enter", function() {
     disableScrolling();
@@ -21,6 +21,7 @@ var scene1 = new ScrollMagic.Scene({
 
     setTimeout(function() {
       $animateElem.removeClass('fade-animation')
+      document.getElementById("pinned-trigger1").removeAttribute("id");
       enableScrolling();
     },5750)
   })
