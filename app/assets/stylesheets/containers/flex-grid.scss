@@ -90,7 +90,7 @@
   $jigsaw-item-height-tall: 590px;
 
   .flex-grid__item { // The default flex item container that will be further styled based on its position in the collection on the page. 
-    width: 32%;
+    width: 28.5%;
     height: $jigsaw-item-height-short;
     float: left;
     overflow: hidden;
@@ -111,6 +111,7 @@
     > .flex-grid__item__inner {
       flex-wrap: nowrap;
       justify-content: space-between;
+      width: 100%;
     }
   }
 
@@ -118,7 +119,7 @@
   .flex-grid__item:nth-child(25n + 5),
   .flex-grid__item:nth-child(25n + 24),
   .flex-grid__item:nth-child(25n + 25) {
-    width: 48.5%;
+    width: 45%;
     height: $jigsaw-item-height-medium;
 
     .flex-grid__item__headline {

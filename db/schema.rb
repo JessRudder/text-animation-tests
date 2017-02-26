@@ -11,17 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220200739) do
+ActiveRecord::Schema.define(version: 20170226031230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "projects", force: :cascade do |t|
-    t.string "title"
-    t.text   "short_description"
-    t.text   "description"
-    t.string "icon"
-    t.string "tags",              default: [], array: true
+    t.string  "title"
+    t.text    "short_description"
+    t.text    "description"
+    t.string  "icon"
+    t.string  "tags",              default: [], array: true
+    t.string  "urls",              default: [], array: true
+    t.integer "sort_order"
   end
 
 end

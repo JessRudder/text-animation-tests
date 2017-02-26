@@ -9,6 +9,11 @@
 }
 
 @font-face {
+  font-family: "JSL Ancient Italic";
+  src: font_url("jancienti.ttf") format("truetype");
+}
+
+@font-face {
   font-family: "Coolvetica";
   src: font_url("coolvetica.ttf") format("truetype");
 }
@@ -32,7 +37,7 @@
 .util--font-style-11 { font-size: 42px; }
 .util--font-style-12 { font-size: 48px; }
 .util--font-style-13 { font-size: 56px; }
-.util--font-style-14 { font-size: 62px; }
+.util--font-style-14 { font-size: 60px; }
 .util--font-style-15 { font-size: 68px; }
 .util--font-style-16 { font-size: 85px; }
 
@@ -360,25 +365,29 @@ a.link--text-underline {
  * Individual heading styles
  */
 
-.heading--level-1 { // heading--level-1 is bold and large
-  @extend .util--font-style-16; // 22px
+.heading--level-1 { // heading--level-1 is bold, large and italic
+  @extend .util--font-style-12;
   font-weight: bold;
-  letter-spacing: -0.02em;
-  font-family: "JSL Ancient";
+  letter-spacing: 1.75px;
+  font-family: "JSL Ancient Italic";
   &.heading--weight-lightest { font-weight: 200; }
   &.heading--weight-lighter { font-weight: normal; }
-  &.heading--font-size-smaller { @extend .util--font-style-6; } // 20px
-  &.heading--font-size-larger { @extend .util--font-style-8; }  // 26px
-  &.heading--font-size-largest { @extend .util--font-style-9; } // 30px
+  &.heading--font-size-smaller { @extend .util--font-style-10; } // 20px
+  &.heading--font-size-larger { @extend .util--font-style-14; }  // 60px
+  &.heading--font-size-largest { @extend .util--font-style-16; } // 85px
 }
 
-.heading--level-2 { // heading--level-2 is larger, normal style
-  @extend .util--font-style-6; // 20px
+.heading--level-2 { // heading--level-2 is regular and non-italic
+  @extend .util--font-style-12;
   font-weight: normal;
+  letter-spacing: 1.75px;
+  font-family: "JSL Ancient";
+  &.heading--weight-lightest { font-weight: 200; }
   &.heading--weight-bolder { font-weight: bold; }
-  &.heading--weight-lighter { font-weight: 200; }
-  &.heading--font-size-smaller { @extend .util--font-style-5; }  // 17px
-  &.heading--font-size-larger { @extend .util--font-style-7; }   // 22px
+  &.heading--font-size-smallest { @extend .util--font-style-8; } // 18px
+  &.heading--font-size-smaller { @extend .util--font-style-10; } // 20px
+  &.heading--font-size-larger { @extend .util--font-style-14; }  // 60px
+  &.heading--font-size-largest { @extend .util--font-style-16; } // 85px
 }
 
 .heading--level-3 { // heading--level-3 is bold uppercase

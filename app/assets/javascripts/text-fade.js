@@ -1,49 +1,81 @@
-// console.log("Loaded Text Fade")
-// init ScrollMagic Controller
 var controller = new ScrollMagic.Controller();
 
-// // Scene Handler
-// var scene1 = new ScrollMagic.Scene({
-//   triggerElement: "#pinned-trigger1", // point of execution
-//   duration: $('#pinned-trigger1').height(), // pin element for the window height - 1
-//   reverse: true // allows the effect to trigger when scrolled in the reverse direction
-// })
-// .setPin("#pinned-element1") // the element we want to pin
-// .addTo(controller);
-
-// Scene Handler
 var scene1 = new ScrollMagic.Scene({
-  triggerElement: "#pinned-trigger1", // point of execution
-  duration: $(window).height() - 475, // pin element for the window height - 1
-  triggerHook: 0, // don't trigger until #pinned-trigger1 hits the top of the viewport
-  reverse: true // allows the effect to trigger when scrolled in the reverse direction
+  triggerElement: "#pinned-trigger1",
+  duration: $(window).height(),
+  triggerHook: 0,
+  reverse: true
 })
-  .setPin("#pinned-element1") // the element we want to pin
   .on("enter", function() {
-    var $animateElem = $('.text-fade-animation');
+    disableScrolling();
+    var $animateElem = $('.fade-animation');
     
-    $animateElem.css('opacity', '0');
     setTimeout(function() {
-      var text = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jessica&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-      $animateElem.each(function(idx,el){
-        el.innerHTML = text;
-      });
-      $animateElem.css('opacity','1');
-    },1750)
+      $animateElem.css('opacity', '0');
+    }, 2000)
+    
 
     setTimeout(function() {
-      $animateElem.removeClass('text-fade-animation')
+      updateParagraph($animateElem);
     },3750)
+
+    setTimeout(function() {
+      $animateElem.removeClass('fade-animation')
+      enableScrolling();
+    },5750)
   })
   .addTo(controller);
 
+function updateParagraph(animateElem) {
+  var newName = "Jessica";
+  var newSaw = "sees";
+  var newCareer = "cod";
+  var newPronoun = "She";
+  var newEnding = "s";
+  var newGenetive = "her";
+  var newCurve = "method";
+  var newReveal = "improving";
+  var newPhrase = "performance of the code base";
+  var newFields = "server architecture and statistics";
+  var newPuts = "is putting";
+  var newMaster = "great engineer";
 
-// var scene2 = new ScrollMagic.Scene({
-//   triggerElement: "#anim-trigger1",
-//   offset: 40,
-//   duration: 300
-// })
-//   .addTo(controller)
+
+  $(".name").each(function(idx,el){
+    el.innerHTML = newName;
+  });
+
+  $(".career").each(function(idx,el){
+    el.innerHTML = newCareer;
+  });
+
+  $(".pronoun").each(function(idx,el){
+    el.innerHTML = newPronoun;
+  });
+
+  $(".ending").each(function(idx,el){
+    el.innerHTML = newEnding;
+  });
+
+  $(".genetive").each(function(idx,el){
+    el.innerHTML = newGenetive;
+  });
+
+  $(".saw").text(newSaw);
+  $(".curve").text(newCurve);
+  $(".reveal").text(newReveal);
+  $(".phrase").text(newPhrase);
+  $(".puts").text(newPuts);
+  $(".master").text(newMaster);
+  $(".related-fields").text(newFields);
+
+  
+  $(".js--image-start").css('display','none');
+  $(".js--image-finish").css('display','inline');
+  
+  animateElem.css('opacity','1');
+}
+
 $(".js--project-item").click(function(){
   var title = $(this).data("title");
   var description = $(this).data("description");
@@ -73,15 +105,18 @@ function closeModal() {
   modal.style.visibility = "hidden";
 }
 
-// function modalClose() {
-//     if (location.hash == '#openModal') {
-//         location.hash = '';
-//     }
-// }
-
-// Handle ESC key (key code 27)
 document.addEventListener('keyup', function(e) {
     if (e.keyCode == 27) {
         closeModal();
     }
 });
+
+function disableScrolling(){
+    var x=window.scrollX;
+    var y=window.scrollY;
+    window.onscroll=function(){window.scrollTo(x, y);};
+}
+
+function enableScrolling(){
+    window.onscroll=function(){};
+}

@@ -131,6 +131,13 @@ $module-border-radius: 6px; // Store this as a variable so the same radius can b
 // Module Island Colors
 .module--island--background-color-grey-faintest { background-color: $grey-faintest; }
 
+.module--island--background-color-transparent { background-color: transparent; }
+
+.module--island--drawn-border {
+  border-width: 25px 30px 10px 20px;
+  border-image: image_url('jessica-michelangelo-box.png') 25% 25% 25% 25% stretch !important;  
+}
+
 
 // Overflow Module
 // Allows the user to scroll the body while the head remains fixed to the top

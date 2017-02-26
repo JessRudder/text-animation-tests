@@ -23,7 +23,7 @@
  */
 
 .image-frame__image {
-  width: 100%;
+  /*width: 100%;*/
   height: auto;
   display: block;
   border-radius: inherit;
@@ -243,7 +243,7 @@
 
 .image-frame--fixed-size-xlarge {
   width: ($content-spacing * 4);
-  height: ($content-spacing * 4);
+  height: auto;
 }
 
 .image-frame--fixed-size-xxlarge {
@@ -252,6 +252,6 @@
 }
 
 .image-frame--fixed-size-xxxlarge {
-  width: ($content-spacing * 6);
-  height: ($content-spacing * 6);
+  width: ($content-spacing * 9);
+  height: auto;
 }

@@ -6,30 +6,75 @@
 = content_for(:application_body)
   main.full-screen(role="main")
     .vignette
-    section.full-screen.manuscript
-      div.vertical-center.util--padding-rxl.util--padding-lxl
-        h1.heading.heading--level-1 Jessica Rudder is not a rockstar, ninja or wizard. There is one style she aspires to though...
-    section.full-screen-extra.manuscript#pinned-trigger1
-      div.vertical-center.util--padding-rxl.util--padding-lxl#pinned-element1
-        h1.heading.heading--level-1
-          span.name.visible.text-fade-animation Michaelangelo 
-          | was constantly trying to be better at sculpting. He was tortured by not having enough time to do things right. 
-          |
-          span.name.visible.text-fade-animation Michaelangelo 
-          | knew there was a better way to sculpt.
-    section.full-screen.manuscript
-      div.util--padding-rxl.util--padding-lxl
-        h1.heading.heading--level-1 Jessica is happy here.
-    section.red
+    
+    section.full-screen.util--margin-bxl
+      div.vertical-center-title.util--padding-rxl.util--padding-lxl
+        h1.heading.heading--level-1.heading--font-size-largest Jessica is not a rockstar, ninja or superhero. There is one style she aspires to though...
+      .image-frame.util--abs-center-bottom
+        img.image-frame--fixed-size-xxxlarge src=image_url("jessica-michelangelo-arrow.png")
+
+    section.full-screen-plus.util--margin-txl.util--padding-txl#pinned-trigger1
+      .row#pinned-element1
+        .col.col--size-1of5
+          img.fade-animation.js--image-start.vertical-align-b src=image_url("jessica-michelangelo-small.png")
+          img.fade-animation.js--image-finish.vertical-align-b src=image_url("jessica-michelangelo-code-small.png")
+        .col.col--size-3of5
+          div.vertical-center-para
+            <h1 class="heading heading--level-1 heading--font-size-larger">
+              <span class="name visible fade-animation">Michelangelo</span> <span class="saw fade-animation">saw</span> <span class="career fade-animation">sculpt</span>ing as a craft. <span class="pronoun fade-animation">He</span> devote<span class="ending fade-animation">d</span> <span class="genetive fade-animation">his</span> time to perfecting the details of each <span class="curve fade-animation">curve</span> and <span class="reveal fade-animation">revealing</span> the <span class="phrase fade-animation">figures hidden inside the marble</span>. <span class="pronoun fade-animation">He</span> studie<span class="ending fade-animation">d</span> related fields like <span class="related-fields fade-animation">marble quarrying and drawing</span> to improve <span class="genetive fade-animation">his</span> skills as a <span class="career fade-animation">sculpt</span>er. <span class="name visible fade-animation">Michelangelo</span> <span class="puts fade-animation">put</span> in the time to become a <span class="master fade-animation">master craftsman</span>.
+            </h1>
+        .col.col--size-1of5
+          img.fade-animation.js--image-start src=image_url("jessica-michelangelo-man-small.png")
+          img.fade-animation.js--image-finish src=image_url("jessica-michelangelo-girl-small.png")
+      .image-frame
+        img.image-frame--fixed-size-xxxlarge.fade-animation.js--image-finish src=image_url("jessica-michelangelo-arrow.png")
+
+    section.util--margin-bxl#projects
+      .heading.heading--level-1.heading--font-size-largest Projects
       .module
         .module__body
           .flex-grid.flex-grid--jigsaw
             - @projects.each do |project|
-              .flex-grid__item.module.module--island.module--padding-tight.module--shadow-small.js--project-item data-description=project.description data-tags=project.tags data-title=project.title
-                .flex-grid__item__inner.module__body
-                  .heading.heading--level-2 #{project.title}
-                  .heading.heading--level-2 #{project.short_description}
-                  .heading.heading--level-2 #{project.tags.join(", ")}
+              .flex-grid__item.module.module--island.module--padding-tight.module--island--background-color-transparent.module--island--drawn-border.js--project-item data-description=project.description data-tags=project.tags data-title=project.title data-urls=project.urls
+                .flex-grid__item__inner.module__body.center-image
+                  img.image-frame--fixed-size-xxlarge src=image_url("michelangelo-icon-#{project.icon}.png")
+                  .heading.heading--level-1 #{project.title}
+                  .heading.heading--level-2.heading--font-size-smallest #{project.short_description}
+    section.full-screen#contact-info
+      .heading.heading--level-1.heading--font-size-largest.util--margin-bxl Contact Info
+      .row.util--padding-rxl.util--padding-lxl
+        .col.col--size-3of5
+          <div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/s19L2bsCv10?ecver=2" width="640" height="360" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
+        .col.col--size-1of3
+          ul.list.util--pull-right
+            li
+              .media-block
+                .media-block__media
+                  .image-frame.image-frame--fixed-size-xlarge
+                    img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("youtube-sepia.png")
+                .media-block__content
+                  h1.heading--level-2 YouTube
+            li
+              .media-block
+                .media-block__media
+                  .image-frame.image-frame--fixed-size-xlarge
+                    img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("twitter-sepia.png")
+                .media-block__content
+                  h1.heading--level-2 Twitter
+            li
+              .media-block
+                .media-block__media
+                  .image-frame.image-frame--fixed-size-xlarge
+                    img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("linkedin-sepia.png")
+                .media-block__content
+                  h1.heading--level-2 LinkedIn
+            li
+              .media-block
+                .media-block__media
+                  .image-frame.image-frame--fixed-size-xlarge
+                    img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("resume-sepia.png")
+                .media-block__content
+                  h1.heading--level-2 Resume
   
   .js--site-overlay.site-overlay
     .site-overlay__inner

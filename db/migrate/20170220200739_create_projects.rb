@@ -6,6 +6,7 @@ class CreateProjects < ActiveRecord::Migration
       t.text :description
       t.string :icon
       t.string :tags, array: true, default: []
+      t.string :urls, array: true, default: []
     end
   end
 end

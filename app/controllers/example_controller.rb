@@ -4,6 +4,6 @@ class ExampleController < ApplicationController
   end
 
   def text_fade
-    @projects = Project.all
+    @projects = Project.all.order(:sort_order)
   end
 end
