@@ -775,9 +775,9 @@ $module-border-radius: 6px; // Store this as a variable so the same radius can b
   }
 
   &.module--cloud {
-    .module__head { padding: ($content-spacing * 2) ($content-spacing * 4) ($content-spacing); }
-    .module__body { padding: ($content-spacing) ($content-spacing * 4); }
-    .module__foot { padding: ($content-spacing) ($content-spacing * 4) ($content-spacing * 2); }
+    .module__head { padding: ($content-spacing * 2) ($content-spacing * 2) ($content-spacing / 2); }
+    .module__body { padding: ($content-spacing) ($content-spacing * 2); }
+    .module__foot { padding: ($content-spacing) ($content-spacing * 2) ($content-spacing * 2); }
   }
 
   &.module--lilypad {

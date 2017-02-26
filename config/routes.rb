@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get '/pin' => 'example#pin'
   get '/text-fade' => 'example#text_fade'
+  get '/resume' => 'example#resume'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

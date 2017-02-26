@@ -179,6 +179,14 @@ input.button {
     background-color: $red-dark;
   }
 }
+
+.button--color-ink {
+  background: $ink;
+  &:hover {
+    background-color: $ink-dark;
+  }
+}
+
 .button--color-blue-purple-gradient {
   background: $blue;
   background: -moz-linear-gradient(-45deg, $blue 0%, $purple 100%);

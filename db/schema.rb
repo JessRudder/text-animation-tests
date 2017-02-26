@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170226031230) do
+ActiveRecord::Schema.define(version: 20170226210411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 20170226031230) do
     t.text    "short_description"
     t.text    "description"
     t.string  "icon"
-    t.string  "tags",              default: [], array: true
-    t.string  "urls",              default: [], array: true
+    t.string  "tags",              default: [],   array: true
+    t.text    "urls",              default: "{}"
     t.integer "sort_order"
   end
 

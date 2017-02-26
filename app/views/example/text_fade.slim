@@ -35,56 +35,70 @@
         .module__body
           .flex-grid.flex-grid--jigsaw
             - @projects.each do |project|
-              .flex-grid__item.module.module--island.module--padding-tight.module--island--background-color-transparent.module--island--drawn-border.js--project-item data-description=project.description data-tags=project.tags data-title=project.title data-urls=project.urls
+              .flex-grid__item.module.module--island.module--padding-tight.module--island--background-color-transparent.module--island--drawn-border.js--project-item data-description=project.description data-tags=project.tags data-title=project.title data-urls=project.urls data-icon=project.icon
                 .flex-grid__item__inner.module__body.center-image
                   img.image-frame--fixed-size-xxlarge src=image_url("michelangelo-icon-#{project.icon}.png")
                   .heading.heading--level-1 #{project.title}
                   .heading.heading--level-2.heading--font-size-smallest #{project.short_description}
-    section.full-screen#contact-info
+    section.vertical-center-para.util--margin-bxxl#contact-info
       .heading.heading--level-1.heading--font-size-largest.util--margin-bxl Contact Info
       .row.util--padding-rxl.util--padding-lxl
         .col.col--size-3of5
           <div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/s19L2bsCv10?ecver=2" width="640" height="360" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
         .col.col--size-1of3
-          ul.list.util--pull-right
+          ul.list.list--spacing-large.util--pull-right.util--margin-tl
+            li.util--margin-bl
+              a.link--color-inherit(href="https://youtube.com/compchomp" target="_blank")
+                .media-block
+                  .media-block__media
+                    .image-frame.image-frame--fixed-size-xlarge
+                      img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("youtube-sepia.png")
+                  .media-block__content.util--padding-tm
+                    h1.heading--level-2 YouTube
             li
-              .media-block
-                .media-block__media
-                  .image-frame.image-frame--fixed-size-xlarge
-                    img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("youtube-sepia.png")
-                .media-block__content
-                  h1.heading--level-2 YouTube
+              a.link--color-inherit(href="https://twitter.com/jessrudder" target="_blank")
+                .media-block
+                  .media-block__media
+                    .image-frame.image-frame--fixed-size-xlarge
+                      img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("twitter-sepia.png")
+                  .media-block__content.util--padding-tm
+                    h1.heading--level-2 Twitter
+            li.util--margin-bl
+              a.link--color-inherit(href="https://www.linkedin.com/in/jessrudder/" target="_blank")
+                .media-block
+                  .media-block__media
+                    .image-frame.image-frame--fixed-size-xlarge
+                      img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("linkedin-sepia.png")
+                  .media-block__content.util--padding-txl
+                    h1.heading--level-2 LinkedIn
+            li.util--margin-bl
+              a.link--color-inherit(href="mailto:thejessicarudder@gmail.com" target="_blank")
+                .media-block
+                  .media-block__media
+                    .image-frame.image-frame--fixed-size-xlarge
+                      img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("email-sepia.png")
+                  .media-block__content.util--padding-tl
+                    h1.heading--level-2 Email
             li
-              .media-block
-                .media-block__media
-                  .image-frame.image-frame--fixed-size-xlarge
-                    img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("twitter-sepia.png")
-                .media-block__content
-                  h1.heading--level-2 Twitter
-            li
-              .media-block
-                .media-block__media
-                  .image-frame.image-frame--fixed-size-xlarge
-                    img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("linkedin-sepia.png")
-                .media-block__content
-                  h1.heading--level-2 LinkedIn
-            li
-              .media-block
-                .media-block__media
-                  .image-frame.image-frame--fixed-size-xlarge
-                    img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("resume-sepia.png")
-                .media-block__content
-                  h1.heading--level-2 Resume
+              a.link--color-inherit(href="/resume.pdf" target="_blank")
+                .media-block
+                  .media-block__media
+                    .image-frame.image-frame--fixed-size-xlarge
+                      img.image-frame__image.image-frame--fixed-size-xlarge src=image_url("resume-sepia.png")
+                  .media-block__content.util--padding-tm
+                    h1.heading--level-2 Resume
+
   
   .js--site-overlay.site-overlay
     .site-overlay__inner
       .js--site-overlay-content.site-overlay__content
-        .module.module--cloud.module--cap-ink.module--flush.module--cloud--background-color-manuscript.util--text-align-c
+        .module.module--cloud.module--flush.module--padding-tight.module--cloud--background-color-manuscript
           .module__head.heading--level-1
             = svg_tag('svg__icon--x', width: '16', height: '16', class: 'module__head__icon js--close-modal')
-            h2.heading.heading--level-1#project-title 
+            .util--text-align-c
+              <img class="image-frame--fixed-size-xxxlarge project-icon" src="">
+            h2.heading.heading--level-1.heading--font-size-larger.util--text-align-c#project-title 
           .module__body
-            h2.heading.heading--level-1#project-description
-            h2.heading.heading--level-1#project-tags
+            h2.heading.heading--level-3.heading--font-size-largest#project-description
           .module__foot
-            a.button.button--corners-tight.button--layout-block.button--color-blue.js--close-modal(href='#') OK
+            a.button.button--corners-tight.button--layout-block.button--color-ink(href='#') View Project

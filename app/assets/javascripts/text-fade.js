@@ -80,9 +80,10 @@ function updateParagraph(animateElem) {
 $(".js--project-item").click(function(){
   var title = $(this).data("title");
   var description = $(this).data("description");
-  // var tags = $(this).data("tags");
   var details = $(this).data("tags");
-  openModal(title, description, details);
+  var icon = $(this).data("icon");
+
+  openModal(title, description, details, icon);
 });
 
 $(".js--close-modal").click(function(e){
@@ -90,12 +91,14 @@ $(".js--close-modal").click(function(e){
   closeModal();
 });
 
-function openModal(title, description, details) {
+function openModal(title, description, details, icon) {
   var modal = document.getElementsByClassName("site-overlay")[0];
+  var icon = "/assets/michelangelo-icon-" + icon + ".png"
 
   $("#project-title").text(title);
   $("#project-description").text(description);
   $("#project-tags").text(details);
+  $(".project-icon").attr("src", icon);
 
   modal.style.visibility = "visible";
 }

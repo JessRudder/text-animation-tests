@@ -45,10 +45,11 @@
 .util--margin-tl  { margin-top: $content-spacing; }
 .util--margin-txl { margin-top: $content-spacing * 3; }
 
-.util--margin-bs  { margin-bottom: $content-spacing / 4; }
-.util--margin-bm  { margin-bottom: $content-spacing / 2; }
-.util--margin-bl  { margin-bottom: $content-spacing; }
-.util--margin-bxl { margin-bottom: $content-spacing * 3; }
+.util--margin-bs   { margin-bottom: $content-spacing / 4; }
+.util--margin-bm   { margin-bottom: $content-spacing / 2; }
+.util--margin-bl   { margin-bottom: $content-spacing; }
+.util--margin-bxl  { margin-bottom: $content-spacing * 3; }
+.util--margin-bxxl { margin-bottom: $content-spacing * 6; }
 
 .util--margin-rs  { margin-right: $content-spacing / 4; }
 .util--margin-rm  { margin-right: $content-spacing / 2; }
