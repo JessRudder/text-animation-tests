@@ -82,8 +82,9 @@ $(".js--project-item").click(function(){
   var description = $(this).data("description");
   var details = $(this).data("tags");
   var icon = $(this).data("icon");
+  var urls = $(this).data("urls")
 
-  openModal(title, description, details, icon);
+  openModal(title, description, details, icon, urls);
 });
 
 $(".js--close-modal").click(function(e){
@@ -91,7 +92,7 @@ $(".js--close-modal").click(function(e){
   closeModal();
 });
 
-function openModal(title, description, details, icon) {
+function openModal(title, description, details, icon, urls) {
   var modal = document.getElementsByClassName("site-overlay")[0];
   var icon = "/assets/michelangelo-icon-" + icon + ".png"
 
@@ -99,6 +100,8 @@ function openModal(title, description, details, icon) {
   $("#project-description").text(description);
   $("#project-tags").text(details);
   $(".project-icon").attr("src", icon);
+  // debugger;
+  $("#project-url").attr("href", urls);
 
   modal.style.visibility = "visible";
 }
