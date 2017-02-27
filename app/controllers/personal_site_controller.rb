@@ -1,9 +1,5 @@
-class ExampleController < ApplicationController
-
-  def pin
-  end
-
-  def text_fade
+class PersonalSiteController < ApplicationController
+  def jessica_rudder
     @projects = Project.all.order(:sort_order)
   end
 
