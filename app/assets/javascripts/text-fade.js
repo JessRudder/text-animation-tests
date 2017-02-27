@@ -94,13 +94,12 @@ $(".js--close-modal").click(function(e){
 
 function openModal(title, description, details, icon, urls) {
   var modal = document.getElementsByClassName("site-overlay")[0];
-  var icon = "/assets/michelangelo-icon-" + icon + ".png"
+  var icon = "https://s3.amazonaws.com/after-school-assets/michelangelo-icon-" + icon + ".png"
 
   $("#project-title").text(title);
   $("#project-description").text(description);
   $("#project-tags").text(details);
   $(".project-icon").attr("src", icon);
-  // debugger;
   $("#project-url").attr("href", urls);
 
   modal.style.visibility = "visible";
