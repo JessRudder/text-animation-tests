@@ -1,0 +1,29 @@
+= content_for(:title, 'jQuery - Demo Site')
+
+= content_for(:application_scripts)
+  = javascript_include_tag "jquery-demo"
+
+= content_for(:application_body)
+  .level.level--background-color-white.level--full.util--padding-txl
+    .level__inner
+      .row
+        .col.col--size-1of3
+          .module.module--island.module--island--cap.module--cap-blue.one
+            .module__head.util--text-align-c
+              .heading.heading--level-3.heading--font-size-largest Column 1
+            .module__body
+              .heading.heading--level-3.heading--color-grey-dark.heading--font-size-larger You can fill these full of fun text.
+        .col.col--size-1of3
+          .module.module--island.module--island--cap.module--cap-yellow.two
+            .module__head.util--text-align-c
+              .heading.heading--level-3.heading--font-size-largest Column 2
+            .module__body 
+              .heading.heading--level-3.heading--color-grey-dark.heading--font-size-larger Some of it can even be invisible initially.
+        .col.col--size-1of3.three
+          .module.module--island.module--island--cap.module--cap-grey-darker
+            .module__head.util--text-align-c
+              .heading.heading--level-3.heading--font-size-largest Column 3
+            .module__body
+              .heading.heading--level-3.heading--font-size-larger.heading--color-white.make-visible In the end all of it appears.
+      .row.util--margin-txl.util--padding-txl
+        .button.button--layout-block.button--color-purple Click Me!

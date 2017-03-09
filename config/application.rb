@@ -28,7 +28,8 @@ module TextAnimationTests
     js = [
       'application.js',
       'pin.js',
-      'text-fade.js'
+      'text-fade.js',
+      'jquery-demo.js'
     ]
 
     config.assets.precompile += css

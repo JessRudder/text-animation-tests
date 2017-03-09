@@ -396,7 +396,7 @@ a.link--text-underline {
   letter-spacing: 0.02em;
   font-family: "Helvetica";
   &.heading--weight-bolder { font-weight: bold; }
-  &.heading--font-size-largest { @extend .util--font-style-6; }  // 20px
+  &.heading--font-size-largest { @extend .util--font-style-8; }  // 20px
   &.heading--font-size-larger { @extend .util--font-style-5; }   // 17px
   &.heading--font-size-smaller { @extend .util--font-style-3; }  // 14px
   &.heading--font-size-smallest { @extend .util--font-style-2; } // 13px

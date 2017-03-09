@@ -356,6 +356,14 @@ $module-border-radius: 6px; // Store this as a variable so the same radius can b
       @include two-color-background($blue, $white);
     }
   }
+
+  &.module--cap-red {
+    div:not(.module__body) + .module__body {
+      padding-top: 0;
+      padding-bottom: 0;
+      @include two-color-background(red, $white);
+    }
+  }
 }
 
 // Module Smokescreen
@@ -649,6 +657,15 @@ $module-border-radius: 6px; // Store this as a variable so the same radius can b
   }
 }
 
+// Module with yellow cap
+.module--cap-yellow-inverse {
+  > .module__head {
+    background: $white;
+    color: $yellow;
+    border-color: $yellow; // handles descendant module__head with border
+  }
+}
+
 // Module with blue-light cap
 .module--cap-blue-light {
   > .module__head {
@@ -672,6 +689,15 @@ $module-border-radius: 6px; // Store this as a variable so the same radius can b
     color: $white;
     background: $purple;
     border-color: $purple; // handles descendant module__head with border
+  }
+}
+
+// Module with red cap
+.module--cap-red {
+  > .module__head {
+    color: $white;
+    background: $red;
+    border-color: $red; // handles descendant module__head with border
   }
 }
 
