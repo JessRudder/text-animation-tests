@@ -6,3 +6,5 @@ Let's add a little something.
 This should create a CLI notification.
 
 And this one should not.
+
+And this one should again!
